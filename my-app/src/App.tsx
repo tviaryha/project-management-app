@@ -5,18 +5,26 @@ import {
   RouterProvider
 } from 'react-router-dom';
 import './App.css';
+import { Paths } from './enums';
 import Layout from './units/Layout';
 import WelcomePage from './units/WelcomePage';
 
-const Test = () => {
-  return <div>TEST</div>;
+const SignIn = () => {
+  return <div>SignIn</div>;
 };
+
+const SignUp = () => {
+  return <div>SignUp</div>;
+};
+
+const { base, signIn, signUp } = Paths;
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
+    <Route path={base} element={<Layout />}>
       <Route index element={<WelcomePage />} />
-      <Route path="test" element={<Test />} />
+      <Route path={signIn} element={<SignIn />} />
+      <Route path={signUp} element={<SignUp />} />
     </Route>
   )
 );
