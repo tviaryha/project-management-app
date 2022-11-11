@@ -5,8 +5,8 @@ import {
   RouterProvider
 } from 'react-router-dom';
 import './App.css';
-import { SignIn } from './units/auth/SignIn';
-import { SignUp } from './units/auth/SignUp';
+import { SignInForm } from './units/auth/SignInForm';
+import { SignUpForm } from './units/auth/SignUpForm';
 import Layout from './units/Layout';
 import WelcomePage from './units/WelcomePage';
 
@@ -19,8 +19,8 @@ const router = createBrowserRouter(
     <Route path="/" element={<Layout />}>
       <Route index element={<WelcomePage />} />
       <Route path="test" element={<Test />} />
-      <Route path="signin" element={<SignIn />} />
-      <Route path="signup" element={<SignUp />} />
+      <Route path="signin" element={<SignInForm />} />
+      <Route path="signup" element={<SignUpForm />} />
     </Route>
   )
 );
