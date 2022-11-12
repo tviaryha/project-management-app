@@ -26,7 +26,7 @@ const Header: FC = () => {
           <Grid container justifyContent="space-between" sx={{ width: '100%' }}>
             <Grid>
               <Typography component="h1" variant="h5">
-                Title
+                TaskTrack
               </Typography>
             </Grid>
             <Grid container gap="10px">

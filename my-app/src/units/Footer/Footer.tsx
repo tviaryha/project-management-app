@@ -1,6 +1,7 @@
-import { Box, Container, Link, List, ListItem, Typography } from '@mui/material';
+import { Box, Container, Link, List, ListItem, Toolbar, Typography } from '@mui/material';
 import Grid from '@mui/system/Unstable_Grid';
 import { FC } from 'react';
+import { Developers } from '../../enums';
 import logo from './../../assets/rs_school_js.svg';
 
 const fontSize = { xs: '14px', sm: '1rem' };
@@ -24,22 +25,21 @@ const FooterListItem: FC<FooterListItemProps> = ({ content }) => {
 
 const Footer: FC = () => {
   return (
-    <footer>
+    <Toolbar component="footer">
       <Container>
         <Grid
           container
           justifyContent={{ sm: 'space-between', xs: 'center' }}
           alignItems="center"
-          gap="10px"
-          height="60px">
+          gap="10px">
           <Grid
             container
             component={List}
             justifyContent={{ xs: 'center', sm: 'flex-start' }}
             flexGrow={1}
             flexBasis={0}>
-            <FooterListItem content="Nozeil" />
-            <FooterListItem content="Verigota" />
+            <FooterListItem content={Developers.Nozeil} />
+            <FooterListItem content={Developers.Verigota} />
           </Grid>
           <Grid component={Typography} fontSize={fontSize}>
             © 2022
@@ -61,7 +61,7 @@ const Footer: FC = () => {
           </Grid>
         </Grid>
       </Container>
-    </footer>
+    </Toolbar>
   );
 };
 

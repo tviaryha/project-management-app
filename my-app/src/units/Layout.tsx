@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import Footer from './Footer/Footer';
@@ -8,11 +8,11 @@ const Layout: FC = () => {
   return (
     <>
       <Header />
-      <main>
+      <Box component="main" flexGrow={1}>
         <Container>
           <Outlet />
         </Container>
-      </main>
+      </Box>
       <Footer />
     </>
   );

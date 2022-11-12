@@ -7,7 +7,7 @@ import {
 import './App.css';
 import { Paths } from './enums';
 import Layout from './units/Layout';
-import WelcomePage from './units/WelcomePage';
+import WelcomePage from './units/WelcomePage/WelcomePage';
 
 const SignIn = () => {
   return <div>SignIn</div>;
