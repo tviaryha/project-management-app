@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { ISignIn, ISignInResp, ISignUp, ISignUpResp } from './models/AuthInterfaces';
 
-const baseURL = 'https://final-task-backend-production-b324.up.railway.app';
+const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
 
 const apiClient = axios.create({
-  baseURL: baseURL
+  baseURL: BASE_URL
 });
 
 apiClient.interceptors.request.use((config) => {
@@ -16,12 +16,12 @@ apiClient.interceptors.request.use((config) => {
 });
 
 const signIn = async (data: ISignIn) => {
-  const resp = await apiClient.post<ISignInResp>(`${baseURL}/auth/signin`, data);
+  const resp = await apiClient.post<ISignInResp>(`${BASE_URL}/auth/signin`, data);
   localStorage.setItem('token', resp.data.token);
   return resp.data.token;
 };
 const signUp = async (data: ISignUp) => {
-  const resp = await apiClient.post<ISignUpResp>(`${baseURL}/auth/signup`, data);
+  const resp = await apiClient.post<ISignUpResp>(`${BASE_URL}/auth/signup`, data);
   return resp.data;
 };
 
