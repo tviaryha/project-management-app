@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { api } from '../../api/Api';
 import { ISignUp } from '../../api/models/AuthInterfaces';
+import useAppDispatch from '../../hooks/useAppDispatch';
+import { signUp } from '../../redux/signUpSlice';
 import * as authFieldsNames from './AuthFieldsName';
 
 interface ISignUpFields extends ISignUp {
@@ -15,13 +16,15 @@ export const SignUpForm: FC = () => {
     formState: { errors }
   } = useForm<ISignUpFields>();
 
+  const dispatch = useAppDispatch();
+
   const onSubmit: SubmitHandler<ISignUpFields> = (data) => {
     const userData: ISignUp = {
       name: data.name,
       login: data.login,
       password: data.password
     };
-    api.signUp(userData);
+    dispatch(signUp(userData));
   };
 
   return (
@@ -30,21 +33,21 @@ export const SignUpForm: FC = () => {
         <h1>{"Let's sign up!"}</h1>
         <label>
           <p>Name</p>
-          <input type="text" {...register(authFieldsNames.name, { required: true })} />
+          <input type="text" {...register(authFieldsNames.NAME, { required: true })} />
         </label>
         <label>
           <p>Login</p>
-          <input type="text" {...register(authFieldsNames.login, { required: true })} />
+          <input type="text" {...register(authFieldsNames.LOGIN, { required: true })} />
         </label>
         <label>
           <p>Password</p>
-          <input type="password" {...register(authFieldsNames.password, { required: true })} />
+          <input type="password" {...register(authFieldsNames.PASSWORD, { required: true })} />
         </label>
         <label>
           <p>Confirm password</p>
           <input
             type="password"
-            {...register(authFieldsNames.confirm_password, { required: true })}
+            {...register(authFieldsNames.CONFIRM_PASSWORD, { required: true })}
           />
         </label>
         <div>

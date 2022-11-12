@@ -1,9 +1,8 @@
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { api } from '../../api/Api';
 import { ISignIn } from '../../api/models/AuthInterfaces';
 import * as authFieldsNames from './AuthFieldsName';
-import { signIn } from '../../redux/authSlice';
+import { signIn } from '../../redux/signInSlice';
 import useAppDispatch from '../../hooks/useAppDispatch';
 
 export const SignInForm: FC = () => {
@@ -24,11 +23,11 @@ export const SignInForm: FC = () => {
         <h1>{"Let's sign in!"}</h1>
         <label>
           <p>Login</p>
-          <input type="text" {...register(authFieldsNames.login, { required: true })} />
+          <input type="text" {...register(authFieldsNames.LOGIN, { required: true })} />
         </label>
         <label>
           <p>Password</p>
-          <input type="password" {...register(authFieldsNames.password, { required: true })} />
+          <input type="password" {...register(authFieldsNames.PASSWORD, { required: true })} />
         </label>
         <div>
           <button type="submit">Go!</button>
