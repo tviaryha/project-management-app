@@ -3,6 +3,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { api } from '../../api/Api';
 import { ISignIn } from '../../api/models/AuthInterfaces';
 import * as authFieldsNames from './AuthFieldsName';
+import { signIn } from '../../redux/authSlice';
+import useAppDispatch from '../../hooks/useAppDispatch';
 
 export const SignInForm: FC = () => {
   const {
@@ -11,8 +13,10 @@ export const SignInForm: FC = () => {
     formState: { errors }
   } = useForm<ISignIn>();
 
+  const dispatch = useAppDispatch();
+
   const onSubmit: SubmitHandler<ISignIn> = (data) => {
-    api.signIn(data);
+    dispatch(signIn(data));
   };
   return (
     <main>

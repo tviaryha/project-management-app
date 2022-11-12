@@ -18,6 +18,7 @@ apiClient.interceptors.request.use((config) => {
 const signIn = async (data: ISignIn) => {
   const resp = await apiClient.post<ISignInResp>(`${baseURL}/auth/signin`, data);
   localStorage.setItem('token', resp.data.token);
+  return resp.data.token;
 };
 const signUp = async (data: ISignUp) => {
   const resp = await apiClient.post<ISignUpResp>(`${baseURL}/auth/signup`, data);
