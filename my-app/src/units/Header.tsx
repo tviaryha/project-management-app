@@ -1,10 +1,9 @@
 import { AppBar, Button, Container, Toolbar, Typography, useScrollTrigger } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Paths } from '../enums';
 
-const Header: FC = () => {
+const Header = () => {
   const navigate = useNavigate();
   const trigger = useScrollTrigger({
     threshold: 0,

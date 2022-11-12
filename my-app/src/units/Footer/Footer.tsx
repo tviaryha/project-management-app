@@ -1,6 +1,5 @@
 import { Box, Container, Link, List, ListItem, Toolbar, Typography } from '@mui/material';
 import Grid from '@mui/system/Unstable_Grid';
-import { FC } from 'react';
 import { Developers } from '../../enums';
 import logo from './../../assets/rs_school_js.svg';
 
@@ -8,7 +7,7 @@ const fontSize = { xs: '14px', sm: '1rem' };
 
 type FooterListItemProps = { content: string };
 
-const FooterListItem: FC<FooterListItemProps> = ({ content }) => {
+const FooterListItem = ({ content }: FooterListItemProps) => {
   return (
     <ListItem sx={{ width: 'fit-content', p: '0 5px' }}>
       <Typography
@@ -23,7 +22,7 @@ const FooterListItem: FC<FooterListItemProps> = ({ content }) => {
   );
 };
 
-const Footer: FC = () => {
+const Footer = () => {
   return (
     <Toolbar component="footer">
       <Container>
