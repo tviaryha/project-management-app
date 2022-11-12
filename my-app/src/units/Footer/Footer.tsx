@@ -1,26 +1,9 @@
-import { Box, Container, Link, List, ListItem, Toolbar, Typography } from '@mui/material';
+import { Box, Container, Link, List, Toolbar, Typography } from '@mui/material';
 import Grid from '@mui/system/Unstable_Grid';
 import { Developers } from '../../enums';
 import logo from './../../assets/rs_school_js.svg';
-
-const fontSize = { xs: '14px', sm: '1rem' };
-
-type FooterListItemProps = { content: string };
-
-const FooterListItem = ({ content }: FooterListItemProps) => {
-  return (
-    <ListItem sx={{ width: 'fit-content', p: '0 5px' }}>
-      <Typography
-        component={Link}
-        href={`https://github.com/${content}`}
-        color="inherit"
-        fontSize={fontSize}
-        underline="none">
-        {content}
-      </Typography>
-    </ListItem>
-  );
-};
+import { fontSize } from './constants';
+import FooterListItem from './FooterListItem';
 
 const Footer = () => {
   return (
@@ -37,8 +20,8 @@ const Footer = () => {
             justifyContent={{ xs: 'center', sm: 'flex-start' }}
             flexGrow={1}
             flexBasis={0}>
-            <FooterListItem content={Developers.Nozeil} />
-            <FooterListItem content={Developers.Verigota} />
+            <FooterListItem content={Developers.Nozeil} nickname={Developers.Nozeil} />
+            <FooterListItem content={Developers.Verigota} nickname={Developers.Verigota} />
           </Grid>
           <Grid component={Typography} fontSize={fontSize}>
             © 2022
