@@ -28,18 +28,17 @@ const Footer = () => {
           </Grid>
           <Grid
             container
-            component={Link}
-            href="https://rs.school/react/"
-            alignItems="center"
-            justifyContent={{ xs: 'center', sm: 'flex-end' }}
             flexGrow={1}
-            flexBasis={0}>
-            <Box
-              component="img"
-              src={logo}
-              alt="RSSchool logo"
-              height={{ xs: '30px', sm: '40px' }}
-            />
+            flexBasis={0}
+            justifyContent={{ xs: 'center', sm: 'flex-end' }}>
+            <Link href="https://rs.school/react/" alignItems="center">
+              <Box
+                component="img"
+                src={logo}
+                alt="RSSchool logo"
+                height={{ xs: '30px', sm: '40px' }}
+              />
+            </Link>
           </Grid>
         </Grid>
       </Container>
