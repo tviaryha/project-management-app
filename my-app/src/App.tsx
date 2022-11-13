@@ -19,6 +19,7 @@ const router = createBrowserRouter(
       <Route index element={<WelcomePage />} />
       <Route path={signIn} element={<SignInForm />} />
       <Route path={signUp} element={<SignUpForm />} />
+      <Route path={signUp} element={<SignUpForm />} />
     </Route>
   )
 );
