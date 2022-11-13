@@ -1,18 +1,19 @@
-import { Container } from '@mui/material';
-import { FC } from 'react';
+import { Box, Container } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-import Footer from './Footer';
+import Footer from './Footer/Footer';
 import Header from './Header';
 
-const Layout: FC = () => {
+const Layout = () => {
   return (
-    <Container>
+    <>
       <Header />
-      <main>
-        <Outlet />
-      </main>
+      <Box component="main" flexGrow={1}>
+        <Container>
+          <Outlet />
+        </Container>
+      </Box>
       <Footer />
-    </Container>
+    </>
   );
 };
 

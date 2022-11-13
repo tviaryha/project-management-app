@@ -7,20 +7,18 @@ import {
 import './App.css';
 import { SignInForm } from './units/auth/SignInForm';
 import { SignUpForm } from './units/auth/SignUpForm';
+import { Paths } from './enums';
 import Layout from './units/Layout';
-import WelcomePage from './units/WelcomePage';
+import WelcomePage from './units/WelcomePage/WelcomePage';
 
-const Test = () => {
-  return <div>TEST</div>;
-};
+const { base, signIn, signUp } = Paths;
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
+    <Route path={base} element={<Layout />}>
       <Route index element={<WelcomePage />} />
-      <Route path="test" element={<Test />} />
-      <Route path="signIn" element={<SignInForm />} />
-      <Route path="signUp" element={<SignUpForm />} />
+      <Route path={signIn} element={<SignInForm />} />
+      <Route path={signUp} element={<SignUpForm />} />
     </Route>
   )
 );
