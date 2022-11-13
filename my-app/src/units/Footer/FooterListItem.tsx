@@ -11,6 +11,7 @@ const FooterListItem = ({ content, nickname }: FooterListItemProps) => {
         href={`https://github.com/${nickname}`}
         color="inherit"
         fontSize={fontSize}
+        target="_blank"
         underline="none">
         {content}
       </Typography>

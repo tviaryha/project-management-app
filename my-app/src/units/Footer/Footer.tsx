@@ -31,7 +31,7 @@ const Footer = () => {
             flexGrow={1}
             flexBasis={0}
             justifyContent={{ xs: 'center', sm: 'flex-end' }}>
-            <Link href="https://rs.school/react/" alignItems="center">
+            <Link href="https://rs.school/react/" alignItems="center" target="_blank">
               <Box
                 component="img"
                 src={logo}
