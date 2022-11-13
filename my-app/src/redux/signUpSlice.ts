@@ -4,13 +4,13 @@ import { api } from '../api/Api';
 import { ISignUp, ISignUpResp } from '../api/models/AuthInterfaces';
 import { ErrorResponse } from '../api/models/ErrorResponse';
 
-interface RegistrationState {
+interface IRegistrationState {
   user: ISignUpResp | '';
   error?: string;
   isLoading?: boolean;
 }
 
-const initialState: RegistrationState = {
+const initialState: IRegistrationState = {
   user: ''
 };
 
