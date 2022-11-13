@@ -2,9 +2,14 @@ import { Container, Box, Typography, TextField, Button } from '@mui/material';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { ISignUp } from '../../api/models/AuthInterfaces';
+import { ErrorResponse } from '../../api/models/ErrorResponse';
+import { Paths } from '../../enums';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { signUp } from '../../redux/signUpSlice';
+import { openToast } from '../../redux/toastSlice';
+import { ToastTexts } from '../Toast/toastTexts';
 import * as authFieldsNames from './AuthFieldsName';
 import { TranslationKeys } from './enum';
 
@@ -35,15 +40,26 @@ export const SignUpForm: FC = () => {
   } = TranslationKeys;
   const { t } = useTranslation([ns]);
 
+  const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
 
-  const onSubmit: SubmitHandler<ISignUpFields> = (data) => {
+  const onSubmit: SubmitHandler<ISignUpFields> = async (data) => {
     const userData: ISignUp = {
       name: data.name,
       login: data.login,
       password: data.password
     };
-    dispatch(signUp(userData));
+    try {
+      await dispatch(signUp(userData)).unwrap();
+      dispatch(openToast({ message: ToastTexts.successSignUp, type: 'success' }));
+      navigate(`/${Paths.signIn}`);
+    } catch (error) {
+      const errorResp = error as ErrorResponse;
+      const errorMessage =
+        errorResp.statusCode === 409 ? ToastTexts.failSignUp409 : ToastTexts.fail400;
+      dispatch(openToast({ message: errorMessage, type: 'error' }));
+    }
   };
 
   return (

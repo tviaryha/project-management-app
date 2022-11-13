@@ -1,8 +1,8 @@
 import { Box, Container } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-import useAppSelector from '../hooks/useAppSelector';
+import useAppSelector from '../../hooks/useAppSelector';
+import { Toast } from '../Toast/Toast';
 import Footer from './Footer/Footer';
-import { Toast } from './Toast/Toast';
 import Header from './Header/Header';
 
 const Layout = () => {
