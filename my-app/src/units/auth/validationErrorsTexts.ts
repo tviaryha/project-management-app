@@ -1,4 +1,4 @@
-export enum ErrorTexts {
+export enum ValidationErrorTexts {
   required = 'This is required',
   minLength3 = 'Min lenth is 3',
   minLength8 = 'Min lenth is 8',

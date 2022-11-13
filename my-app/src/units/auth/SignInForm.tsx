@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ISignIn } from '../../api/models/AuthInterfaces';
-import * as authFieldsNames from './AuthFieldsName';
+import * as AuthFieldsNames from './authFieldsName';
 import { signIn } from '../../redux/signInSlice';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { Box, Button, Container, TextField, Typography } from '@mui/material';
-import { ErrorTexts } from './ErrorsTexts';
+import { ValidationErrorTexts } from './validationErrorsTexts';
 
 export const SignInForm: FC = () => {
   const {
@@ -59,8 +59,8 @@ export const SignInForm: FC = () => {
               }}
               error={!!errors.login}
               helperText={errors.login?.message}
-              {...register(authFieldsNames.LOGIN, {
-                required: { value: true, message: ErrorTexts.required }
+              {...register(AuthFieldsNames.LOGIN, {
+                required: { value: true, message: ValidationErrorTexts.required }
               })}
             />
             <TextField
@@ -74,8 +74,8 @@ export const SignInForm: FC = () => {
               }}
               error={!!errors.password}
               helperText={errors.password?.message}
-              {...register(authFieldsNames.PASSWORD, {
-                required: { value: true, message: ErrorTexts.required }
+              {...register(AuthFieldsNames.PASSWORD, {
+                required: { value: true, message: ValidationErrorTexts.required }
               })}
             />
             <Button

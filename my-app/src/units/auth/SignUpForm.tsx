@@ -1,11 +1,16 @@
 import { Container, Box, Typography, TextField, Button } from '@mui/material';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { ISignUp } from '../../api/models/AuthInterfaces';
+import { ErrorResponse } from '../../api/models/ErrorResponse';
+import { Paths } from '../../enums';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { signUp } from '../../redux/signUpSlice';
-import * as authFieldsNames from './AuthFieldsName';
-import { ErrorTexts } from './ErrorsTexts';
+import { openToast } from '../../redux/toastSlice';
+import { ToastTexts } from '../Toast/toastTexts';
+import * as authFieldsNames from './authFieldsName';
+import { ValidationErrorTexts } from './validationErrorsTexts';
 
 interface ISignUpFields extends ISignUp {
   confirm_password: string;
@@ -19,15 +24,26 @@ export const SignUpForm: FC = () => {
     getValues
   } = useForm<ISignUpFields>();
 
+  const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
 
-  const onSubmit: SubmitHandler<ISignUpFields> = (data) => {
+  const onSubmit: SubmitHandler<ISignUpFields> = async (data) => {
     const userData: ISignUp = {
       name: data.name,
       login: data.login,
       password: data.password
     };
-    dispatch(signUp(userData));
+    try {
+      await dispatch(signUp(userData)).unwrap();
+      dispatch(openToast({ message: ToastTexts.successSignUp, type: 'success' }));
+      navigate(`/${Paths.signIn}`);
+    } catch (error) {
+      const errorResp = error as ErrorResponse;
+      const errorMessage =
+        errorResp.statusCode === 409 ? ToastTexts.failSignUp409 : ToastTexts.fail400;
+      dispatch(openToast({ message: errorMessage, type: 'error' }));
+    }
   };
 
   return (
@@ -71,9 +87,9 @@ export const SignUpForm: FC = () => {
               error={!!errors.name}
               helperText={errors.name?.message}
               {...register(authFieldsNames.NAME, {
-                required: { value: true, message: ErrorTexts.required },
-                minLength: { value: 3, message: ErrorTexts.minLength3 },
-                maxLength: { value: 30, message: ErrorTexts.maxLength30 }
+                required: { value: true, message: ValidationErrorTexts.required },
+                minLength: { value: 3, message: ValidationErrorTexts.minLength3 },
+                maxLength: { value: 30, message: ValidationErrorTexts.maxLength30 }
               })}
             />
             <TextField
@@ -88,9 +104,9 @@ export const SignUpForm: FC = () => {
               error={!!errors.login}
               helperText={errors.login?.message}
               {...register(authFieldsNames.LOGIN, {
-                required: { value: true, message: ErrorTexts.required },
-                minLength: { value: 3, message: ErrorTexts.minLength3 },
-                maxLength: { value: 30, message: ErrorTexts.maxLength30 }
+                required: { value: true, message: ValidationErrorTexts.required },
+                minLength: { value: 3, message: ValidationErrorTexts.minLength3 },
+                maxLength: { value: 30, message: ValidationErrorTexts.maxLength30 }
               })}
             />
             <TextField
@@ -107,8 +123,8 @@ export const SignUpForm: FC = () => {
               {...register(authFieldsNames.PASSWORD, {
                 validate: (value) =>
                   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,30}$/.test(value) ||
-                  ErrorTexts.passwordPattern,
-                required: { value: true, message: ErrorTexts.required }
+                  ValidationErrorTexts.passwordPattern,
+                required: { value: true, message: ValidationErrorTexts.required }
               })}
             />
             <TextField
@@ -124,8 +140,9 @@ export const SignUpForm: FC = () => {
               helperText={errors.confirm_password?.message}
               {...register(authFieldsNames.CONFIRM_PASSWORD, {
                 validate: (value) =>
-                  value === getValues(authFieldsNames.PASSWORD) || ErrorTexts.confirmPassword,
-                required: { value: true, message: ErrorTexts.required }
+                  value === getValues(authFieldsNames.PASSWORD) ||
+                  ValidationErrorTexts.confirmPassword,
+                required: { value: true, message: ValidationErrorTexts.required }
               })}
             />
             <Button
