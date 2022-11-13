@@ -14,6 +14,7 @@ import {
   ThemeProvider,
   Typography
 } from '@mui/material';
+import { ErrorTexts } from './ErrorsTexts';
 const theme = createTheme();
 
 export const SignInForm: FC = () => {
@@ -65,12 +66,13 @@ export const SignInForm: FC = () => {
                 variant="outlined"
                 required
                 type="text"
+                sx={{
+                  width: '50ch'
+                }}
                 error={!!errors.login}
-                helperText={errors.login && errors.login.type === 'required' && 'This is required'}
+                helperText={errors.login?.message}
                 {...register(authFieldsNames.LOGIN, {
-                  required: true,
-                  minLength: 5,
-                  maxLength: 30
+                  required: { value: true, message: ErrorTexts.required }
                 })}
               />
               <TextField
@@ -79,13 +81,21 @@ export const SignInForm: FC = () => {
                 variant="outlined"
                 required
                 type="password"
+                sx={{
+                  width: '50ch'
+                }}
                 error={!!errors.password}
-                helperText={
-                  errors.password && errors.password.type === 'required' && 'This is required'
-                }
-                {...register(authFieldsNames.PASSWORD, { required: true })}
+                helperText={errors.password?.message}
+                {...register(authFieldsNames.PASSWORD, {
+                  required: { value: true, message: ErrorTexts.required }
+                })}
               />
-              <Button type="submit" variant="contained">
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{
+                  width: '25ch'
+                }}>
                 Go!
               </Button>
             </Box>
