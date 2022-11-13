@@ -13,7 +13,7 @@ export const Toast: FC<IToastProps> = (result) => {
   const dispatch = useAppDispatch();
   const handleClose = () => dispatch(closeToast());
   return (
-    <Snackbar open={result.isOpen} autoHideDuration={3000} onClose={handleClose}>
+    <Snackbar open={result.isOpen} autoHideDuration={5000} onClose={handleClose}>
       <Alert severity={result.type} sx={{ width: '100%' }}>
         {result.message}
       </Alert>
