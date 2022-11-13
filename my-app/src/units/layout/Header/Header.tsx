@@ -1,8 +1,11 @@
-import { AppBar, Container, Toolbar, Typography, useScrollTrigger } from '@mui/material';
+import { AppBar, Container, Link, Toolbar, useScrollTrigger } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
+import { useNavigate } from 'react-router-dom';
+import { Paths } from '../../../enums';
 import Navigation from './Navigation';
 
 const Header = () => {
+  const navigate = useNavigate();
   const trigger = useScrollTrigger({
     threshold: 0,
     disableHysteresis: true
@@ -11,15 +14,20 @@ const Header = () => {
   const color = trigger ? 'secondary' : 'inherit';
   const elevation = trigger ? 4 : 0;
 
+  const onClick = () => navigate(Paths.base);
+
   return (
     <AppBar color={color} position="sticky" elevation={elevation} sx={{ transition: 'all 0.5s' }}>
       <Container>
         <Toolbar disableGutters>
           <Grid container justifyContent="space-between" sx={{ width: '100%' }}>
             <Grid>
-              <Typography component="h1" variant="h5">
+              <Link variant="h5" underline="none" onClick={onClick} sx={{ cursor: 'pointer' }}>
                 TaskTrack
-              </Typography>
+              </Link>
+              {/* <Typography component="h1" variant="h5">
+                TaskTrack
+              </Typography> */}
             </Grid>
             <Navigation />
           </Grid>
