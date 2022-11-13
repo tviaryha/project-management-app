@@ -1,17 +1,17 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { api } from '../api/Api';
-import { ISignUp } from '../api/models/AuthInterfaces';
+import { ISignUp, ISignUpResp } from '../api/models/AuthInterfaces';
 import { ErrorResponse } from '../api/models/ErrorResponse';
 
 interface RegistrationState {
-  userName: string;
+  user: ISignUpResp | '';
   error?: string;
   isLoading?: boolean;
 }
 
 const initialState: RegistrationState = {
-  userName: ''
+  user: ''
 };
 
 export const signUp = createAsyncThunk('signUp', async (data: ISignUp, thunkApi) => {
@@ -27,20 +27,22 @@ export const signUpSlice = createSlice({
   name: 'signUp',
   initialState,
   reducers: {},
-  extraReducers: {
-    [signUp.pending.type]: (state) => {
-      state.isLoading = true;
-      state.error = '';
-    },
-    [signUp.fulfilled.type]: (state, action: PayloadAction<string>) => {
-      state.isLoading = false;
-      state.userName = action.payload;
-    },
-    [signUp.rejected.type]: (state, action: PayloadAction<ErrorResponse>) => {
-      state.isLoading = false;
-      state.userName = '';
-      state.error = action.payload.message;
-    }
+  extraReducers: (builder) => {
+    builder
+      .addCase(signUp.pending, (state) => {
+        state.isLoading = true;
+        state.error = '';
+      })
+
+      .addCase(signUp.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload;
+      })
+      .addCase(signUp.rejected, (state, action) => {
+        state.isLoading = false;
+        state.user = '';
+        state.error = (<ErrorResponse>action.payload).message;
+      });
   }
 });
 
