@@ -8,11 +8,11 @@ import './App.css';
 import { SignInForm } from './units/auth/SignInForm';
 import { SignUpForm } from './units/auth/SignUpForm';
 import { Paths } from './enums';
-import Layout from './units/Layout';
-import WelcomePage from './units/WelcomePage/WelcomePage';
-import MainPage from './units/MainPage/MainPage';
-import NewBoard from './units/NewBoard';
-import EditProfile from './units/EditProfile';
+import Layout from './units/layout/Layout';
+import WelcomePage from './units/pages/Welcome/Welcome';
+import MainPage from './units/pages/Main/Main';
+import NewBoard from './units/pages/NewBoard';
+import EditProfile from './units/pages/EditProfile';
 
 const { base, signIn, signUp, mainPage, newBoard, editProfile } = Paths;
 

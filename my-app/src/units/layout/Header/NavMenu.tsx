@@ -1,7 +1,7 @@
 import { Button, Link } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Languages, Paths } from '../../enums';
+import { Languages, Paths } from '../../../enums';
 import MainPageButton from './MainPageButton';
 
 const LanguageToggler = () => {

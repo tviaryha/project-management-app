@@ -1,5 +1,5 @@
 import Grid from '@mui/material/Unstable_Grid2';
-import useCheckToken from '../../hooks/useCheckToken';
+import useCheckToken from '../../../hooks/useCheckToken';
 import NavMenu from './NavMenu';
 import SignButtons from './SignButtons';
 
