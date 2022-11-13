@@ -1,13 +1,4 @@
-import { ThemeProvider } from '@emotion/react';
-import {
-  Container,
-  CssBaseline,
-  Box,
-  Typography,
-  TextField,
-  Button,
-  createTheme
-} from '@mui/material';
+import { Container, Box, Typography, TextField, Button } from '@mui/material';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -16,8 +7,6 @@ import useAppDispatch from '../../hooks/useAppDispatch';
 import { signUp } from '../../redux/signUpSlice';
 import * as authFieldsNames from './AuthFieldsName';
 import { TranslationKeys } from './enum';
-
-const theme = createTheme();
 
 interface ISignUpFields extends ISignUp {
   confirm_password: string;
@@ -59,116 +48,113 @@ export const SignUpForm: FC = () => {
 
   return (
     <main>
-      <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <Box
+      <Container component="main" maxWidth="xs">
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}>
+          <Typography
+            component="h1"
+            variant="h5"
             sx={{
-              marginTop: 8,
+              marginBottom: 3
+            }}>
+            {t(signUpTitle)}
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            sx={{
+              mt: 1,
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center'
+              alignItems: 'center',
+              gap: 3
             }}>
-            <Typography
-              component="h1"
-              variant="h5"
+            <TextField
+              id="name"
+              label={t(name)}
+              variant="outlined"
+              required
+              type="text"
               sx={{
-                marginBottom: 3
-              }}>
-              {t(signUpTitle)}
-            </Typography>
-            <Box
-              component="form"
-              onSubmit={handleSubmit(onSubmit)}
-              noValidate
+                width: '50ch'
+              }}
+              error={!!errors.name}
+              helperText={errors.name?.message}
+              {...register(authFieldsNames.NAME, {
+                required: { value: true, message: t(requiredE) },
+                minLength: { value: 3, message: t(minLength3E) },
+                maxLength: { value: 30, message: t(maxLength30E) }
+              })}
+            />
+            <TextField
+              id="login"
+              label={t(login)}
+              variant="outlined"
+              required
+              type="text"
               sx={{
-                mt: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 3
+                width: '50ch'
+              }}
+              error={!!errors.login}
+              helperText={errors.login?.message}
+              {...register(authFieldsNames.LOGIN, {
+                required: { value: true, message: t(requiredE) },
+                minLength: { value: 3, message: t(minLength3E) },
+                maxLength: { value: 30, message: t(maxLength30E) }
+              })}
+            />
+            <TextField
+              id="password"
+              label={t(password)}
+              variant="outlined"
+              required
+              type="password"
+              sx={{
+                width: '50ch'
+              }}
+              error={!!errors.password}
+              helperText={errors.password?.message}
+              {...register(authFieldsNames.PASSWORD, {
+                validate: (value) =>
+                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,30}$/.test(value) ||
+                  t<string>(passwordPatternE),
+                required: { value: true, message: t(requiredE) }
+              })}
+            />
+            <TextField
+              id="confirm-password"
+              label={t(confirmPassword)}
+              variant="outlined"
+              required
+              type="password"
+              sx={{
+                width: '50ch'
+              }}
+              error={!!errors.confirm_password}
+              helperText={errors.confirm_password?.message}
+              {...register(authFieldsNames.CONFIRM_PASSWORD, {
+                validate: (value) =>
+                  value === getValues(authFieldsNames.PASSWORD) || t<string>(confirmPasswordE),
+                required: { value: true, message: t(requiredE) }
+              })}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                width: '25ch'
               }}>
-              <TextField
-                id="name"
-                label={t(name)}
-                variant="outlined"
-                required
-                type="text"
-                sx={{
-                  width: '50ch'
-                }}
-                error={!!errors.name}
-                helperText={errors.name?.message}
-                {...register(authFieldsNames.NAME, {
-                  required: { value: true, message: t(requiredE) },
-                  minLength: { value: 3, message: t(minLength3E) },
-                  maxLength: { value: 30, message: t(maxLength30E) }
-                })}
-              />
-              <TextField
-                id="login"
-                label={t(login)}
-                variant="outlined"
-                required
-                type="text"
-                sx={{
-                  width: '50ch'
-                }}
-                error={!!errors.login}
-                helperText={errors.login?.message}
-                {...register(authFieldsNames.LOGIN, {
-                  required: { value: true, message: t(requiredE) },
-                  minLength: { value: 3, message: t(minLength3E) },
-                  maxLength: { value: 30, message: t(maxLength30E) }
-                })}
-              />
-              <TextField
-                id="password"
-                label={t(password)}
-                variant="outlined"
-                required
-                type="password"
-                sx={{
-                  width: '50ch'
-                }}
-                error={!!errors.password}
-                helperText={errors.password?.message}
-                {...register(authFieldsNames.PASSWORD, {
-                  validate: (value) =>
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,30}$/.test(value) ||
-                    t<string>(passwordPatternE),
-                  required: { value: true, message: t(requiredE) }
-                })}
-              />
-              <TextField
-                id="confirm-password"
-                label={t(confirmPassword)}
-                variant="outlined"
-                required
-                type="password"
-                sx={{
-                  width: '50ch'
-                }}
-                error={!!errors.confirm_password}
-                helperText={errors.confirm_password?.message}
-                {...register(authFieldsNames.CONFIRM_PASSWORD, {
-                  validate: (value) =>
-                    value === getValues(authFieldsNames.PASSWORD) || t<string>(confirmPasswordE),
-                  required: { value: true, message: t(requiredE) }
-                })}
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                  width: '25ch'
-                }}>
-                {t(btn)}
-              </Button>
-            </Box>
+              {t(btn)}
+            </Button>
           </Box>
-        </Container>
-      </ThemeProvider>
+        </Box>
+      </Container>
     </main>
   );
 };
