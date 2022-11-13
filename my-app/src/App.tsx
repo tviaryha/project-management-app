@@ -5,17 +5,11 @@ import {
   RouterProvider
 } from 'react-router-dom';
 import './App.css';
+import { SignInForm } from './units/auth/SignInForm';
+import { SignUpForm } from './units/auth/SignUpForm';
 import { Paths } from './enums';
 import Layout from './units/Layout';
 import WelcomePage from './units/WelcomePage/WelcomePage';
-
-const SignIn = () => {
-  return <div>SignIn</div>;
-};
-
-const SignUp = () => {
-  return <div>SignUp</div>;
-};
 
 const { base, signIn, signUp } = Paths;
 
@@ -23,8 +17,8 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path={base} element={<Layout />}>
       <Route index element={<WelcomePage />} />
-      <Route path={signIn} element={<SignIn />} />
-      <Route path={signUp} element={<SignUp />} />
+      <Route path={signIn} element={<SignInForm />} />
+      <Route path={signUp} element={<SignUpForm />} />
     </Route>
   )
 );
