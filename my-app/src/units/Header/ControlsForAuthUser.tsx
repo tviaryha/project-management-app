@@ -5,7 +5,6 @@ const ControlsForAuthUser = () => {
   return (
     <>
       <NavMenu />
-      <MainPageButton />
     </>
   );
 };
