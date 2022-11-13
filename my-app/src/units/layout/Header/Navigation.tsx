@@ -7,7 +7,7 @@ const Navigation = () => {
   const Controls = useCheckToken(<NavMenu />, <SignButtons />);
 
   return (
-    <Grid container gap="10px">
+    <Grid component="nav" container gap="10px">
       <Controls />
     </Grid>
   );
