@@ -10,10 +10,10 @@ const SignButtons = () => {
   const signUpClickHandler = () => navigate(signUp);
   return (
     <>
-      <Button variant="contained" size="small" onClick={signInClickHandler}>
+      <Button variant="contained" size="medium" onClick={signInClickHandler}>
         Sign in
       </Button>
-      <Button variant="contained" size="small" onClick={signUpClickHandler}>
+      <Button variant="contained" size="medium" onClick={signUpClickHandler}>
         Sign up
       </Button>
     </>
