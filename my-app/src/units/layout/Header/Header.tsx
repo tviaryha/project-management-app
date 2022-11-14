@@ -1,21 +1,23 @@
 import { CloseRounded as Close, MenuRounded as MenuIcon } from '@mui/icons-material';
 import { AppBar, Container, Drawer, Link, Toolbar, useScrollTrigger } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Paths } from '../../../enums';
+import useAppDispatch from '../../../hooks/useAppDispatch';
+import useAppSelector from '../../../hooks/useAppSelector';
+import { toggleBurgerIsOpen } from '../../../redux/burgerSlice';
 import BurgerMenuIconButton from './BurgerMenuIcon';
 import Navigation from './Navigation';
 
 const Header = () => {
+  const { isOpen } = useAppSelector((state) => state.burger);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const trigger = useScrollTrigger({
     threshold: 0,
     disableHysteresis: true
   });
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  const handlerBurgerMenuToggle = () => setMobileOpen(!mobileOpen);
+  const handlerBurgerMenuToggle = () => dispatch(toggleBurgerIsOpen);
 
   const color = trigger ? 'secondary' : 'inherit';
   const elevation = trigger ? 4 : 0;
@@ -36,14 +38,14 @@ const Header = () => {
                 TaskTrack
               </Link>
             </Grid>
-            <BurgerMenuIconButton Icon={MenuIcon} handler={handlerBurgerMenuToggle} />
+            <BurgerMenuIconButton Icon={MenuIcon} />
             <Navigation display="none" />
           </Grid>
         </Toolbar>
       </Container>
       <Drawer
         anchor="right"
-        open={mobileOpen}
+        open={isOpen}
         onClose={handlerBurgerMenuToggle}
         ModalProps={{
           keepMounted: true
@@ -54,7 +56,7 @@ const Header = () => {
           '& .MuiBackdrop-root': { cursor: 'pointer' },
           '& .MuiDrawer-paper': { boxSizing: 'border-box', width: '320px' }
         }}>
-        <BurgerMenuIconButton Icon={Close} handler={handlerBurgerMenuToggle} />
+        <BurgerMenuIconButton Icon={Close} />
         <Navigation display="flex" />
       </Drawer>
     </AppBar>
