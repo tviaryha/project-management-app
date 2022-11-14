@@ -1,11 +1,10 @@
 import { Button, Link } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { Paths } from '../../../enums';
+import useNavItemHandler from '../../../hooks/useNavItemHandler';
 
 const MainPageButton = () => {
-  const navigate = useNavigate();
   const { mainPage } = Paths;
-  const mainPageClickHandler = () => navigate(mainPage);
+  const mainPageClickHandler = useNavItemHandler(mainPage);
 
   return (
     <Button component={Link} onClick={mainPageClickHandler}>

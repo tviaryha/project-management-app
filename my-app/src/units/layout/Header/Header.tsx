@@ -10,14 +10,14 @@ import BurgerMenuIconButton from './BurgerMenuIcon';
 import Navigation from './Navigation';
 
 const Header = () => {
-  const { isOpen } = useAppSelector((state) => state.burger);
+  const isOpen = useAppSelector((state) => state.burger.isOpen);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const trigger = useScrollTrigger({
     threshold: 0,
     disableHysteresis: true
   });
-  const handlerBurgerMenuToggle = () => dispatch(toggleBurgerIsOpen);
+  const handlerBurgerMenuToggle = () => dispatch(toggleBurgerIsOpen());
 
   const color = trigger ? 'secondary' : 'inherit';
   const elevation = trigger ? 4 : 0;

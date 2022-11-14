@@ -1,7 +1,7 @@
 import { Button, Link } from '@mui/material';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Languages, Paths } from '../../../enums';
+import useNavItemHandler from '../../../hooks/useNavItemHandler';
 import MainPageButton from './MainPageButton';
 
 const LanguageToggler = () => {
@@ -21,11 +21,11 @@ const LanguageToggler = () => {
 };
 
 const NavMenu = () => {
-  const navigate = useNavigate();
   const { newBoard, editProfile } = Paths;
 
-  const createNewBoardClickHandler = () => navigate(newBoard);
-  const editProfileClickHandler = () => navigate(editProfile);
+  const createNewBoardClickHandler = useNavItemHandler(newBoard);
+  const editProfileClickHandler = useNavItemHandler(editProfile);
+  const signOutClickHandler = useNavItemHandler();
 
   return (
     <>
@@ -37,7 +37,7 @@ const NavMenu = () => {
       </Button>
       <MainPageButton />
       <LanguageToggler />
-      <Button component={Link} variant="contained">
+      <Button component={Link} variant="contained" onClick={signOutClickHandler}>
         SignOut
       </Button>
     </>

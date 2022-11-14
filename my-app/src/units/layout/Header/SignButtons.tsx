@@ -1,13 +1,12 @@
 import { Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { Paths } from '../../../enums';
+import useNavItemHandler from '../../../hooks/useNavItemHandler';
 
 const SignButtons = () => {
-  const navigate = useNavigate();
   const { signIn, signUp } = Paths;
 
-  const signInClickHandler = () => navigate(signIn);
-  const signUpClickHandler = () => navigate(signUp);
+  const signInClickHandler = useNavItemHandler(signIn);
+  const signUpClickHandler = useNavItemHandler(signUp);
   return (
     <>
       <Button variant="contained" size="medium" onClick={signInClickHandler}>
