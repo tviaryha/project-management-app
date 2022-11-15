@@ -1,15 +1,9 @@
 import { Alert, Snackbar } from '@mui/material';
 import { FC } from 'react';
 import useAppDispatch from '../../hooks/useAppDispatch';
-import { closeToast } from '../../redux/toastSlice';
+import { closeToast, IToastState } from '../../redux/toastSlice';
 
-interface IToastProps {
-  message: string;
-  type: 'success' | 'error';
-  isOpen: boolean;
-}
-
-export const Toast: FC<IToastProps> = (result) => {
+export const Toast: FC<IToastState> = (result) => {
   const dispatch = useAppDispatch();
   const handleClose = () => dispatch(closeToast());
   return (

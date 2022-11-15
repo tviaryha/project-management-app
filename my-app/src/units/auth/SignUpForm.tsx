@@ -8,7 +8,7 @@ import { ErrorResponse } from '../../api/models/ErrorResponse';
 import { Paths } from '../../enums';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { signUp } from '../../redux/signUpSlice';
-import { openToast } from '../../redux/toastSlice';
+import { openToast, RespRes } from '../../redux/toastSlice';
 import { ToastTexts } from '../Toast/toastTexts';
 import * as authFieldsNames from './AuthFieldsName';
 import { TranslationKeys } from './enum';
@@ -52,13 +52,13 @@ export const SignUpForm: FC = () => {
     };
     try {
       await dispatch(signUp(userData)).unwrap();
-      dispatch(openToast({ message: ToastTexts.successSignUp, type: 'success' }));
+      dispatch(openToast({ message: ToastTexts.successSignUp, type: RespRes.success }));
       navigate(`/${Paths.signIn}`);
     } catch (error) {
       const errorResp = error as ErrorResponse;
       const errorMessage =
-        errorResp.statusCode === 409 ? ToastTexts.failSignUp409 : ToastTexts.fail400;
-      dispatch(openToast({ message: errorMessage, type: 'error' }));
+        errorResp.statusCode === 409 ? ToastTexts.failSignUp409 : ToastTexts.fail;
+      dispatch(openToast({ message: errorMessage, type: RespRes.error }));
     }
   };
 

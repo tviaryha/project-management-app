@@ -3,5 +3,5 @@ export enum ToastTexts {
   successSignIn = 'Congrats! Now you have access to the app!',
   failSignUp409 = 'Ooops! User with same login already exits',
   failSignIn401 = 'Ooops! Please, check your Login and Password!',
-  fail400 = 'Ooops! Something goes wrong... Please, try again!'
+  fail = 'Ooops! Something goes wrong... Please, try again later!'
 }
