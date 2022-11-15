@@ -10,11 +10,12 @@ import {
 } from '@mui/material';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { ISignUp } from '../../api/models/AuthInterfaces';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { signUp } from '../../redux/signUpSlice';
 import * as authFieldsNames from './AuthFieldsName';
-import { ErrorTexts } from './ErrorsTexts';
+import { TranslationKeys } from './enum';
 
 const theme = createTheme();
 
@@ -29,6 +30,21 @@ export const SignUpForm: FC = () => {
     formState: { errors },
     getValues
   } = useForm<ISignUpFields>();
+  const {
+    ns,
+    btn,
+    signUpTitle,
+    name,
+    login,
+    requiredE,
+    password,
+    minLength3E,
+    maxLength30E,
+    passwordPatternE,
+    confirmPassword,
+    confirmPasswordE
+  } = TranslationKeys;
+  const { t } = useTranslation([ns]);
 
   const dispatch = useAppDispatch();
 
@@ -59,7 +75,7 @@ export const SignUpForm: FC = () => {
               sx={{
                 marginBottom: 3
               }}>
-              {`Let's sign up!`}
+              {t(signUpTitle)}
             </Typography>
             <Box
               component="form"
@@ -74,7 +90,7 @@ export const SignUpForm: FC = () => {
               }}>
               <TextField
                 id="name"
-                label="Name"
+                label={t(name)}
                 variant="outlined"
                 required
                 type="text"
@@ -84,14 +100,14 @@ export const SignUpForm: FC = () => {
                 error={!!errors.name}
                 helperText={errors.name?.message}
                 {...register(authFieldsNames.NAME, {
-                  required: { value: true, message: ErrorTexts.required },
-                  minLength: { value: 3, message: ErrorTexts.minLength3 },
-                  maxLength: { value: 30, message: ErrorTexts.maxLength30 }
+                  required: { value: true, message: t(requiredE) },
+                  minLength: { value: 3, message: t(minLength3E) },
+                  maxLength: { value: 30, message: t(maxLength30E) }
                 })}
               />
               <TextField
                 id="login"
-                label="Login"
+                label={t(login)}
                 variant="outlined"
                 required
                 type="text"
@@ -101,14 +117,14 @@ export const SignUpForm: FC = () => {
                 error={!!errors.login}
                 helperText={errors.login?.message}
                 {...register(authFieldsNames.LOGIN, {
-                  required: { value: true, message: ErrorTexts.required },
-                  minLength: { value: 3, message: ErrorTexts.minLength3 },
-                  maxLength: { value: 30, message: ErrorTexts.maxLength30 }
+                  required: { value: true, message: t(requiredE) },
+                  minLength: { value: 3, message: t(minLength3E) },
+                  maxLength: { value: 30, message: t(maxLength30E) }
                 })}
               />
               <TextField
                 id="password"
-                label="Password"
+                label={t(password)}
                 variant="outlined"
                 required
                 type="password"
@@ -120,13 +136,13 @@ export const SignUpForm: FC = () => {
                 {...register(authFieldsNames.PASSWORD, {
                   validate: (value) =>
                     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,30}$/.test(value) ||
-                    ErrorTexts.passwordPattern,
-                  required: { value: true, message: ErrorTexts.required }
+                    t<string>(passwordPatternE),
+                  required: { value: true, message: t(requiredE) }
                 })}
               />
               <TextField
                 id="confirm-password"
-                label="Confirm password"
+                label={t(confirmPassword)}
                 variant="outlined"
                 required
                 type="password"
@@ -137,8 +153,8 @@ export const SignUpForm: FC = () => {
                 helperText={errors.confirm_password?.message}
                 {...register(authFieldsNames.CONFIRM_PASSWORD, {
                   validate: (value) =>
-                    value === getValues(authFieldsNames.PASSWORD) || ErrorTexts.confirmPassword,
-                  required: { value: true, message: ErrorTexts.required }
+                    value === getValues(authFieldsNames.PASSWORD) || t<string>(confirmPasswordE),
+                  required: { value: true, message: t(requiredE) }
                 })}
               />
               <Button
@@ -147,7 +163,7 @@ export const SignUpForm: FC = () => {
                 sx={{
                   width: '25ch'
                 }}>
-                Go!
+                {t(btn)}
               </Button>
             </Box>
           </Box>

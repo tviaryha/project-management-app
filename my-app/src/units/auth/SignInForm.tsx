@@ -14,7 +14,9 @@ import {
   ThemeProvider,
   Typography
 } from '@mui/material';
-import { ErrorTexts } from './ErrorsTexts';
+import { useTranslation } from 'react-i18next';
+import { TranslationKeys } from './enum';
+
 const theme = createTheme();
 
 export const SignInForm: FC = () => {
@@ -23,6 +25,8 @@ export const SignInForm: FC = () => {
     handleSubmit,
     formState: { errors }
   } = useForm<ISignIn>();
+  const { ns, btn, signInTitle, login, requiredE, password } = TranslationKeys;
+  const { t } = useTranslation([ns]);
 
   const dispatch = useAppDispatch();
 
@@ -47,7 +51,7 @@ export const SignInForm: FC = () => {
               sx={{
                 marginBottom: 3
               }}>
-              {`Let's sign in!`}
+              {t(signInTitle)}
             </Typography>
             <Box
               component="form"
@@ -62,7 +66,7 @@ export const SignInForm: FC = () => {
               }}>
               <TextField
                 id="login"
-                label="Login"
+                label={t(login)}
                 variant="outlined"
                 required
                 type="text"
@@ -72,12 +76,12 @@ export const SignInForm: FC = () => {
                 error={!!errors.login}
                 helperText={errors.login?.message}
                 {...register(authFieldsNames.LOGIN, {
-                  required: { value: true, message: ErrorTexts.required }
+                  required: { value: true, message: t(requiredE) }
                 })}
               />
               <TextField
                 id="password"
-                label="Password"
+                label={t(password)}
                 variant="outlined"
                 required
                 type="password"
@@ -87,7 +91,7 @@ export const SignInForm: FC = () => {
                 error={!!errors.password}
                 helperText={errors.password?.message}
                 {...register(authFieldsNames.PASSWORD, {
-                  required: { value: true, message: ErrorTexts.required }
+                  required: { value: true, message: t(requiredE) }
                 })}
               />
               <Button
@@ -96,7 +100,7 @@ export const SignInForm: FC = () => {
                 sx={{
                   width: '25ch'
                 }}>
-                Go!
+                {t(btn)}
               </Button>
             </Box>
           </Box>

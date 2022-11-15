@@ -13,6 +13,7 @@ import WelcomePage from './units/pages/Welcome/Welcome';
 import MainPage from './units/pages/Main/Main';
 import NewBoard from './units/pages/NewBoard';
 import EditProfile from './units/pages/EditProfile';
+import { Suspense } from 'react';
 
 const { base, signIn, signUp, mainPage, newBoard, editProfile } = Paths;
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter(
   )
 );
 
-const App = () => <RouterProvider router={router} />;
+const App = () => (
+  <Suspense fallback="loading">
+    <RouterProvider router={router} />
+  </Suspense>
+);
 
 export default App;
