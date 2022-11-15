@@ -1,16 +1,16 @@
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ISignIn } from '../../api/models/AuthInterfaces';
-import * as AuthFieldsNames from './authFieldsName';
+import * as AuthFieldsNames from './AuthFieldsName';
 import { signIn } from '../../redux/signInSlice';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { Box, Button, Container, TextField, Typography } from '@mui/material';
-import { ValidationErrorTexts } from './validationErrorsTexts';
 import { useNavigate } from 'react-router-dom';
 import { ErrorResponse } from '../../api/models/ErrorResponse';
 import { Paths } from '../../enums';
-import { openToast } from '../../redux/toastSlice';
-import { ToastTexts } from '../Toast/toastTexts';
+import { openToast, RespRes } from '../../redux/toastSlice';
+import { ToastTexts } from '../toast/toastTexts';
+import { ValidationErrorTexts } from './validationErrorsTexts';
 
 export const SignInForm: FC = () => {
   const {
@@ -26,13 +26,13 @@ export const SignInForm: FC = () => {
   const onSubmit: SubmitHandler<ISignIn> = async (data) => {
     try {
       await dispatch(signIn(data)).unwrap();
-      dispatch(openToast({ message: ToastTexts.successSignIn, type: 'success' }));
-      navigate(`/${Paths.main}`);
+      dispatch(openToast({ message: ToastTexts.successSignIn, type: RespRes.success }));
+      navigate(`/${Paths.mainPage}`);
     } catch (error) {
       const errorResp = error as ErrorResponse;
       const errorMessage =
-        errorResp.statusCode === 401 ? ToastTexts.failSignIn401 : ToastTexts.fail400;
-      dispatch(openToast({ message: errorMessage, type: 'error' }));
+        errorResp.statusCode === 401 ? ToastTexts.failSignIn401 : ToastTexts.fail;
+      dispatch(openToast({ message: errorMessage, type: RespRes.error }));
     }
   };
   return (

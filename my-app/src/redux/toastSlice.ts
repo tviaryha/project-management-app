@@ -1,20 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface IToastState {
+export enum RespRes {
+  success = 'success',
+  error = 'error'
+}
+
+export interface IToastState {
   isOpen: boolean;
   message: string;
-  type: 'success' | 'error';
+  type: RespRes;
 }
 
 interface IToastPayload {
   message: string;
-  type: 'success' | 'error';
+  type: RespRes;
 }
 
 const initialState: IToastState = {
   isOpen: false,
   message: '',
-  type: 'success'
+  type: RespRes.success
 };
 
 export const toastSlice = createSlice({
