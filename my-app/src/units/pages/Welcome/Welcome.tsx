@@ -1,11 +1,10 @@
-import { Box } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { deepOrange, deepPurple } from '@mui/material/colors';
-import Grid from '@mui/system/Unstable_Grid';
-import { Developers } from '../../enums';
+import { Developers } from '../../../enums';
 import DeveloperСard from './DeveloperСard';
 import Section from './Section';
 
-const WelcomePage = () => {
+const Welcome = () => {
   return (
     <Box sx={{ textAlign: 'center', m: '20px 0' }}>
       <Grid container flexDirection="column" justifyContent="center" gap="50px">
@@ -21,4 +20,4 @@ const WelcomePage = () => {
   );
 };
 
-export default WelcomePage;
+export default Welcome;

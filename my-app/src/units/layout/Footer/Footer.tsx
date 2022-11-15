@@ -1,7 +1,6 @@
-import { Box, Container, Link, List, Toolbar, Typography } from '@mui/material';
-import Grid from '@mui/system/Unstable_Grid';
-import { Developers } from '../../enums';
-import logo from './../../assets/rs_school_js.svg';
+import { Box, Container, Grid, Link, List, Toolbar, Typography } from '@mui/material';
+import { Developers } from '../../../enums';
+import logo from './../../../assets/rs_school_js.svg';
 import { fontSize } from './constants';
 import FooterListItem from './FooterListItem';
 
