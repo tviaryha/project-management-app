@@ -1,10 +1,10 @@
 import { Box, Container } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-import useAppSelector from '../hooks/useAppSelector';
 import Footer from './Footer/Footer';
-import { Loader } from './Loader';
-import { Toast } from './Toast/Toast';
+import { Loader } from '../Loader';
 import Header from './Header/Header';
+import { Toast } from '../toast/Toast';
+import useAppSelector from '../../hooks/useAppSelector';
 
 const Layout = () => {
   const toastMessage = useAppSelector((state) => state.toast.message);

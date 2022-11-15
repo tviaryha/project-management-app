@@ -5,8 +5,8 @@ import {
   RouterProvider
 } from 'react-router-dom';
 import './App.css';
-import { SignInForm } from './units/Auth/SignInForm';
-import { SignUpForm } from './units/Auth/SignUpForm';
+import { SignInForm } from './units/auth/SignInForm';
+import { SignUpForm } from './units/auth/SignUpForm';
 import { Paths } from './enums';
 import Layout from './units/layout/Layout';
 import WelcomePage from './units/pages/Welcome/Welcome';

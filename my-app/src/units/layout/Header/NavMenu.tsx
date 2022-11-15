@@ -1,8 +1,10 @@
 import { Button, Link } from '@mui/material';
 import { useState } from 'react';
 import { Languages, Paths } from '../../../enums';
+import useAppDispatch from '../../../hooks/useAppDispatch';
 import useNavItemHandler from '../../../hooks/useNavItemHandler';
 import MainPageButton from './MainPageButton';
+import { signOut } from '../../../redux/signInSlice';
 
 const LanguageToggler = () => {
   const [selected, setSelected] = useState(false);
@@ -21,11 +23,16 @@ const LanguageToggler = () => {
 };
 
 const NavMenu = () => {
-  const { newBoard, editProfile } = Paths;
-
+  const { newBoard, editProfile, base } = Paths;
+  const dispatch = useAppDispatch();
   const createNewBoardClickHandler = useNavItemHandler(newBoard);
   const editProfileClickHandler = useNavItemHandler(editProfile);
-  const signOutClickHandler = useNavItemHandler();
+  const signOutClickHandler = useNavItemHandler(base);
+
+  const logOutClickHandler = () => {
+    dispatch(signOut());
+    signOutClickHandler();
+  };
 
   return (
     <>
@@ -37,7 +44,7 @@ const NavMenu = () => {
       </Button>
       <MainPageButton />
       <LanguageToggler />
-      <Button component={Link} variant="contained" onClick={signOutClickHandler}>
+      <Button component={Link} variant="contained" onClick={logOutClickHandler}>
         SignOut
       </Button>
     </>
