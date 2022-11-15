@@ -4,13 +4,13 @@ import { api } from '../api/Api';
 import { ISignIn } from '../api/models/AuthInterfaces';
 import { ErrorResponse } from '../api/models/ErrorResponse';
 
-interface AuthState {
+interface IAuthState {
   isSignedIn: boolean;
   error?: string;
   isLoading?: boolean;
 }
 
-const initialState: AuthState = {
+const initialState: IAuthState = {
   isSignedIn: false
 };
 
@@ -44,6 +44,7 @@ export const signInSlice = createSlice({
       })
       .addCase(signIn.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSignedIn = false;
         state.error = (<ErrorResponse>action.payload).message;
       });
   }

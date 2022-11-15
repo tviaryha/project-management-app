@@ -51,7 +51,7 @@ export const SignInForm: FC = () => {
             sx={{
               marginBottom: 3
             }}>
-            {`Let's sign in!`}
+            {AuthFieldsNames.SING_IN_HEADER}
           </Typography>
           <Box
             component="form"

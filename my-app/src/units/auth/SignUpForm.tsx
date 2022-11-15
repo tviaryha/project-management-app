@@ -62,7 +62,7 @@ export const SignUpForm: FC = () => {
             sx={{
               marginBottom: 3
             }}>
-            {`Let's sign up!`}
+            {authFieldsNames.SING_UP_HEADER}
           </Typography>
           <Box
             component="form"
