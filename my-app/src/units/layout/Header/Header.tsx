@@ -1,11 +1,11 @@
 import { CloseRounded as Close, MenuRounded as MenuIcon } from '@mui/icons-material';
-import { AppBar, Container, Drawer, Link, Toolbar, useScrollTrigger } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
+import { AppBar, Container, Grid, Link, Toolbar, useScrollTrigger } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Paths } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import { toggleBurgerIsOpen } from '../../../redux/burgerSlice';
+import BurgerMenu from './BurgerMenu';
 import BurgerMenuIconButton from './BurgerMenuIcon';
 import Navigation from './Navigation';
 
@@ -29,7 +29,7 @@ const Header = () => {
       <Container>
         <Toolbar disableGutters>
           <Grid container justifyContent="space-between" alignItems="center" sx={{ width: '100%' }}>
-            <Grid>
+            <Grid item>
               <Link
                 variant="h5"
                 underline="none"
@@ -43,7 +43,7 @@ const Header = () => {
           </Grid>
         </Toolbar>
       </Container>
-      <Drawer
+      <BurgerMenu
         anchor="right"
         open={isOpen}
         onClose={handlerBurgerMenuToggle}
@@ -52,13 +52,11 @@ const Header = () => {
         }}
         transitionDuration={500}
         sx={{
-          display: { xs: 'block', md: 'none' },
-          '& .MuiBackdrop-root': { cursor: 'pointer' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: '320px' }
+          display: { xs: 'block', md: 'none' }
         }}>
         <BurgerMenuIconButton Icon={Close} />
         <Navigation display="flex" />
-      </Drawer>
+      </BurgerMenu>
     </AppBar>
   );
 };

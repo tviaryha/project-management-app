@@ -1,17 +1,17 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { api } from '../api/Api';
 import { ISignIn } from '../api/models/AuthInterfaces';
 import { ErrorResponse } from '../api/models/ErrorResponse';
 
 interface AuthState {
-  token: string;
+  isSignedIn: boolean;
   error?: string;
   isLoading?: boolean;
 }
 
 const initialState: AuthState = {
-  token: localStorage.getItem('token') || ''
+  isSignedIn: false
 };
 
 export const signIn = createAsyncThunk('signIn', async (data: ISignIn, thunkApi) => {
@@ -27,23 +27,28 @@ export const signIn = createAsyncThunk('signIn', async (data: ISignIn, thunkApi)
 export const signInSlice = createSlice({
   name: 'signIn',
   initialState,
-  reducers: {},
+  reducers: {
+    setIsSignedIn: (state, action: PayloadAction<boolean>) => {
+      state.isSignedIn = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(signIn.pending, (state) => {
         state.isLoading = true;
         state.error = '';
       })
-      .addCase(signIn.fulfilled, (state, action) => {
+      .addCase(signIn.fulfilled, (state) => {
         state.isLoading = false;
-        state.token = action.payload;
+        state.isSignedIn = true;
       })
       .addCase(signIn.rejected, (state, action) => {
         state.isLoading = false;
-        state.token = '';
         state.error = (<ErrorResponse>action.payload).message;
       });
   }
 });
+
+export const { setIsSignedIn } = signInSlice.actions;
 
 export default signInSlice.reducer;
