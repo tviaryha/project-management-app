@@ -8,7 +8,7 @@ export enum TranslationKeys {
   selectedLang = 'selectedLang',
   createNewBoard = 'createNewBoard',
   profile = 'editProfile',
-  signOut = 'signOut',
+  signOutBtn = 'signOut',
   toMain = 'toMain',
   signInBtn = 'signInBtn',
   signUpBtn = 'signUpBtn'

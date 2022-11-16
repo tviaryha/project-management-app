@@ -4,6 +4,8 @@ import { Languages, TranslationKeys } from './enums';
 import useNavItemHandler from '../../../hooks/useNavItemHandler';
 import MainPageButton from './MainPageButton';
 import { Paths } from '../../../enums';
+import useAppDispatch from '../../../hooks/useAppDispatch';
+import { signOut } from '../../../redux/signInSlice';
 
 const LanguageToggler = () => {
   const { en, ru } = Languages;
@@ -23,13 +25,19 @@ const LanguageToggler = () => {
 };
 
 const NavMenu = () => {
-  const { newBoard, editProfile } = Paths;
-  const { ns, createNewBoard, profile, signOut } = TranslationKeys;
+  const { newBoard, editProfile, base } = Paths;
+  const { ns, createNewBoard, profile, signOutBtn } = TranslationKeys;
   const { t } = useTranslation([ns]);
+  const dispatch = useAppDispatch();
 
   const createNewBoardClickHandler = useNavItemHandler(newBoard);
   const editProfileClickHandler = useNavItemHandler(editProfile);
-  const signOutClickHandler = useNavItemHandler();
+  const signOutClickHandler = useNavItemHandler(base);
+
+  const logOutClickHandler = () => {
+    dispatch(signOut());
+    signOutClickHandler();
+  };
 
   return (
     <>
@@ -41,8 +49,8 @@ const NavMenu = () => {
       </Button>
       <MainPageButton />
       <LanguageToggler />
-      <Button component={Link} variant="contained" onClick={signOutClickHandler}>
-        {t(signOut)}
+      <Button component={Link} variant="contained" onClick={logOutClickHandler}>
+        {t(signOutBtn)}
       </Button>
     </>
   );
