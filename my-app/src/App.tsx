@@ -5,8 +5,6 @@ import {
   RouterProvider
 } from 'react-router-dom';
 import './App.css';
-import { SignInForm } from './units/auth/SignInForm';
-import { SignUpForm } from './units/auth/SignUpForm';
 import { Paths } from './enums';
 import Layout from './units/layout/Layout';
 import WelcomePage from './units/pages/Welcome/Welcome';
@@ -15,6 +13,8 @@ import NewBoard from './units/pages/NewBoard';
 import EditProfile from './units/pages/EditProfile';
 import { Suspense } from 'react';
 import LinearLoadingIndicator from './components/LinearLoadingIndicator';
+import { SignInForm } from './units/auth/SignInForm';
+import { SignUpForm } from './units/auth/SignUpForm';
 
 const { base, signIn, signUp, mainPage, newBoard, editProfile } = Paths;
 

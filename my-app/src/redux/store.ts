@@ -2,6 +2,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import AppReducer from './../redux/appSlice';
 import SignInReducer from './signInSlice';
 import SignUpReducer from './signUpSlice';
+import ToastReducer from './toastSlice';
+import LoaderReducer from './loaderSlice';
 import BurgerReducer from './burgerSlice';
 
 const store = configureStore({
@@ -9,6 +11,8 @@ const store = configureStore({
     app: AppReducer,
     signIn: SignInReducer,
     signUp: SignUpReducer,
+    toast: ToastReducer,
+    loader: LoaderReducer,
     burger: BurgerReducer
   }
 });
