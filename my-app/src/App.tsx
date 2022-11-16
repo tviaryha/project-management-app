@@ -13,6 +13,8 @@ import WelcomePage from './units/pages/Welcome/Welcome';
 import MainPage from './units/pages/Main/Main';
 import NewBoard from './units/pages/NewBoard';
 import EditProfile from './units/pages/EditProfile';
+import { Suspense } from 'react';
+import LinearLoadingIndicator from './components/LinearLoadingIndicator';
 
 const { base, signIn, signUp, mainPage, newBoard, editProfile } = Paths;
 
@@ -29,6 +31,10 @@ const router = createBrowserRouter(
   )
 );
 
-const App = () => <RouterProvider router={router} />;
+const App = () => (
+  <Suspense fallback={<LinearLoadingIndicator />}>
+    <RouterProvider router={router} />
+  </Suspense>
+);
 
 export default App;

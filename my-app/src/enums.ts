@@ -11,8 +11,3 @@ export enum Developers {
   Nozeil = 'Nozeil',
   Verigota = 'Verigota'
 }
-
-export enum Languages {
-  en = 'EN',
-  ru = 'RU'
-}

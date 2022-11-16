@@ -13,6 +13,7 @@ const Navigation = ({ display }: NavigationProps) => {
   return (
     <Grid
       component="nav"
+      textAlign="center"
       item
       gap={{ xs: '20px', md: '10px' }}
       padding={{ xs: '40px', md: 0 }}
