@@ -1,6 +1,7 @@
 import { Container, Box, Typography, TextField, Button } from '@mui/material';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { ISignUp } from '../../api/models/AuthInterfaces';
 import { ErrorResponse } from '../../api/models/ErrorResponse';
@@ -8,9 +9,9 @@ import { Paths } from '../../enums';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { signUp } from '../../redux/signUpSlice';
 import { openToast, RespRes } from '../../redux/toastSlice';
-import { ToastTexts } from '../toast/toastTexts';
-import * as authFieldsNames from './AuthFieldsName';
-import { ValidationErrorTexts } from './validationErrorsTexts';
+import { TranslationKeys as FormTranslations } from './enum';
+import { TranslationKeys as ToastTranslations } from '../Toast/enum';
+import { AuthFieldsNames } from './authFieldsNames';
 
 interface ISignUpFields extends ISignUp {
   confirm_password: string;
@@ -23,6 +24,24 @@ export const SignUpForm: FC = () => {
     formState: { errors },
     getValues
   } = useForm<ISignUpFields>();
+  const {
+    btn,
+    signUpTitle,
+    name,
+    login,
+    requiredE,
+    password,
+    minLength3E,
+    maxLength30E,
+    passwordPatternE,
+    confirmPassword,
+    confirmPasswordE
+  } = FormTranslations;
+  const { successSignUp, failSignUp409, fail } = ToastTranslations;
+
+  const { t } = useTranslation([FormTranslations.ns, ToastTranslations.ns]);
+
+  const navigate = useNavigate();
 
   const navigate = useNavigate();
 
@@ -36,12 +55,19 @@ export const SignUpForm: FC = () => {
     };
     try {
       await dispatch(signUp(userData)).unwrap();
-      dispatch(openToast({ message: ToastTexts.successSignUp, type: RespRes.success }));
+      dispatch(
+        openToast({
+          message: t(successSignUp, { ns: ToastTranslations.ns }),
+          type: RespRes.success
+        })
+      );
       navigate(`/${Paths.signIn}`);
     } catch (error) {
       const errorResp = error as ErrorResponse;
       const errorMessage =
-        errorResp.statusCode === 409 ? ToastTexts.failSignUp409 : ToastTexts.fail;
+        errorResp.statusCode === 409
+          ? t(failSignUp409, { ns: ToastTranslations.ns })
+          : t(fail, { ns: ToastTranslations.ns });
       dispatch(openToast({ message: errorMessage, type: RespRes.error }));
     }
   };
@@ -62,7 +88,7 @@ export const SignUpForm: FC = () => {
             sx={{
               marginBottom: 3
             }}>
-            {authFieldsNames.SING_UP_HEADER}
+            {t(signUpTitle)}
           </Typography>
           <Box
             component="form"
@@ -77,7 +103,7 @@ export const SignUpForm: FC = () => {
             }}>
             <TextField
               id="name"
-              label="Name"
+              label={t(name)}
               variant="outlined"
               required
               type="text"
@@ -86,15 +112,15 @@ export const SignUpForm: FC = () => {
               }}
               error={!!errors.name}
               helperText={errors.name?.message}
-              {...register(authFieldsNames.NAME, {
-                required: { value: true, message: ValidationErrorTexts.required },
-                minLength: { value: 3, message: ValidationErrorTexts.minLength3 },
-                maxLength: { value: 30, message: ValidationErrorTexts.maxLength30 }
+              {...register(AuthFieldsNames.NAME, {
+                required: { value: true, message: t(requiredE) },
+                minLength: { value: 3, message: t(minLength3E) },
+                maxLength: { value: 30, message: t(maxLength30E) }
               })}
             />
             <TextField
               id="login"
-              label="Login"
+              label={t(login)}
               variant="outlined"
               required
               type="text"
@@ -103,15 +129,15 @@ export const SignUpForm: FC = () => {
               }}
               error={!!errors.login}
               helperText={errors.login?.message}
-              {...register(authFieldsNames.LOGIN, {
-                required: { value: true, message: ValidationErrorTexts.required },
-                minLength: { value: 3, message: ValidationErrorTexts.minLength3 },
-                maxLength: { value: 30, message: ValidationErrorTexts.maxLength30 }
+              {...register(AuthFieldsNames.LOGIN, {
+                required: { value: true, message: t(requiredE) },
+                minLength: { value: 3, message: t(minLength3E) },
+                maxLength: { value: 30, message: t(maxLength30E) }
               })}
             />
             <TextField
               id="password"
-              label="Password"
+              label={t(password)}
               variant="outlined"
               required
               type="password"
@@ -120,16 +146,16 @@ export const SignUpForm: FC = () => {
               }}
               error={!!errors.password}
               helperText={errors.password?.message}
-              {...register(authFieldsNames.PASSWORD, {
+              {...register(AuthFieldsNames.PASSWORD, {
                 validate: (value) =>
                   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,30}$/.test(value) ||
-                  ValidationErrorTexts.passwordPattern,
-                required: { value: true, message: ValidationErrorTexts.required }
+                  t<string>(passwordPatternE),
+                required: { value: true, message: t(requiredE) }
               })}
             />
             <TextField
               id="confirm-password"
-              label="Confirm password"
+              label={t(confirmPassword)}
               variant="outlined"
               required
               type="password"
@@ -138,11 +164,10 @@ export const SignUpForm: FC = () => {
               }}
               error={!!errors.confirm_password}
               helperText={errors.confirm_password?.message}
-              {...register(authFieldsNames.CONFIRM_PASSWORD, {
+              {...register(AuthFieldsNames.CONFIRM_PASSWORD, {
                 validate: (value) =>
-                  value === getValues(authFieldsNames.PASSWORD) ||
-                  ValidationErrorTexts.confirmPassword,
-                required: { value: true, message: ValidationErrorTexts.required }
+                  value === getValues(AuthFieldsNames.PASSWORD) || t<string>(confirmPasswordE),
+                required: { value: true, message: t(requiredE) }
               })}
             />
             <Button
@@ -151,7 +176,7 @@ export const SignUpForm: FC = () => {
               sx={{
                 width: '25ch'
               }}>
-              Go!
+              {t(btn)}
             </Button>
           </Box>
         </Box>

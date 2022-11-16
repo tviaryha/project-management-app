@@ -1,16 +1,17 @@
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ISignIn } from '../../api/models/AuthInterfaces';
-import * as AuthFieldsNames from './AuthFieldsName';
+import { AuthFieldsNames } from './authFieldsNames';
 import { signIn } from '../../redux/signInSlice';
-import useAppDispatch from '../../hooks/useAppDispatch';
 import { Box, Button, Container, TextField, Typography } from '@mui/material';
+import useAppDispatch from '../../hooks/useAppDispatch';
 import { useNavigate } from 'react-router-dom';
 import { ErrorResponse } from '../../api/models/ErrorResponse';
 import { Paths } from '../../enums';
 import { openToast, RespRes } from '../../redux/toastSlice';
-import { ToastTexts } from '../toast/toastTexts';
-import { ValidationErrorTexts } from './validationErrorsTexts';
+import { TranslationKeys as FormTranslations } from './enum';
+import { TranslationKeys as ToastTranslations } from '../Toast/enum';
+import { useTranslation } from 'react-i18next';
 
 export const SignInForm: FC = () => {
   const {
@@ -18,6 +19,10 @@ export const SignInForm: FC = () => {
     handleSubmit,
     formState: { errors }
   } = useForm<ISignIn>();
+  const { btn, signInTitle, login, requiredE, password } = FormTranslations;
+  const { successSignIn, failSignIn401, fail } = ToastTranslations;
+
+  const { t } = useTranslation([FormTranslations.ns, ToastTranslations.ns]);
 
   const dispatch = useAppDispatch();
 
@@ -26,12 +31,19 @@ export const SignInForm: FC = () => {
   const onSubmit: SubmitHandler<ISignIn> = async (data) => {
     try {
       await dispatch(signIn(data)).unwrap();
-      dispatch(openToast({ message: ToastTexts.successSignIn, type: RespRes.success }));
+      dispatch(
+        openToast({
+          message: t(successSignIn, { ns: ToastTranslations.ns }),
+          type: RespRes.success
+        })
+      );
       navigate(`/${Paths.mainPage}`);
     } catch (error) {
       const errorResp = error as ErrorResponse;
       const errorMessage =
-        errorResp.statusCode === 401 ? ToastTexts.failSignIn401 : ToastTexts.fail;
+        errorResp.statusCode === 401
+          ? t(failSignIn401, { ns: ToastTranslations.ns })
+          : t(fail, { ns: ToastTranslations.ns });
       dispatch(openToast({ message: errorMessage, type: RespRes.error }));
     }
   };
@@ -51,7 +63,7 @@ export const SignInForm: FC = () => {
             sx={{
               marginBottom: 3
             }}>
-            {AuthFieldsNames.SING_IN_HEADER}
+            {t(signInTitle)}
           </Typography>
           <Box
             component="form"
@@ -66,7 +78,7 @@ export const SignInForm: FC = () => {
             }}>
             <TextField
               id="login"
-              label="Login"
+              label={t(login)}
               variant="outlined"
               required
               type="text"
@@ -76,12 +88,12 @@ export const SignInForm: FC = () => {
               error={!!errors.login}
               helperText={errors.login?.message}
               {...register(AuthFieldsNames.LOGIN, {
-                required: { value: true, message: ValidationErrorTexts.required }
+                required: { value: true, message: t(requiredE) }
               })}
             />
             <TextField
               id="password"
-              label="Password"
+              label={t(password)}
               variant="outlined"
               required
               type="password"
@@ -91,7 +103,7 @@ export const SignInForm: FC = () => {
               error={!!errors.password}
               helperText={errors.password?.message}
               {...register(AuthFieldsNames.PASSWORD, {
-                required: { value: true, message: ValidationErrorTexts.required }
+                required: { value: true, message: t(requiredE) }
               })}
             />
             <Button
@@ -100,7 +112,7 @@ export const SignInForm: FC = () => {
               sx={{
                 width: '25ch'
               }}>
-              Go!
+              {t(btn)}
             </Button>
           </Box>
         </Box>

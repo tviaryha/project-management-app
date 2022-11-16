@@ -16,9 +16,8 @@ interface IDecodedToken {
   id: string;
   login: string;
   iat: Date;
-  exp: Date;
 }
-
+  exp: Date;
 const initialState: IAuthState = {
   isSignedIn: false
 };
