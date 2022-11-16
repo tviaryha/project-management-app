@@ -9,9 +9,9 @@ import { Paths } from '../../enums';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { signUp } from '../../redux/signUpSlice';
 import { openToast, RespRes } from '../../redux/toastSlice';
-import { ToastTexts } from '../Toast/toastTexts';
-import * as authFieldsNames from './AuthFieldsName';
-import { TranslationKeys } from './enum';
+import { TranslationKeys as FormTranslations } from './enum';
+import { TranslationKeys as ToastTranslations } from '../Toast/enum';
+import { AuthFieldsNames } from './authFieldsNames';
 
 interface ISignUpFields extends ISignUp {
   confirm_password: string;
@@ -25,7 +25,6 @@ export const SignUpForm: FC = () => {
     getValues
   } = useForm<ISignUpFields>();
   const {
-    ns,
     btn,
     signUpTitle,
     name,
@@ -37,8 +36,10 @@ export const SignUpForm: FC = () => {
     passwordPatternE,
     confirmPassword,
     confirmPasswordE
-  } = TranslationKeys;
-  const { t } = useTranslation([ns]);
+  } = FormTranslations;
+  const { successSignUp, failSignUp409, fail } = ToastTranslations;
+
+  const { t } = useTranslation([FormTranslations.ns, ToastTranslations.ns]);
 
   const navigate = useNavigate();
 
@@ -52,12 +53,19 @@ export const SignUpForm: FC = () => {
     };
     try {
       await dispatch(signUp(userData)).unwrap();
-      dispatch(openToast({ message: ToastTexts.successSignUp, type: RespRes.success }));
+      dispatch(
+        openToast({
+          message: t(successSignUp, { ns: ToastTranslations.ns }),
+          type: RespRes.success
+        })
+      );
       navigate(`/${Paths.signIn}`);
     } catch (error) {
       const errorResp = error as ErrorResponse;
       const errorMessage =
-        errorResp.statusCode === 409 ? ToastTexts.failSignUp409 : ToastTexts.fail;
+        errorResp.statusCode === 409
+          ? t(failSignUp409, { ns: ToastTranslations.ns })
+          : t(fail, { ns: ToastTranslations.ns });
       dispatch(openToast({ message: errorMessage, type: RespRes.error }));
     }
   };
@@ -102,7 +110,7 @@ export const SignUpForm: FC = () => {
               }}
               error={!!errors.name}
               helperText={errors.name?.message}
-              {...register(authFieldsNames.NAME, {
+              {...register(AuthFieldsNames.NAME, {
                 required: { value: true, message: t(requiredE) },
                 minLength: { value: 3, message: t(minLength3E) },
                 maxLength: { value: 30, message: t(maxLength30E) }
@@ -119,7 +127,7 @@ export const SignUpForm: FC = () => {
               }}
               error={!!errors.login}
               helperText={errors.login?.message}
-              {...register(authFieldsNames.LOGIN, {
+              {...register(AuthFieldsNames.LOGIN, {
                 required: { value: true, message: t(requiredE) },
                 minLength: { value: 3, message: t(minLength3E) },
                 maxLength: { value: 30, message: t(maxLength30E) }
@@ -136,7 +144,7 @@ export const SignUpForm: FC = () => {
               }}
               error={!!errors.password}
               helperText={errors.password?.message}
-              {...register(authFieldsNames.PASSWORD, {
+              {...register(AuthFieldsNames.PASSWORD, {
                 validate: (value) =>
                   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,30}$/.test(value) ||
                   t<string>(passwordPatternE),
@@ -154,9 +162,9 @@ export const SignUpForm: FC = () => {
               }}
               error={!!errors.confirm_password}
               helperText={errors.confirm_password?.message}
-              {...register(authFieldsNames.CONFIRM_PASSWORD, {
+              {...register(AuthFieldsNames.CONFIRM_PASSWORD, {
                 validate: (value) =>
-                  value === getValues(authFieldsNames.PASSWORD) || t<string>(confirmPasswordE),
+                  value === getValues(AuthFieldsNames.PASSWORD) || t<string>(confirmPasswordE),
                 required: { value: true, message: t(requiredE) }
               })}
             />

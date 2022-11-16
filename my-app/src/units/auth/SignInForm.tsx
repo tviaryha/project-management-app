@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ISignIn } from '../../api/models/AuthInterfaces';
-import * as authFieldsNames from './AuthFieldsName';
+import { AuthFieldsNames } from './authFieldsNames';
 import { signIn } from '../../redux/signInSlice';
 import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import useAppDispatch from '../../hooks/useAppDispatch';
@@ -9,9 +9,9 @@ import { useNavigate } from 'react-router-dom';
 import { ErrorResponse } from '../../api/models/ErrorResponse';
 import { Paths } from '../../enums';
 import { openToast, RespRes } from '../../redux/toastSlice';
-import { TranslationKeys } from './enum';
+import { TranslationKeys as FormTranslations } from './enum';
+import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import { useTranslation } from 'react-i18next';
-import { ToastTexts } from '../Toast/toastTexts';
 
 export const SignInForm: FC = () => {
   const {
@@ -19,8 +19,10 @@ export const SignInForm: FC = () => {
     handleSubmit,
     formState: { errors }
   } = useForm<ISignIn>();
-  const { ns, btn, signInTitle, login, requiredE, password } = TranslationKeys;
-  const { t } = useTranslation([ns]);
+  const { btn, signInTitle, login, requiredE, password } = FormTranslations;
+  const { successSignIn, failSignIn401, fail } = ToastTranslations;
+
+  const { t } = useTranslation([FormTranslations.ns, ToastTranslations.ns]);
 
   const dispatch = useAppDispatch();
 
@@ -29,12 +31,19 @@ export const SignInForm: FC = () => {
   const onSubmit: SubmitHandler<ISignIn> = async (data) => {
     try {
       await dispatch(signIn(data)).unwrap();
-      dispatch(openToast({ message: ToastTexts.successSignIn, type: RespRes.success }));
+      dispatch(
+        openToast({
+          message: t(successSignIn, { ns: ToastTranslations.ns }),
+          type: RespRes.success
+        })
+      );
       navigate(`/${Paths.mainPage}`);
     } catch (error) {
       const errorResp = error as ErrorResponse;
       const errorMessage =
-        errorResp.statusCode === 401 ? ToastTexts.failSignIn401 : ToastTexts.fail;
+        errorResp.statusCode === 401
+          ? t(failSignIn401, { ns: ToastTranslations.ns })
+          : t(fail, { ns: ToastTranslations.ns });
       dispatch(openToast({ message: errorMessage, type: RespRes.error }));
     }
   };
@@ -78,7 +87,7 @@ export const SignInForm: FC = () => {
               }}
               error={!!errors.login}
               helperText={errors.login?.message}
-              {...register(authFieldsNames.LOGIN, {
+              {...register(AuthFieldsNames.LOGIN, {
                 required: { value: true, message: t(requiredE) }
               })}
             />
@@ -93,7 +102,7 @@ export const SignInForm: FC = () => {
               }}
               error={!!errors.password}
               helperText={errors.password?.message}
-              {...register(authFieldsNames.PASSWORD, {
+              {...register(AuthFieldsNames.PASSWORD, {
                 required: { value: true, message: t(requiredE) }
               })}
             />
