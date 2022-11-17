@@ -12,6 +12,7 @@ import { openToast, RespRes } from '../../redux/toastSlice';
 import { TranslationKeys as FormTranslations } from './enum';
 import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import { AuthFieldsNames } from './authFieldsNames';
+import { hideLoader, showLoader } from '../../redux/appSlice';
 
 interface ISignUpFields extends ISignUp {
   confirm_password: string;
@@ -52,6 +53,7 @@ export const SignUpForm: FC = () => {
       password: data.password
     };
     try {
+      dispatch(showLoader());
       await dispatch(signUp(userData)).unwrap();
       dispatch(
         openToast({
@@ -67,6 +69,8 @@ export const SignUpForm: FC = () => {
           ? t(failSignUp409, { ns: ToastTranslations.ns })
           : t(fail, { ns: ToastTranslations.ns });
       dispatch(openToast({ message: errorMessage, type: RespRes.error }));
+    } finally {
+      dispatch(hideLoader());
     }
   };
 

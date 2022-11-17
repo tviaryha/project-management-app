@@ -12,6 +12,7 @@ import { openToast, RespRes } from '../../redux/toastSlice';
 import { TranslationKeys as FormTranslations } from './enum';
 import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import { useTranslation } from 'react-i18next';
+import { hideLoader, showLoader } from '../../redux/appSlice';
 
 export const SignInForm: FC = () => {
   const {
@@ -30,6 +31,7 @@ export const SignInForm: FC = () => {
 
   const onSubmit: SubmitHandler<ISignIn> = async (data) => {
     try {
+      dispatch(showLoader());
       await dispatch(signIn(data)).unwrap();
       dispatch(
         openToast({
@@ -45,6 +47,8 @@ export const SignInForm: FC = () => {
           ? t(failSignIn401, { ns: ToastTranslations.ns })
           : t(fail, { ns: ToastTranslations.ns });
       dispatch(openToast({ message: errorMessage, type: RespRes.error }));
+    } finally {
+      dispatch(hideLoader());
     }
   };
   return (
