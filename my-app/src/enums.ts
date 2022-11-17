@@ -11,3 +11,8 @@ export enum Developers {
   Nozeil = 'Nozeil',
   Verigota = 'Verigota'
 }
+
+export enum LocalStorageKeys {
+  token = 'token',
+  userId = 'userId'
+}

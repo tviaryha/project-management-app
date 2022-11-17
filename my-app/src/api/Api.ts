@@ -2,6 +2,10 @@ import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
 import axios from 'axios';
 import { setIsSignedIn } from '../redux/signInSlice';
 import { ISignIn, ISignInResp, ISignUp, ISignUpResp } from './models/AuthInterfaces';
+import jwt_decode from 'jwt-decode';
+import { IDecodedToken } from './interface';
+import { IGetUser } from './models/EditProfileInterfaces';
+import { LocalStorageKeys } from '../enums';
 
 const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
 
@@ -11,7 +15,7 @@ const apiClient = axios.create({
 
 export const setupInterceptors = (store: ToolkitStore) => {
   apiClient.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem(LocalStorageKeys.token);
     if (config?.headers && token) {
       config.headers['Authorization'] = 'Bearer ' + token;
     }
@@ -24,7 +28,7 @@ export const setupInterceptors = (store: ToolkitStore) => {
     },
     (error) => {
       if (error.response.status === 401) {
-        localStorage.removeItem('token');
+        localStorage.removeItem(LocalStorageKeys.token);
         store.dispatch(setIsSignedIn(false));
       }
       return Promise.reject(error);
@@ -34,7 +38,12 @@ export const setupInterceptors = (store: ToolkitStore) => {
 
 const signIn = async (data: ISignIn) => {
   const resp = await apiClient.post<ISignInResp>(`${BASE_URL}/auth/signin`, data);
-  localStorage.setItem('token', resp.data.token);
+  const token = resp.data.token;
+  const decoded: IDecodedToken = jwt_decode(token);
+
+  localStorage.setItem(LocalStorageKeys.token, token);
+  localStorage.setItem(LocalStorageKeys.userId, decoded.id);
+
   return resp.data.token;
 };
 const signUp = async (data: ISignUp) => {
@@ -43,11 +52,20 @@ const signUp = async (data: ISignUp) => {
 };
 
 const signOut = () => {
-  localStorage.removeItem('token');
+  localStorage.removeItem(LocalStorageKeys.token);
+  localStorage.removeItem(LocalStorageKeys.userId);
+};
+
+const getUserById = async (userId: string) => {
+  const resp = await apiClient<IGetUser>({
+    url: `/users/${userId}`
+  });
+  return resp.data;
 };
 
 export const api = {
   signIn,
   signUp,
-  signOut
+  signOut,
+  getUserById
 };
