@@ -17,7 +17,7 @@ const Layout = () => {
       <Header />
       <Toast message={toastMessage} type={toastType} isOpen={toastIsOpen} />
       <Loader open={isLoading || false} />
-      <Box component="main" flexGrow={1}>
+      <Box component="main" flexGrow={1} sx={{ m: '20px 0' }}>
         <Container>
           <Outlet />
         </Container>
