@@ -29,7 +29,7 @@ const EditProfile = () => {
   }
 
   return (
-    <Grid container justifyContent="space-around" gap="10px">
+    <Grid container alignItems="center" gap={5} sx={{ mt: 8 }} flexDirection="column">
       <ProfileInfo name={name} login={login} />
       <ProfileForm />
     </Grid>

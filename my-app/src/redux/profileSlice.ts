@@ -11,7 +11,7 @@ interface IprofileState {
   errorCode?: number;
 }
 
-interface Iprofile {
+export interface Iprofile {
   name: string;
   login: string;
 }
