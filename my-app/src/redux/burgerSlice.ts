@@ -14,10 +14,13 @@ const burgerSlice = createSlice({
   reducers: {
     toggleBurgerIsOpen: (state) => {
       state.isOpen = !state.isOpen;
+    },
+    closeBurgerMenu: (state) => {
+      state.isOpen = false;
     }
   }
 });
 
-export const { toggleBurgerIsOpen } = burgerSlice.actions;
+export const { toggleBurgerIsOpen, closeBurgerMenu } = burgerSlice.actions;
 
 export default burgerSlice.reducer;
