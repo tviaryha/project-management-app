@@ -1,0 +1,10 @@
+{
+  "login": "Login",
+  "name": "Name",
+  "password": "Password",
+  "requiredE": "This is required",
+  "minLength3E": "Min length is 3",
+  "minLength8E": "Min length is 8",
+  "maxLength30E": "Max length is 30",
+  "passwordPattern": "The field must have:  8 or more characters, upper & lowercase letters and at least one number"
+}

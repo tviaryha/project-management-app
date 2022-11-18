@@ -10,7 +10,7 @@ import Layout from './units/layout/Layout';
 import WelcomePage from './units/pages/Welcome/Welcome';
 import MainPage from './units/pages/Main/Main';
 import NewBoard from './units/pages/NewBoard';
-import EditProfile from './units/pages/EditProfile';
+import EditProfile from './units/pages/EditProfile/EditProfile';
 import { Suspense } from 'react';
 import LinearLoadingIndicator from './components/LinearLoadingIndicator';
 import { SignInForm } from './units/auth/SignInForm';

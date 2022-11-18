@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { api } from '../api/Api';
-import { ISignUp, ISignUpResp } from '../api/models/AuthInterfaces';
+import { IUserReq, IUserResp } from '../api/models/AuthInterfaces';
 import { ErrorResponse } from '../api/models/ErrorResponse';
 
 interface IRegistrationState {
-  user: ISignUpResp | '';
+  user: IUserResp | '';
   error?: string;
   isLoading?: boolean;
   isUserRegistered?: boolean;
@@ -15,7 +15,7 @@ const initialState: IRegistrationState = {
   user: ''
 };
 
-export const signUp = createAsyncThunk('signUp', async (data: ISignUp, thunkApi) => {
+export const signUp = createAsyncThunk('signUp', async (data: IUserReq, thunkApi) => {
   try {
     const resp = await api.signUp(data);
     return resp;

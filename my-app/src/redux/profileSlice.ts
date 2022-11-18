@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { api } from '../api/Api';
+import { IUserReq } from '../api/models/AuthInterfaces';
 import { ErrorResponse } from '../api/models/ErrorResponse';
 
 interface IprofileState {
@@ -27,9 +28,25 @@ export const getUserProfile = createAsyncThunk<
   {
     rejectValue: number | undefined;
   }
->('profile', async (userId, thunkApi) => {
+>('profile/getUser', async (userId, thunkApi) => {
   try {
-    const resp = await api.getUserById(userId);
+    const resp = await api.getUser(userId);
+    const { name, login } = resp;
+    return { name, login };
+  } catch (e) {
+    return thunkApi.rejectWithValue((<AxiosError<ErrorResponse>>e).response?.status);
+  }
+});
+
+export const updateUserProfile = createAsyncThunk<
+  Iprofile,
+  { userId: string; data: IUserReq },
+  {
+    rejectValue: number | undefined;
+  }
+>('profile/updateUser', async ({ userId, data }, thunkApi) => {
+  try {
+    const resp = await api.updateUser(userId, data);
     const { name, login } = resp;
     return { name, login };
   } catch (e) {
@@ -55,6 +72,18 @@ export const profileSlice = createSlice({
         state.errorCode = action.payload;
       })
       .addCase(getUserProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.name = action.payload.name;
+        state.login = action.payload.login;
+      })
+      .addCase(updateUserProfile.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateUserProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.errorCode = action.payload;
+      })
+      .addCase(updateUserProfile.fulfilled, (state, action) => {
         state.isLoading = false;
         state.name = action.payload.name;
         state.login = action.payload.login;

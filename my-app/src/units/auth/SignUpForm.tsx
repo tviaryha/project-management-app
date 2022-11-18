@@ -3,17 +3,18 @@ import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ISignUp } from '../../api/models/AuthInterfaces';
+import { IUserReq } from '../../api/models/AuthInterfaces';
 import { ErrorResponse } from '../../api/models/ErrorResponse';
 import { Paths } from '../../enums';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { signUp } from '../../redux/signUpSlice';
 import { openToast, RespRes } from '../../redux/toastSlice';
-import { TranslationKeys as FormTranslations } from './enum';
+import { FormTranslationKeys } from '../../enums';
 import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import { AuthFieldsNames } from './authFieldsNames';
+import { TranslationKeys as SignFormsTranslationKeys } from './enum';
 
-interface ISignUpFields extends ISignUp {
+interface ISignUpFields extends IUserReq {
   confirm_password: string;
 }
 
@@ -24,29 +25,23 @@ export const SignUpForm: FC = () => {
     formState: { errors },
     getValues
   } = useForm<ISignUpFields>();
-  const {
-    btn,
-    signUpTitle,
-    name,
-    login,
-    requiredE,
-    password,
-    minLength3E,
-    maxLength30E,
-    passwordPatternE,
-    confirmPassword,
-    confirmPasswordE
-  } = FormTranslations;
+  const { name, login, requiredE, password, minLength3E, maxLength30E, passwordPatternE } =
+    FormTranslationKeys;
+  const { btn, signUpTitle, confirmPassword, confirmPasswordE } = SignFormsTranslationKeys;
   const { successSignUp, failSignUp409, fail } = ToastTranslations;
 
-  const { t } = useTranslation([FormTranslations.ns, ToastTranslations.ns]);
+  const { t } = useTranslation([
+    FormTranslationKeys.ns,
+    ToastTranslations.ns,
+    SignFormsTranslationKeys.ns
+  ]);
 
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<ISignUpFields> = async (data) => {
-    const userData: ISignUp = {
+    const userData: IUserReq = {
       name: data.name,
       login: data.login,
       password: data.password
@@ -86,7 +81,7 @@ export const SignUpForm: FC = () => {
             sx={{
               marginBottom: 3
             }}>
-            {t(signUpTitle)}
+            {t(signUpTitle, SignFormsTranslationKeys)}
           </Typography>
           <Box
             component="form"
@@ -153,7 +148,7 @@ export const SignUpForm: FC = () => {
             />
             <TextField
               id="confirm-password"
-              label={t(confirmPassword)}
+              label={t(confirmPassword, SignFormsTranslationKeys)}
               variant="outlined"
               required
               type="password"
@@ -164,7 +159,8 @@ export const SignUpForm: FC = () => {
               helperText={errors.confirm_password?.message}
               {...register(AuthFieldsNames.CONFIRM_PASSWORD, {
                 validate: (value) =>
-                  value === getValues(AuthFieldsNames.PASSWORD) || t<string>(confirmPasswordE),
+                  value === getValues(AuthFieldsNames.PASSWORD) ||
+                  t<string>(confirmPasswordE, SignFormsTranslationKeys),
                 required: { value: true, message: t(requiredE) }
               })}
             />
@@ -174,7 +170,7 @@ export const SignUpForm: FC = () => {
               sx={{
                 width: '25ch'
               }}>
-              {t(btn)}
+              {t(btn, SignFormsTranslationKeys)}
             </Button>
           </Box>
         </Box>

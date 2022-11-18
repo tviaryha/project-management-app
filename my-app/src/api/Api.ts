@@ -1,10 +1,9 @@
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
 import axios from 'axios';
 import { setIsSignedIn } from '../redux/signInSlice';
-import { ISignIn, ISignInResp, ISignUp, ISignUpResp } from './models/AuthInterfaces';
+import { ISignIn, ISignInResp, IUserReq, IUserResp } from './models/AuthInterfaces';
 import jwt_decode from 'jwt-decode';
 import { IDecodedToken } from './interface';
-import { IGetUser } from './models/EditProfileInterfaces';
 import { LocalStorageKeys } from '../enums';
 
 const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
@@ -46,8 +45,8 @@ const signIn = async (data: ISignIn) => {
 
   return resp.data.token;
 };
-const signUp = async (data: ISignUp) => {
-  const resp = await apiClient.post<ISignUpResp>(`${BASE_URL}/auth/signup`, data);
+const signUp = async (data: IUserReq) => {
+  const resp = await apiClient.post<IUserResp>(`${BASE_URL}/auth/signup`, data);
   return resp.data;
 };
 
@@ -56,10 +55,15 @@ const signOut = () => {
   localStorage.removeItem(LocalStorageKeys.userId);
 };
 
-const getUserById = async (userId: string) => {
-  const resp = await apiClient<IGetUser>({
+const getUser = async (userId: string) => {
+  const resp = await apiClient<IUserResp>({
     url: `/users/${userId}`
   });
+  return resp.data;
+};
+
+const updateUser = async (userId: string, data: IUserReq) => {
+  const resp = await apiClient.put<IUserResp>(`users/${userId}`, data);
   return resp.data;
 };
 
@@ -67,5 +71,6 @@ export const api = {
   signIn,
   signUp,
   signOut,
-  getUserById
+  getUser,
+  updateUser
 };
