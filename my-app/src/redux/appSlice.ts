@@ -1,21 +1,25 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IinitialState } from './types';
+import { createSlice } from '@reduxjs/toolkit';
+interface IinitialState {
+  isLoaderVisible: boolean;
+}
 
 const initialState: IinitialState = {
-  test: 'test' // this line should be removed
+  isLoaderVisible: false
 };
 
 const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    // method below should be removed
-    test: (state, action: PayloadAction<string>) => {
-      state.test = action.payload;
+    showLoader: (state) => {
+      state.isLoaderVisible = true;
+    },
+    hideLoader: (state) => {
+      state.isLoaderVisible = false;
     }
   }
 });
 
-export const { test } = appSlice.actions;
+export const { showLoader, hideLoader } = appSlice.actions;
 
 export default appSlice.reducer;
