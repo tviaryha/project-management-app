@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import LinearLoadingIndicator from '../components/LinearLoadingIndicator';
 
 export default {
-  title: 'Example/Loading Indicator',
+  title: 'Loading Indicator',
   component: LinearLoadingIndicator
 } as ComponentMeta<typeof LinearLoadingIndicator>;
 
