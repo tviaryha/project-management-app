@@ -1,4 +1,8 @@
 {
   "saveBtn": "Save",
-  "deleteBtn": "Delete account"
+  "deleteBtn": "Delete account",
+  "modalTitle": "Are you sure?",
+  "modalDescription": "Your account will be deleted. This action can not be undone",
+  "modalBtnYes": "Yes",
+  "modalBtnNo": "No"
 }

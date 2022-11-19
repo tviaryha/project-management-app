@@ -4,7 +4,7 @@ import LinearLoadingIndicator from '../../../components/LinearLoadingIndicator';
 import { LocalStorageKeys } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
-import { clearErrorCode, getUserProfile } from '../../../redux/profileSlice';
+import { clearProfile, getUser } from '../../../redux/profileSlice';
 import ProfileForm from './ProfileForm';
 import ProfileInfo from './ProfileInfo';
 
@@ -16,11 +16,11 @@ const EditProfile = () => {
     const userId = localStorage.getItem(LocalStorageKeys.userId);
 
     if (userId) {
-      dispatch(getUserProfile(userId));
+      dispatch(getUser(userId));
     }
 
     return () => {
-      dispatch(clearErrorCode());
+      dispatch(clearProfile());
     };
   }, []);
 

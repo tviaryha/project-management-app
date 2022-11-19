@@ -8,6 +8,7 @@ interface IprofileState {
   name: string;
   login: string;
   isLoading: boolean;
+  modalIsOpen: boolean;
   errorCode?: number;
 }
 
@@ -19,16 +20,17 @@ export interface Iprofile {
 const initialState: IprofileState = {
   name: '',
   login: '',
-  isLoading: false
+  isLoading: false,
+  modalIsOpen: false
 };
 
-export const getUserProfile = createAsyncThunk<
+export const getUser = createAsyncThunk<
   Iprofile,
   string,
   {
     rejectValue: number | undefined;
   }
->('profile/getUser', async (userId, thunkApi) => {
+>('getUser', async (userId, thunkApi) => {
   try {
     const resp = await api.getUser(userId);
     const { name, login } = resp;
@@ -38,13 +40,13 @@ export const getUserProfile = createAsyncThunk<
   }
 });
 
-export const updateUserProfile = createAsyncThunk<
+export const updateUser = createAsyncThunk<
   Iprofile,
   { userId: string; data: IUserReq },
   {
     rejectValue: number | undefined;
   }
->('profile/updateUser', async ({ userId, data }, thunkApi) => {
+>('updateUser', async ({ userId, data }, thunkApi) => {
   try {
     const resp = await api.updateUser(userId, data);
     const { name, login } = resp;
@@ -54,43 +56,75 @@ export const updateUserProfile = createAsyncThunk<
   }
 });
 
+export const deleteUser = createAsyncThunk<
+  void,
+  string,
+  {
+    rejectValue: number | undefined;
+  }
+>('deleteUser', async (userId, thunkApi) => {
+  try {
+    await api.deleteUser(userId);
+  } catch (e) {
+    return thunkApi.rejectWithValue((<AxiosError<ErrorResponse>>e).response?.status);
+  }
+});
+
 export const profileSlice = createSlice({
   name: 'profile',
   initialState,
   reducers: {
-    clearErrorCode: (state) => {
+    clearProfile: (state) => {
+      state.name = '';
+      state.login = '';
       state.errorCode = 0;
+    },
+    openProfileModal: (state) => {
+      state.modalIsOpen = true;
+    },
+    closeProfileModal: (state) => {
+      state.modalIsOpen = false;
     }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getUserProfile.pending, (state) => {
+      .addCase(getUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getUserProfile.rejected, (state, action) => {
+      .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
         state.errorCode = action.payload;
       })
-      .addCase(getUserProfile.fulfilled, (state, action) => {
+      .addCase(getUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.name = action.payload.name;
         state.login = action.payload.login;
       })
-      .addCase(updateUserProfile.pending, (state) => {
+      .addCase(updateUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateUserProfile.rejected, (state, action) => {
+      .addCase(updateUser.rejected, (state, action) => {
         state.isLoading = false;
         state.errorCode = action.payload;
       })
-      .addCase(updateUserProfile.fulfilled, (state, action) => {
+      .addCase(updateUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.name = action.payload.name;
         state.login = action.payload.login;
+      })
+      .addCase(deleteUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.errorCode = action.payload;
+      })
+      .addCase(deleteUser.fulfilled, (state) => {
+        state.isLoading = false;
       });
   }
 });
 
-export const { clearErrorCode } = profileSlice.actions;
+export const { clearProfile, openProfileModal, closeProfileModal } = profileSlice.actions;
 
 export default profileSlice.reducer;

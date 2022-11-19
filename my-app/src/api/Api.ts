@@ -67,10 +67,15 @@ const updateUser = async (userId: string, data: IUserReq) => {
   return resp.data;
 };
 
+const deleteUser = async (userId: string) => {
+  await apiClient.delete(`/users/${userId}`);
+};
+
 export const api = {
   signIn,
   signUp,
   signOut,
   getUser,
-  updateUser
+  updateUser,
+  deleteUser
 };

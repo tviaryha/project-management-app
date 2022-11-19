@@ -1,5 +1,9 @@
 export enum TranslationKeys {
   ns = 'profile',
   saveBtn = 'saveBtn',
-  deleteBtn = 'deleteBtn'
+  deleteBtn = 'deleteBtn',
+  modalTitle = 'modalTitle',
+  modalDescription = 'modalDescription',
+  modalBtnYes = 'modalBtnYes',
+  modalBtnNo = 'modalBtnNo'
 }

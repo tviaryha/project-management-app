@@ -9,7 +9,8 @@ import { ErrorResponse } from '../../../api/models/ErrorResponse';
 import { FormTranslationKeys, LocalStorageKeys, Paths } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
-import { updateUserProfile } from '../../../redux/profileSlice';
+import { deleteUser, openProfileModal, updateUser } from '../../../redux/profileSlice';
+import { signOut } from '../../../redux/signInSlice';
 import { signUp } from '../../../redux/signUpSlice';
 import { openToast, RespRes } from '../../../redux/toastSlice';
 import { AuthFieldsNames } from '../../auth/authFieldsNames';
@@ -29,6 +30,7 @@ const ProfileForm = () => {
       login: userLogin
     }
   });
+  const navigate = useNavigate();
 
   const { name, login, password, requiredE, minLength3E, maxLength30E, passwordPatternE } =
     FormTranslationKeys;
@@ -48,9 +50,11 @@ const ProfileForm = () => {
 
     if (userId) {
       const data = getValues();
-      dispatch(updateUserProfile({ userId, data }));
+      dispatch(updateUser({ userId, data }));
     }
   };
+
+  const onClick = async () => dispatch(openProfileModal());
 
   /*   const onSubmit: SubmitHandler<ISignUpFields> = async (data) => {
       const userData: IUserReq = {
@@ -149,7 +153,7 @@ const ProfileForm = () => {
           <Button type="submit" variant="contained" sx={btnSx}>
             {t(saveBtn, ProfileTranslationKeys)}
           </Button>
-          <Button variant="contained" sx={btnSx}>
+          <Button variant="contained" onClick={onClick} sx={btnSx}>
             {t(deleteBtn, ProfileTranslationKeys)}
           </Button>
         </Grid>
