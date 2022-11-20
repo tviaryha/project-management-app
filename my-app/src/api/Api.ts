@@ -24,7 +24,7 @@ export const setupInterceptors = (store: ToolkitStore) => {
     },
     (error) => {
       if (error.response.status === 401) {
-        localStorage.removeItem('token');
+        signOut();
         store.dispatch(setIsSignedIn(false));
       }
       return Promise.reject(error);
