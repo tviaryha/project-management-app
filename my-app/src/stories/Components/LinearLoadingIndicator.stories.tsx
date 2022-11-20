@@ -1,9 +1,9 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import LinearLoadingIndicator from '../components/LinearLoadingIndicator';
+import LinearLoadingIndicator from '../../components/LinearLoadingIndicator';
 
 export default {
-  title: 'Loading Indicator',
+  title: 'COMPONENTS/Loading Indicator',
   component: LinearLoadingIndicator
 } as ComponentMeta<typeof LinearLoadingIndicator>;
 

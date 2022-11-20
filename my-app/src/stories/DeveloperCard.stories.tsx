@@ -1,15 +1,13 @@
-import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import DeveloperСard, { СardProps } from '../units/pages/Welcome/DeveloperСard';
 
 export default {
-  title: 'Developer Сard ',
+  title: 'COMPONENTS/Developer Сard ',
   component: DeveloperСard,
   argTypes: {
     bgcolor: {
       name: 'bgcolor',
       type: { name: 'string', required: true },
-      defaultValue: '#673ab7',
       description: 'Avatar Background Color',
       table: {
         type: {
@@ -23,7 +21,6 @@ export default {
     title: {
       name: 'title',
       type: { name: 'string', required: true },
-      defaultValue: 'Developer Name',
       description: 'Developer Name',
       table: {
         type: {
@@ -39,4 +36,9 @@ export default {
 
 const Template: Story<СardProps> = (args) => <DeveloperСard {...args} />;
 
-export const Card = Template.bind({});
+export const Default = Template.bind({});
+
+Default.args = {
+  bgcolor: '#673ab7',
+  title: 'Developer Name'
+};
