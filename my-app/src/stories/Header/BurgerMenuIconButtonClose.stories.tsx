@@ -19,7 +19,7 @@ export default {
       name: 'Icon',
       table: {
         type: {
-          summary: 'OverridableComponent<SvgIconTypeMap<{}, "svg">>'
+          summary: 'SvgIconComponent'
         }
       },
       control: {
