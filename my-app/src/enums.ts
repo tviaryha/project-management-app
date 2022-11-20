@@ -4,7 +4,8 @@ export enum Paths {
   signUp = 'signUp',
   mainPage = 'mainPage',
   newBoard = 'newBoard',
-  editProfile = 'editProfile'
+  editProfile = 'editProfile',
+  error = 'error'
 }
 
 export enum Developers {
@@ -27,4 +28,9 @@ export enum FormTranslationKeys {
   minLength8E = 'minLength8E',
   maxLength30E = 'maxLength30E',
   passwordPatternE = 'passwordPattern'
+}
+
+export enum ErrorCodes {
+  e409 = 409,
+  e404 = 404
 }

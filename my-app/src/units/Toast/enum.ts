@@ -2,7 +2,9 @@ export enum TranslationKeys {
   ns = 'toast',
   successSignUp = 'successSignUp',
   successSignIn = 'successSignIn',
-  failSignUp409 = 'failSignUp409',
+  successEditProfile = 'successEditProfile',
+  successDeleteProfile = 'successDeleteProfile',
+  error409 = 'error409',
   failSignIn401 = 'failSignIn401',
   fail = 'fail'
 }

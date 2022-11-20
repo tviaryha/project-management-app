@@ -15,6 +15,7 @@ import { Suspense } from 'react';
 import LinearLoadingIndicator from './components/LinearLoadingIndicator';
 import { SignInForm } from './units/auth/SignInForm';
 import { SignUpForm } from './units/auth/SignUpForm';
+import ErrorPage from './units/pages/ErrorPage/ErrorPage';
 
 const { base, signIn, signUp, mainPage, newBoard, editProfile } = Paths;
 
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
       <Route path={mainPage} element={<MainPage />} />
       <Route path={newBoard} element={<NewBoard />} />
       <Route path={editProfile} element={<EditProfile />} />
+      <Route path={'*'} element={<ErrorPage />} />
     </Route>
   )
 );

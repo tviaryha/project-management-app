@@ -9,7 +9,6 @@ interface IprofileState {
   login: string;
   isLoading: boolean;
   modalIsOpen: boolean;
-  errorCode?: number;
 }
 
 export interface Iprofile {
@@ -77,7 +76,6 @@ export const profileSlice = createSlice({
     clearProfile: (state) => {
       state.name = '';
       state.login = '';
-      state.errorCode = 0;
     },
     openProfileModal: (state) => {
       state.modalIsOpen = true;
@@ -91,9 +89,8 @@ export const profileSlice = createSlice({
       .addCase(getUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getUser.rejected, (state, action) => {
+      .addCase(getUser.rejected, (state) => {
         state.isLoading = false;
-        state.errorCode = action.payload;
       })
       .addCase(getUser.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -103,9 +100,8 @@ export const profileSlice = createSlice({
       .addCase(updateUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateUser.rejected, (state, action) => {
+      .addCase(updateUser.rejected, (state) => {
         state.isLoading = false;
-        state.errorCode = action.payload;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -115,9 +111,8 @@ export const profileSlice = createSlice({
       .addCase(deleteUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(deleteUser.rejected, (state, action) => {
+      .addCase(deleteUser.rejected, (state) => {
         state.isLoading = false;
-        state.errorCode = action.payload;
       })
       .addCase(deleteUser.fulfilled, (state) => {
         state.isLoading = false;

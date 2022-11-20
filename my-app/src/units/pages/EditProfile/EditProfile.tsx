@@ -1,7 +1,8 @@
 import { Grid } from '@mui/material';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import LinearLoadingIndicator from '../../../components/LinearLoadingIndicator';
-import { LocalStorageKeys } from '../../../enums';
+import { ErrorCodes, LocalStorageKeys, Paths } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import { clearProfile, getUser } from '../../../redux/profileSlice';
@@ -9,15 +10,26 @@ import ProfileForm from './ProfileForm';
 import ProfileInfo from './ProfileInfo';
 
 const EditProfile = () => {
-  const { name, login, isLoading, errorCode } = useAppSelector((state) => state.profile);
+  const { name, login, isLoading } = useAppSelector((state) => state.profile);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  useEffect(() => {
+  const loadUser = async () => {
     const userId = localStorage.getItem(LocalStorageKeys.userId);
 
     if (userId) {
-      dispatch(getUser(userId));
+      try {
+        await dispatch(getUser(userId)).unwrap();
+      } catch (eCode) {
+        if (eCode === ErrorCodes.e404) {
+          navigate(Paths.error);
+        }
+      }
     }
+  };
+
+  useEffect(() => {
+    loadUser();
 
     return () => {
       dispatch(clearProfile());

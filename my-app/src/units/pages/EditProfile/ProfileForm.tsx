@@ -1,17 +1,11 @@
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-import { ChangeEvent, FormEvent } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { Button, Grid, TextField } from '@mui/material';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { api } from '../../../api/Api';
 import { IUserReq } from '../../../api/models/AuthInterfaces';
-import { ErrorResponse } from '../../../api/models/ErrorResponse';
-import { FormTranslationKeys, LocalStorageKeys, Paths } from '../../../enums';
+import { ErrorCodes, FormTranslationKeys, LocalStorageKeys } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
-import { deleteUser, openProfileModal, updateUser } from '../../../redux/profileSlice';
-import { signOut } from '../../../redux/signInSlice';
-import { signUp } from '../../../redux/signUpSlice';
+import { openProfileModal, updateUser } from '../../../redux/profileSlice';
 import { openToast, RespRes } from '../../../redux/toastSlice';
 import { AuthFieldsNames } from '../../auth/authFieldsNames';
 import { TranslationKeys as ToastTranslations } from '../../Toast/enum';
@@ -30,12 +24,11 @@ const ProfileForm = () => {
       login: userLogin
     }
   });
-  const navigate = useNavigate();
 
   const { name, login, password, requiredE, minLength3E, maxLength30E, passwordPatternE } =
     FormTranslationKeys;
   const { saveBtn, deleteBtn } = ProfileTranslationKeys;
-  const { successSignUp, failSignUp409, fail } = ToastTranslations;
+  const { successEditProfile, error409, fail } = ToastTranslations;
 
   const { t } = useTranslation([
     FormTranslationKeys.ns,
@@ -45,41 +38,30 @@ const ProfileForm = () => {
 
   const dispatch = useAppDispatch();
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const userId = localStorage.getItem(LocalStorageKeys.userId);
 
     if (userId) {
-      const data = getValues();
-      dispatch(updateUser({ userId, data }));
+      try {
+        const data = getValues();
+        await dispatch(updateUser({ userId, data })).unwrap();
+        dispatch(
+          openToast({
+            message: t(successEditProfile, { ns: ToastTranslations.ns }),
+            type: RespRes.success
+          })
+        );
+      } catch (eCode) {
+        const eMessage =
+          eCode === ErrorCodes.e409
+            ? t(error409, { ns: ToastTranslations.ns })
+            : t(fail, { ns: ToastTranslations.ns });
+        dispatch(openToast({ message: eMessage, type: RespRes.error }));
+      }
     }
   };
 
   const onClick = async () => dispatch(openProfileModal());
-
-  /*   const onSubmit: SubmitHandler<ISignUpFields> = async (data) => {
-      const userData: IUserReq = {
-        name: data.name,
-        login: data.login,
-        password: data.password
-      };
-      try {
-        await dispatch(signUp(userData)).unwrap();
-        dispatch(
-          openToast({
-            message: t(successSignUp, { ns: ToastTranslations.ns }),
-            type: RespRes.success
-          })
-        );
-        navigate(`/${Paths.signIn}`);
-      } catch (error) {
-        const errorResp = error as ErrorResponse;
-        const errorMessage =
-          errorResp.statusCode === 409
-            ? t(failSignUp409, { ns: ToastTranslations.ns })
-            : t(fail, { ns: ToastTranslations.ns });
-        dispatch(openToast({ message: errorMessage, type: RespRes.error }));
-      }
-    }; */
 
   const btnSx = {
     width: '100%',

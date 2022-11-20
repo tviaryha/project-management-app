@@ -7,6 +7,8 @@ import useAppSelector from '../../../hooks/useAppSelector';
 import { closeProfileModal, deleteUser } from '../../../redux/profileSlice';
 import { signOut } from '../../../redux/signInSlice';
 import { TranslationKeys } from './enum';
+import { TranslationKeys as ToastTranslations } from '../../Toast/enum';
+import { openToast, RespRes } from '../../../redux/toastSlice';
 
 const style = {
   position: 'relative',
@@ -23,19 +25,32 @@ const style = {
 const ProfileModal = () => {
   const modalIsOpen = useAppSelector((state) => state.profile.modalIsOpen);
   const dispatch = useAppDispatch();
-  const { t } = useTranslation([TranslationKeys.ns]);
+  const { t } = useTranslation([TranslationKeys.ns, ToastTranslations.ns]);
   const navigate = useNavigate();
 
   const { modalTitle, modalDescription, modalBtnYes, modalBtnNo } = TranslationKeys;
+  const { successDeleteProfile, fail } = ToastTranslations;
 
   const deleteProfile = async () => {
     const userId = localStorage.getItem(LocalStorageKeys.userId);
 
     if (userId) {
       dispatch(closeProfileModal());
-      await dispatch(deleteUser(userId));
-      dispatch(signOut());
-      navigate(Paths.base);
+      try {
+        await dispatch(deleteUser(userId)).unwrap();
+        dispatch(signOut());
+        navigate(Paths.base);
+        dispatch(
+          openToast({
+            message: t(successDeleteProfile, { ns: ToastTranslations.ns }),
+            type: RespRes.success
+          })
+        );
+      } catch (eCode) {
+        dispatch(
+          openToast({ message: t(fail, { ns: ToastTranslations.ns }), type: RespRes.error })
+        );
+      }
     }
   };
 

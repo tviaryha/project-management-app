@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { IUserReq } from '../../api/models/AuthInterfaces';
 import { ErrorResponse } from '../../api/models/ErrorResponse';
-import { Paths } from '../../enums';
+import { ErrorCodes, Paths } from '../../enums';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { signUp } from '../../redux/signUpSlice';
 import { openToast, RespRes } from '../../redux/toastSlice';
@@ -28,7 +28,7 @@ export const SignUpForm: FC = () => {
   const { name, login, requiredE, password, minLength3E, maxLength30E, passwordPatternE } =
     FormTranslationKeys;
   const { btn, signUpTitle, confirmPassword, confirmPasswordE } = SignFormsTranslationKeys;
-  const { successSignUp, failSignUp409, fail } = ToastTranslations;
+  const { successSignUp, error409, fail } = ToastTranslations;
 
   const { t } = useTranslation([
     FormTranslationKeys.ns,
@@ -58,8 +58,8 @@ export const SignUpForm: FC = () => {
     } catch (error) {
       const errorResp = error as ErrorResponse;
       const errorMessage =
-        errorResp.statusCode === 409
-          ? t(failSignUp409, { ns: ToastTranslations.ns })
+        errorResp.statusCode === ErrorCodes.e409
+          ? t(error409, { ns: ToastTranslations.ns })
           : t(fail, { ns: ToastTranslations.ns });
       dispatch(openToast({ message: errorMessage, type: RespRes.error }));
     }

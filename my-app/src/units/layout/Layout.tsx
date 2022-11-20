@@ -2,7 +2,7 @@ import { Box, Container } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import useAppSelector from '../../hooks/useAppSelector';
 import { Loader } from '../Loader';
-import ProfileModal from '../pages/EditProfile/Modal';
+import ProfileModal from '../pages/EditProfile/ProfileModal';
 import { Toast } from '../Toast/Toast';
 import Footer from './Footer/Footer';
 import Header from './Header/Header';
