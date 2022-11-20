@@ -12,11 +12,11 @@ interface IAuthState {
   userID?: string;
 }
 
-interface IDecodedToken {
+export interface IDecodedToken {
   id: string;
   login: string;
-  iat: Date;
-  exp: Date;
+  iat: number;
+  exp: number;
 }
 const initialState: IAuthState = {
   isSignedIn: false
