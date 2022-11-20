@@ -18,8 +18,8 @@ export const SignedInUser = () => {
     if (!isTokenValid) {
       api.signOut();
     }
+    store.dispatch(setIsSignedIn(isTokenValid));
   }, [location, isSignedIn]);
-  store.dispatch(setIsSignedIn(isTokenValid));
   return isTokenValid ? <Outlet /> : <Navigate to="/" />;
 };
 
