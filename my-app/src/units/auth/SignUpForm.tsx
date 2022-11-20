@@ -13,12 +13,15 @@ import { FormTranslationKeys } from '../../enums';
 import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import { AuthFieldsNames } from './authFieldsNames';
 import { TranslationKeys as SignFormsTranslationKeys } from './enum';
+import useCloseMenu from '../../hooks/useCloseMenu';
 
 interface ISignUpFields extends IUserReq {
   confirm_password: string;
 }
 
 export const SignUpForm: FC = () => {
+  useCloseMenu();
+
   const {
     register,
     handleSubmit,

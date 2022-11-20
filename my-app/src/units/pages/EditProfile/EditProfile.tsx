@@ -5,11 +5,14 @@ import LinearLoadingIndicator from '../../../components/LinearLoadingIndicator';
 import { ErrorCodes, LocalStorageKeys, Paths } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
+import useCloseMenu from '../../../hooks/useCloseMenu';
 import { clearProfile, getUser } from '../../../redux/profileSlice';
 import ProfileForm from './ProfileForm';
 import ProfileInfo from './ProfileInfo';
 
 const EditProfile = () => {
+  useCloseMenu();
+
   const { name, login, isLoading } = useAppSelector((state) => state.profile);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -30,7 +33,6 @@ const EditProfile = () => {
 
   useEffect(() => {
     loadUser();
-
     return () => {
       dispatch(clearProfile());
     };

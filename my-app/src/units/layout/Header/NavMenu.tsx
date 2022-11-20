@@ -1,11 +1,11 @@
 import { Button, Link } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Languages, TranslationKeys } from './enums';
-import useNavItemHandler from '../../../hooks/useNavItemHandler';
 import MainPageButton from './MainPageButton';
 import { Paths } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import { signOut } from '../../../redux/signInSlice';
+import { useNavigate } from 'react-router-dom';
 
 const LanguageToggler = () => {
   const { en, ru } = Languages;
@@ -29,10 +29,11 @@ const NavMenu = () => {
   const { ns, createNewBoard, profile, signOutBtn } = TranslationKeys;
   const { t } = useTranslation([ns]);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const createNewBoardClickHandler = useNavItemHandler(newBoard);
-  const editProfileClickHandler = useNavItemHandler(editProfile);
-  const signOutClickHandler = useNavItemHandler(base);
+  const createNewBoardClickHandler = () => navigate(newBoard);
+  const editProfileClickHandler = () => navigate(editProfile);
+  const signOutClickHandler = () => navigate(base);
 
   const logOutClickHandler = () => {
     dispatch(signOut());

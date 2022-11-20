@@ -12,8 +12,11 @@ import { openToast, RespRes } from '../../redux/toastSlice';
 import { TranslationKeys as SignFormsTranslationKeys } from './enum';
 import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import { useTranslation } from 'react-i18next';
+import useCloseMenu from '../../hooks/useCloseMenu';
 
 export const SignInForm: FC = () => {
+  useCloseMenu();
+
   const {
     register,
     handleSubmit,
