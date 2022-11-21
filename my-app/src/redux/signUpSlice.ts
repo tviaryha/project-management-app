@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { api } from '../api/Api';
-import { IUserReq, IUserResp } from '../api/models/AuthInterfaces';
+import { IUserReq, IUserResp } from '../api/models/users';
 import { ErrorResponse } from '../api/models/ErrorResponse';
 
 interface IRegistrationState {

@@ -1,7 +1,7 @@
 import { Button, Grid, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { IUserReq } from '../../../api/models/AuthInterfaces';
+import { IUserReq } from '../../../api/models/users';
 import { ErrorCodes, FormTranslationKeys, LocalStorageKeys } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
