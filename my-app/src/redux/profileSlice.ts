@@ -74,8 +74,8 @@ export const profileSlice = createSlice({
   initialState,
   reducers: {
     clearProfile: (state) => {
-      state.name = '';
-      state.login = '';
+      state.name = initialState.name;
+      state.login = initialState.login;
     },
     openProfileModal: (state) => {
       state.modalIsOpen = true;

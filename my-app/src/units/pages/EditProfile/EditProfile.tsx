@@ -24,7 +24,7 @@ const EditProfile = () => {
       try {
         await dispatch(getUser(userId)).unwrap();
       } catch (eCode) {
-        if (eCode === ErrorCodes.e404) {
+        if (eCode === ErrorCodes.NOT_FOUND) {
           navigate(Paths.error);
         }
       }

@@ -7,6 +7,7 @@ import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import { openProfileModal, updateUser } from '../../../redux/profileSlice';
 import { openToast, RespRes } from '../../../redux/toastSlice';
+import { passwordRegExp } from '../../../regExp';
 import { AuthFieldsNames } from '../../auth/authFieldsNames';
 import { TranslationKeys as ToastTranslations } from '../../Toast/enum';
 import { TranslationKeys as ProfileTranslationKeys } from './enum';
@@ -53,7 +54,7 @@ const ProfileForm = () => {
         );
       } catch (eCode) {
         const eMessage =
-          eCode === ErrorCodes.e409
+          eCode === ErrorCodes.CONFLICT
             ? t(error409, { ns: ToastTranslations.ns })
             : t(fail, { ns: ToastTranslations.ns });
         dispatch(openToast({ message: eMessage, type: RespRes.error }));
@@ -125,8 +126,7 @@ const ProfileForm = () => {
           error={!!errors.password}
           helperText={t(errors.password?.message || '')}
           {...register(AuthFieldsNames.PASSWORD, {
-            validate: (value) =>
-              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,30}$/.test(value) || passwordPatternE,
+            validate: (value) => passwordRegExp.test(value) || passwordPatternE,
             required: { value: true, message: requiredE }
           })}
         />

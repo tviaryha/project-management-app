@@ -31,6 +31,6 @@ export enum FormTranslationKeys {
 }
 
 export enum ErrorCodes {
-  e409 = 409,
-  e404 = 404
+  CONFLICT = 409,
+  NOT_FOUND = 404
 }

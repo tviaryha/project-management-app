@@ -14,6 +14,7 @@ import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import { AuthFieldsNames } from './authFieldsNames';
 import { TranslationKeys as SignFormsTranslationKeys } from './enum';
 import useCloseMenu from '../../hooks/useCloseMenu';
+import { passwordRegExp } from '../../regExp';
 
 interface ISignUpFields extends IUserReq {
   confirm_password: string;
@@ -61,12 +62,16 @@ export const SignUpForm: FC = () => {
     } catch (error) {
       const errorResp = error as ErrorResponse;
       const errorMessage =
-        errorResp.statusCode === ErrorCodes.e409
+        errorResp.statusCode === ErrorCodes.CONFLICT
           ? t(error409, { ns: ToastTranslations.ns })
           : t(fail, { ns: ToastTranslations.ns });
       dispatch(openToast({ message: errorMessage, type: RespRes.error }));
     }
   };
+
+  const validateConfirmPassword = (value: string) =>
+    value === getValues(AuthFieldsNames.PASSWORD) ||
+    t<string>(confirmPasswordE, SignFormsTranslationKeys);
 
   return (
     <main>
@@ -143,9 +148,7 @@ export const SignUpForm: FC = () => {
               error={!!errors.password}
               helperText={errors.password?.message}
               {...register(AuthFieldsNames.PASSWORD, {
-                validate: (value) =>
-                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,30}$/.test(value) ||
-                  t<string>(passwordPatternE),
+                validate: (value) => passwordRegExp.test(value) || t<string>(passwordPatternE),
                 required: { value: true, message: t(requiredE) }
               })}
             />
@@ -161,9 +164,7 @@ export const SignUpForm: FC = () => {
               error={!!errors.confirm_password}
               helperText={errors.confirm_password?.message}
               {...register(AuthFieldsNames.CONFIRM_PASSWORD, {
-                validate: (value) =>
-                  value === getValues(AuthFieldsNames.PASSWORD) ||
-                  t<string>(confirmPasswordE, SignFormsTranslationKeys),
+                validate: validateConfirmPassword,
                 required: { value: true, message: t(requiredE) }
               })}
             />
