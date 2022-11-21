@@ -12,6 +12,7 @@ import { openToast, RespRes } from '../../redux/toastSlice';
 import { TranslationKeys as SignFormsTranslationKeys } from './enum';
 import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import { useTranslation } from 'react-i18next';
+import { hideLoader, showLoader } from '../../redux/appSlice';
 import useCloseMenu from '../../hooks/useCloseMenu';
 
 export const SignInForm: FC = () => {
@@ -38,6 +39,7 @@ export const SignInForm: FC = () => {
 
   const onSubmit: SubmitHandler<ISignIn> = async (data) => {
     try {
+      dispatch(showLoader());
       await dispatch(signIn(data)).unwrap();
       dispatch(
         openToast({
@@ -53,78 +55,78 @@ export const SignInForm: FC = () => {
           ? t(failSignIn401, { ns: ToastTranslations.ns })
           : t(fail, { ns: ToastTranslations.ns });
       dispatch(openToast({ message: errorMessage, type: RespRes.error }));
+    } finally {
+      dispatch(hideLoader());
     }
   };
   return (
-    <main>
-      <Container component="main" maxWidth="xs">
-        <Box
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}>
+        <Typography
+          component="h1"
+          variant="h5"
           sx={{
-            marginTop: 8,
+            marginBottom: 3
+          }}>
+          {t(signInTitle, SignFormsTranslationKeys)}
+        </Typography>
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+          sx={{
+            mt: 1,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center'
+            alignItems: 'center',
+            gap: 3
           }}>
-          <Typography
-            component="h1"
-            variant="h5"
+          <TextField
+            id="login"
+            label={t(login)}
+            variant="outlined"
+            required
+            type="text"
             sx={{
-              marginBottom: 3
-            }}>
-            {t(signInTitle, SignFormsTranslationKeys)}
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit(onSubmit)}
-            noValidate
+              width: '50ch'
+            }}
+            error={!!errors.login}
+            helperText={t(errors.login?.message || '')}
+            {...register(AuthFieldsNames.LOGIN, {
+              required: { value: true, message: requiredE }
+            })}
+          />
+          <TextField
+            id="password"
+            label={t(password)}
+            variant="outlined"
+            required
+            type="password"
             sx={{
-              mt: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 3
+              width: '50ch'
+            }}
+            error={!!errors.password}
+            helperText={t(errors.password?.message || '')}
+            {...register(AuthFieldsNames.PASSWORD, {
+              required: { value: true, message: requiredE }
+            })}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{
+              width: '25ch'
             }}>
-            <TextField
-              id="login"
-              label={t(login)}
-              variant="outlined"
-              required
-              type="text"
-              sx={{
-                width: '50ch'
-              }}
-              error={!!errors.login}
-              helperText={errors.login?.message}
-              {...register(AuthFieldsNames.LOGIN, {
-                required: { value: true, message: t(requiredE) }
-              })}
-            />
-            <TextField
-              id="password"
-              label={t(password)}
-              variant="outlined"
-              required
-              type="password"
-              sx={{
-                width: '50ch'
-              }}
-              error={!!errors.password}
-              helperText={errors.password?.message}
-              {...register(AuthFieldsNames.PASSWORD, {
-                required: { value: true, message: t(requiredE) }
-              })}
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                width: '25ch'
-              }}>
-              {t(btn, SignFormsTranslationKeys)}
-            </Button>
-          </Box>
+            {t(btn, SignFormsTranslationKeys)}
+          </Button>
         </Box>
-      </Container>
-    </main>
+      </Box>
+    </Container>
   );
 };

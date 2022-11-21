@@ -11,13 +11,12 @@ const Layout = () => {
   const toastMessage = useAppSelector((state) => state.toast.message);
   const toastType = useAppSelector((state) => state.toast.type);
   const toastIsOpen = useAppSelector((state) => state.toast.isOpen);
-  const isLoading = useAppSelector((state) => state.signIn.isLoading || state.signUp.isLoading);
 
   return (
     <>
       <Header />
       <Toast message={toastMessage} type={toastType} isOpen={toastIsOpen} />
-      <Loader open={isLoading || false} />
+      <Loader />
       <ProfileModal />
       <Box component="main" flexGrow={1} sx={{ m: '20px 0' }}>
         <Container>
