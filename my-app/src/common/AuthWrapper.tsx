@@ -1,29 +1,24 @@
-import { IDecodedToken, setIsSignedIn } from '../redux/signInSlice';
-import jwt_decode from 'jwt-decode';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import store from '../redux/store';
-import { api } from '../api/Api';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import useAppSelector from '../hooks/useAppSelector';
+import { LocalStorageKeys, Paths } from '../enums';
+import useAppDispatch from '../hooks/useAppDispatch';
+import useCheckToken from '../hooks/useCheckToken';
 
 export const SignedInUser = () => {
   const location = useLocation();
   const isSignedIn = useAppSelector((state) => state.signIn.isSignedIn);
-  const [isTokenValid, setTokenValid] = useState(true);
+  const dispatch = useAppDispatch();
+  const checkToken = useCheckToken();
+
   useEffect(() => {
-    const userToken = localStorage.getItem('token');
-    const tokenExpDate = userToken ? (jwt_decode(userToken) as IDecodedToken).exp : 0;
-    const isTokenValid = tokenExpDate * 1000 > Date.now();
-    setTokenValid(isTokenValid);
-    if (!isTokenValid) {
-      api.signOut();
-    }
-    store.dispatch(setIsSignedIn(isTokenValid));
-  }, [location, isSignedIn]);
-  return isTokenValid ? <Outlet /> : <Navigate to="/" />;
+    checkToken();
+  }, [location, isSignedIn, dispatch, checkToken]);
+
+  return isSignedIn ? <Outlet /> : <Navigate to={Paths.base} />;
 };
 
 export const AnonimUser = () => {
-  const userToken = localStorage.getItem('token');
-  return userToken ? <Navigate to="/mainPage" /> : <Outlet />;
+  const userToken = localStorage.getItem(LocalStorageKeys.token);
+  return userToken ? <Navigate to={Paths.mainPage} /> : <Outlet />;
 };

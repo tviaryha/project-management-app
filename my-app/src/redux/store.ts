@@ -5,6 +5,7 @@ import SignInReducer from './signInSlice';
 import ToastReducer from './toastSlice';
 import LoaderReducer from './loaderSlice';
 import BurgerReducer from './burgerSlice';
+import ProfileReducer from './profileSlice';
 
 const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ const store = configureStore({
     signUp: SignUpReducer,
     toast: ToastReducer,
     loader: LoaderReducer,
-    burger: BurgerReducer
+    burger: BurgerReducer,
+    profile: ProfileReducer
   }
 });
 

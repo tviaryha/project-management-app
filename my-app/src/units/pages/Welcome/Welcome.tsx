@@ -6,7 +6,7 @@ import Section from './Section';
 
 const Welcome = () => {
   return (
-    <Box sx={{ textAlign: 'center', m: '20px 0' }}>
+    <Box sx={{ textAlign: 'center' }}>
       <Grid container flexDirection="column" justifyContent="center" gap="50px">
         <Section typographyComponent={'h2'} />
         <Section typographyComponent={'p'} />

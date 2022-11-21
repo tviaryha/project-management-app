@@ -2,6 +2,7 @@ import { Box, Container } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import useAppSelector from '../../hooks/useAppSelector';
 import { Loader } from '../Loader';
+import ProfileModal from '../pages/EditProfile/ProfileModal';
 import { Toast } from '../Toast/Toast';
 import Footer from './Footer/Footer';
 import Header from './Header/Header';
@@ -16,7 +17,8 @@ const Layout = () => {
       <Header />
       <Toast message={toastMessage} type={toastType} isOpen={toastIsOpen} />
       <Loader />
-      <Box component="main" flexGrow={1}>
+      <ProfileModal />
+      <Box component="main" flexGrow={1} sx={{ m: '20px 0' }}>
         <Container>
           <Outlet />
         </Container>

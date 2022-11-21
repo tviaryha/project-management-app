@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Paths } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
-import { toggleBurgerIsOpen } from '../../../redux/burgerSlice';
+import { closeBurgerMenu } from '../../../redux/burgerSlice';
 import BurgerMenu from './BurgerMenu';
 import BurgerMenuIconButton from './BurgerMenuIcon';
 import Navigation from './Navigation';
@@ -17,7 +17,7 @@ const Header = () => {
     threshold: 0,
     disableHysteresis: true
   });
-  const handlerBurgerMenuToggle = () => dispatch(toggleBurgerIsOpen());
+  const handlerBurgerMenuToggle = () => dispatch(closeBurgerMenu());
 
   const color = trigger ? 'secondary' : 'inherit';
   const elevation = trigger ? 4 : 0;

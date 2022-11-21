@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import useCheckIsSignedIn from '../../../hooks/useCheckIsSignedIn';
+import useAppSelector from '../../../hooks/useAppSelector';
 import NavMenu from './NavMenu';
 import SignButtons from './SignButtons';
 
@@ -8,8 +8,8 @@ type NavigationProps = {
 };
 
 const Navigation = ({ display }: NavigationProps) => {
-  const Controls = useCheckIsSignedIn(<NavMenu />, <SignButtons />);
-
+  const isSignedIn = useAppSelector((state) => state.signIn.isSignedIn);
+  const controls = isSignedIn ? <NavMenu /> : <SignButtons />;
   return (
     <Grid
       component="nav"
@@ -18,7 +18,7 @@ const Navigation = ({ display }: NavigationProps) => {
       gap={{ xs: '20px', md: '10px' }}
       padding={{ xs: '40px', md: 0 }}
       sx={{ display: { xs: display, md: 'flex' }, flexDirection: { xs: 'column', md: 'row' } }}>
-      <Controls />
+      {controls}
     </Grid>
   );
 };

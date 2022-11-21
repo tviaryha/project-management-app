@@ -7,23 +7,31 @@ import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { useNavigate } from 'react-router-dom';
 import { ErrorResponse } from '../../api/models/ErrorResponse';
-import { Paths } from '../../enums';
+import { FormTranslationKeys, Paths } from '../../enums';
 import { openToast, RespRes } from '../../redux/toastSlice';
-import { TranslationKeys as FormTranslations } from './enum';
+import { TranslationKeys as SignFormsTranslationKeys } from './enum';
 import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import { useTranslation } from 'react-i18next';
 import { hideLoader, showLoader } from '../../redux/appSlice';
+import useCloseMenu from '../../hooks/useCloseMenu';
 
 export const SignInForm: FC = () => {
+  useCloseMenu();
+
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm<ISignIn>();
-  const { btn, signInTitle, login, requiredE, password } = FormTranslations;
+  const { login, password, requiredE } = FormTranslationKeys;
+  const { btn, signInTitle } = SignFormsTranslationKeys;
   const { successSignIn, failSignIn401, fail } = ToastTranslations;
 
-  const { t } = useTranslation([FormTranslations.ns, ToastTranslations.ns]);
+  const { t } = useTranslation([
+    FormTranslationKeys.ns,
+    SignFormsTranslationKeys.ns,
+    ToastTranslations.ns
+  ]);
 
   const dispatch = useAppDispatch();
 
@@ -66,7 +74,7 @@ export const SignInForm: FC = () => {
           sx={{
             marginBottom: 3
           }}>
-          {t(signInTitle)}
+          {t(signInTitle, SignFormsTranslationKeys)}
         </Typography>
         <Box
           component="form"
@@ -115,7 +123,7 @@ export const SignInForm: FC = () => {
             sx={{
               width: '25ch'
             }}>
-            {t(btn)}
+            {t(btn, SignFormsTranslationKeys)}
           </Button>
         </Box>
       </Box>

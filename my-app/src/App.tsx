@@ -10,12 +10,14 @@ import Layout from './units/layout/Layout';
 import WelcomePage from './units/pages/Welcome/Welcome';
 import MainPage from './units/pages/Main/Main';
 import NewBoard from './units/pages/NewBoard';
-import EditProfile from './units/pages/EditProfile';
-import { Suspense } from 'react';
+import EditProfile from './units/pages/EditProfile/EditProfile';
+import { Suspense, useEffect } from 'react';
 import LinearLoadingIndicator from './components/LinearLoadingIndicator';
 import { SignInForm } from './units/auth/SignInForm';
 import { SignUpForm } from './units/auth/SignUpForm';
 import { AnonimUser, SignedInUser } from './common/AuthWrapper';
+import ErrorPage from './units/pages/ErrorPage/ErrorPage';
+import useCheckToken from './hooks/useCheckToken';
 
 const { base, signIn, signUp, mainPage, newBoard, editProfile } = Paths;
 
@@ -32,14 +34,23 @@ const router = createBrowserRouter(
         <Route path={newBoard} element={<NewBoard />} />
         <Route path={editProfile} element={<EditProfile />} />
       </Route>
+      <Route path={'*'} element={<ErrorPage />} />
     </Route>
   )
 );
 
-const App = () => (
-  <Suspense fallback={<LinearLoadingIndicator />}>
-    <RouterProvider router={router} />
-  </Suspense>
-);
+const App = () => {
+  const checkToken = useCheckToken();
+
+  useEffect(() => {
+    checkToken();
+  }, [checkToken]);
+
+  return (
+    <Suspense fallback={<LinearLoadingIndicator />}>
+      <RouterProvider router={router} />
+    </Suspense>
+  );
+};
 
 export default App;

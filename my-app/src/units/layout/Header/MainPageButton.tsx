@@ -1,13 +1,14 @@
 import { Button, Link } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Paths } from '../../../enums';
-import useNavItemHandler from '../../../hooks/useNavItemHandler';
 import { TranslationKeys } from './enums';
 
 const MainPageButton = () => {
+  const navigate = useNavigate();
   const { mainPage } = Paths;
   const { ns, toMain } = TranslationKeys;
-  const mainPageClickHandler = useNavItemHandler(mainPage);
+  const mainPageClickHandler = () => navigate(mainPage);
   const { t } = useTranslation([ns]);
 
   return (
