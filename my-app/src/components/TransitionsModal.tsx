@@ -5,7 +5,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: { xs: 300, sm: 400 },
   bgcolor: 'background.paper',
   borderRadius: '10px',
   boxShadow: 24,
@@ -13,7 +13,7 @@ const style = {
 };
 
 interface IProps {
-  children: React.ReactElement[];
+  children: React.ReactElement | React.ReactElement[];
   isOpen: boolean;
   handleClose: () => void;
 }
@@ -21,11 +21,8 @@ interface IProps {
 const TransitionsModal = ({ children, isOpen, handleClose }: IProps) => {
   return (
     <Modal
-      aria-labelledby="transition-modal-title"
-      aria-describedby="transition-modal-description"
       open={isOpen}
       onClose={handleClose}
-      closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
         timeout: 500

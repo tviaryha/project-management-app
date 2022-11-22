@@ -90,7 +90,7 @@ const ProfileForm = () => {
           variant="outlined"
           required
           type="text"
-          sx={{ width: '100%' }}
+          fullWidth
           error={!!errors.name}
           helperText={t(errors.name?.message || '')}
           {...register(AuthFieldsNames.NAME, {
@@ -106,7 +106,7 @@ const ProfileForm = () => {
           variant="outlined"
           required
           type="text"
-          sx={{ width: '100%' }}
+          fullWidth
           error={!!errors.login}
           helperText={t(errors.login?.message || '')}
           {...register(AuthFieldsNames.LOGIN, {
@@ -122,7 +122,7 @@ const ProfileForm = () => {
           variant="outlined"
           required
           type="password"
-          sx={{ width: '100%' }}
+          fullWidth
           error={!!errors.password}
           helperText={t(errors.password?.message || '')}
           {...register(AuthFieldsNames.PASSWORD, {

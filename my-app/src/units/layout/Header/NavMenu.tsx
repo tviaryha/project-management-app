@@ -6,6 +6,7 @@ import { Paths } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import { signOut } from '../../../redux/signInSlice';
 import { useNavigate } from 'react-router-dom';
+import { openModal } from '../../../redux/newBoardSlice';
 
 const LanguageToggler = () => {
   const { en, ru } = Languages;
@@ -25,13 +26,13 @@ const LanguageToggler = () => {
 };
 
 const NavMenu = () => {
-  const { newBoard, editProfile, base } = Paths;
+  const { editProfile, base } = Paths;
   const { ns, createNewBoard, profile, signOutBtn } = TranslationKeys;
   const { t } = useTranslation([ns]);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const createNewBoardClickHandler = () => navigate(newBoard);
+  const createNewBoardClickHandler = () => dispatch(openModal());
   const editProfileClickHandler = () => navigate(editProfile);
   const signOutClickHandler = () => navigate(base);
 

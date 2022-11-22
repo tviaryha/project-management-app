@@ -8,11 +8,13 @@ import { ErrorResponse } from '../api/models/ErrorResponse';
 interface INewBoardModalState {
   isOpen: boolean;
   isLoading: boolean;
+  users: IUsersResp;
 }
 
 const initialState: INewBoardModalState = {
   isOpen: false,
-  isLoading: false
+  isLoading: false,
+  users: []
 };
 
 export const createBoard = createAsyncThunk<
@@ -45,17 +47,28 @@ export const getUsers = createAsyncThunk<
   }
 });
 
-export const newBoardModalSlice = createSlice({
-  name: 'newBoardModal',
+export const newBoardSlice = createSlice({
+  name: 'newBoard',
   initialState,
-  reducers: {},
+  reducers: {
+    closeModal: (state) => {
+      state.isOpen = false;
+    },
+    openModal: (state) => {
+      state.isOpen = true;
+    },
+    toggleLoader: (state) => {
+      state.isLoading = !state.isLoading;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getUsers.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getUsers.fulfilled, (state) => {
+      .addCase(getUsers.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.users = action.payload;
       })
       .addCase(getUsers.rejected, (state) => {
         state.isLoading = false;
@@ -71,3 +84,7 @@ export const newBoardModalSlice = createSlice({
       });
   }
 });
+
+export const { closeModal, openModal, toggleLoader } = newBoardSlice.actions;
+
+export default newBoardSlice.reducer;

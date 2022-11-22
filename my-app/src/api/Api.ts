@@ -80,9 +80,7 @@ const getUsers = async () => {
 };
 
 const createBoard = async (params: ICreateBoardReq) => {
-  const resp = await apiClient.post<ICreateBoardResp>('/boards', {
-    params: params
-  });
+  const resp = await apiClient.post<ICreateBoardResp>('/boards', params);
   return resp.data;
 };
 

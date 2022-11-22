@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import useAppSelector from '../../hooks/useAppSelector';
 import { Loader } from '../Loader';
 import ProfileModal from '../pages/EditProfile/ProfileModal';
+import NewBoardModal from '../pages/NewBoard/NewBoard';
 import { Toast } from '../Toast/Toast';
 import Footer from './Footer/Footer';
 import Header from './Header/Header';
@@ -11,6 +12,7 @@ const Layout = () => {
   const toastMessage = useAppSelector((state) => state.toast.message);
   const toastType = useAppSelector((state) => state.toast.type);
   const toastIsOpen = useAppSelector((state) => state.toast.isOpen);
+  const newBoardModalIsOpen = useAppSelector((state) => state.newBoard.isOpen);
 
   return (
     <>
@@ -18,6 +20,7 @@ const Layout = () => {
       <Toast message={toastMessage} type={toastType} isOpen={toastIsOpen} />
       <Loader />
       <ProfileModal />
+      {newBoardModalIsOpen && <NewBoardModal />}
       <Box component="main" flexGrow={1} sx={{ m: '20px 0' }}>
         <Container>
           <Outlet />
