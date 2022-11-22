@@ -5,6 +5,7 @@ import { ISignIn, ISignInResp, IUserReq, IUserResp } from './models/AuthInterfac
 import jwt_decode from 'jwt-decode';
 import { IDecodedToken } from './interface';
 import { LocalStorageKeys } from '../enums';
+import { IBoardResp } from './models/BoardsInterfaces';
 
 const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
 
@@ -71,11 +72,17 @@ const deleteUser = async (userId: string) => {
   await apiClient.delete(`/users/${userId}`);
 };
 
+const getAllUserBoards = async (userId: string) => {
+  const resp = await apiClient.get<IBoardResp[]>(`/boardsSet/${userId}`);
+  return resp.data;
+};
+
 export const api = {
   signIn,
   signUp,
   signOut,
   getUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  getAllUserBoards
 };
