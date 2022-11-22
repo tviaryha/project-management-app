@@ -1,7 +1,7 @@
 import { Person } from '@mui/icons-material';
 import { Grid, Card, Avatar, CardHeader, CardContent, Typography } from '@mui/material';
 
-type СardProps = { bgcolor: string; title: string };
+export type СardProps = { bgcolor: string; title: string };
 
 const DeveloperСard = ({ bgcolor, title }: СardProps) => {
   return (
