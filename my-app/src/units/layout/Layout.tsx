@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import useAppSelector from '../../hooks/useAppSelector';
 import { Loader } from '../Loader';
 import ProfileModal from '../pages/EditProfile/ProfileModal';
-import NewBoardModal from '../pages/NewBoard/NewBoard';
+import NewBoardModal from '../NewBoard/NewBoard';
 import { Toast } from '../Toast/Toast';
 import Footer from './Footer/Footer';
 import Header from './Header/Header';

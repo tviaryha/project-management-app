@@ -1,13 +1,13 @@
 import { Button, Grid, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { ICreateBoardReq } from '../../../api/models/boards';
-import CloseRoundedButton from '../../../components/CloseRoundedButton';
-import { FormTranslationKeys, LocalStorageKeys } from '../../../enums';
-import useAppDispatch from '../../../hooks/useAppDispatch';
-import { closeModal, createBoard, toggleLoader } from '../../../redux/newBoardSlice';
-import { openToast, RespRes } from '../../../redux/toastSlice';
-import { TranslationKeys as ToastTranslations } from '../../Toast/enum';
+import { ICreateBoardReq } from '../../api/models/boards';
+import CloseRoundedButton from '../../components/CloseRoundedButton';
+import { FormTranslationKeys, LocalStorageKeys } from '../../enums';
+import useAppDispatch from '../../hooks/useAppDispatch';
+import { closeModal, createBoard, toggleLoader } from '../../redux/newBoardSlice';
+import { openToast, RespRes } from '../../redux/toastSlice';
+import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import DefaultSelect from './DefaultSelect';
 import { TranslationKeys } from './enum';
 

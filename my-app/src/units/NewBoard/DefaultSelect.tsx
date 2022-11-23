@@ -13,9 +13,9 @@ import React from 'react';
 import { useState } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { ICreateBoardReq } from '../../../api/models/boards';
-import { FormTranslationKeys, LocalStorageKeys } from '../../../enums';
-import useAppSelector from '../../../hooks/useAppSelector';
+import { ICreateBoardReq } from '../../api/models/boards';
+import { FormTranslationKeys, LocalStorageKeys } from '../../enums';
+import useAppSelector from '../../hooks/useAppSelector';
 import { TranslationKeys } from './enum';
 
 const ITEM_HEIGHT = 48;
