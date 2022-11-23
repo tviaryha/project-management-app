@@ -10,6 +10,7 @@ import { TranslationKeys } from './enum';
 import { TranslationKeys as ToastTranslations } from '../../Toast/enum';
 import { openToast, RespRes } from '../../../redux/toastSlice';
 import TransitionsModal from '../../../components/TransitionsModal';
+import { hideLoader, showLoader } from '../../../redux/appSlice';
 
 const ProfileModal = () => {
   const modalIsOpen = useAppSelector((state) => state.profile.modalIsOpen);
@@ -26,6 +27,7 @@ const ProfileModal = () => {
     if (userId) {
       dispatch(closeProfileModal());
       try {
+        dispatch(showLoader());
         await dispatch(deleteUser(userId)).unwrap();
         dispatch(signOut());
         navigate(Paths.base);
@@ -39,6 +41,8 @@ const ProfileModal = () => {
         dispatch(
           openToast({ message: t(fail, { ns: ToastTranslations.ns }), type: RespRes.error })
         );
+      } finally {
+        dispatch(hideLoader());
       }
     }
   };

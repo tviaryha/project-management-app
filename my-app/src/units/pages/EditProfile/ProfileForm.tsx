@@ -5,6 +5,7 @@ import { IUserReq } from '../../../api/models/users';
 import { ErrorCodes, FormTranslationKeys, LocalStorageKeys } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
+import { hideLoader, showLoader } from '../../../redux/appSlice';
 import { openProfileModal, updateUser } from '../../../redux/profileSlice';
 import { openToast, RespRes } from '../../../redux/toastSlice';
 import { passwordRegExp } from '../../../regExp';
@@ -44,6 +45,7 @@ const ProfileForm = () => {
 
     if (userId) {
       try {
+        dispatch(showLoader());
         const data = getValues();
         await dispatch(updateUser({ userId, data })).unwrap();
         dispatch(
@@ -58,6 +60,8 @@ const ProfileForm = () => {
             ? t(error409, { ns: ToastTranslations.ns })
             : t(fail, { ns: ToastTranslations.ns });
         dispatch(openToast({ message: eMessage, type: RespRes.error }));
+      } finally {
+        dispatch(hideLoader());
       }
     }
   };
