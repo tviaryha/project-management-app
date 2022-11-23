@@ -1,24 +1,29 @@
 import { Modal, Backdrop, Fade, Grid } from '@mui/material';
 
-const style = {
-  position: 'relative',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: { xs: 270, sm: 400 },
-  bgcolor: 'background.paper',
-  borderRadius: '10px',
-  boxShadow: 24,
-  p: 4
-};
-
 interface IProps {
   children: React.ReactElement | React.ReactElement[];
   isOpen: boolean;
   handleClose: () => void;
+  isLoading?: boolean;
 }
 
-const TransitionsModal = ({ children, isOpen, handleClose }: IProps) => {
+const TransitionsModal = ({ children, isOpen, handleClose, isLoading }: IProps) => {
+  const style = {
+    position: 'relative',
+    top: '50%',
+    left: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 2,
+    transform: 'translate(-50%, -50%)',
+    width: { xs: 270, sm: 400 },
+    borderRadius: 3,
+    bgcolor: isLoading ? 'transparent' : 'background.paper',
+    elevating: isLoading ? 0 : 24,
+    color: isLoading ? 'background.paper' : 'inherit',
+    p: 4
+  };
+
   return (
     <Modal
       open={isOpen}
@@ -31,7 +36,7 @@ const TransitionsModal = ({ children, isOpen, handleClose }: IProps) => {
         '& .MuiBackdrop-root': { cursor: 'pointer' }
       }}>
       <Fade in={isOpen}>
-        <Grid container justifyContent="center" alignItems="center" gap={2} sx={style}>
+        <Grid container sx={style}>
           {children}
         </Grid>
       </Fade>

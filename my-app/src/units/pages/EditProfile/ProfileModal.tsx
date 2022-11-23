@@ -1,4 +1,4 @@
-import { Button, Typography, Grid } from '@mui/material';
+import { Button, Typography, Grid, CircularProgress } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { LocalStorageKeys, Paths } from '../../../enums';
@@ -10,10 +10,9 @@ import { TranslationKeys } from './enum';
 import { TranslationKeys as ToastTranslations } from '../../Toast/enum';
 import { openToast, RespRes } from '../../../redux/toastSlice';
 import TransitionsModal from '../../../components/TransitionsModal';
-import { hideLoader, showLoader } from '../../../redux/appSlice';
 
 const ProfileModal = () => {
-  const modalIsOpen = useAppSelector((state) => state.profile.modalIsOpen);
+  const { modalIsOpen, isLoading } = useAppSelector((state) => state.profile);
   const dispatch = useAppDispatch();
   const { t } = useTranslation([TranslationKeys.ns, ToastTranslations.ns]);
   const navigate = useNavigate();
@@ -25,9 +24,7 @@ const ProfileModal = () => {
     const userId = localStorage.getItem(LocalStorageKeys.userId);
 
     if (userId) {
-      dispatch(closeProfileModal());
       try {
-        dispatch(showLoader());
         await dispatch(deleteUser(userId)).unwrap();
         dispatch(signOut());
         navigate(Paths.base);
@@ -42,7 +39,7 @@ const ProfileModal = () => {
           openToast({ message: t(fail, { ns: ToastTranslations.ns }), type: RespRes.error })
         );
       } finally {
-        dispatch(hideLoader());
+        dispatch(closeProfileModal());
       }
     }
   };
@@ -51,8 +48,10 @@ const ProfileModal = () => {
     dispatch(closeProfileModal());
   };
 
-  return (
-    <TransitionsModal isOpen={modalIsOpen} handleClose={handleClose}>
+  const content = isLoading ? (
+    <CircularProgress color="inherit" />
+  ) : (
+    <>
       <Grid item textAlign="center">
         <Typography component="h4" variant="h5">
           {t(modalTitle)}
@@ -71,6 +70,12 @@ const ProfileModal = () => {
           {t(modalBtnNo)}
         </Grid>
       </Grid>
+    </>
+  );
+
+  return (
+    <TransitionsModal isOpen={modalIsOpen} handleClose={handleClose} isLoading={isLoading}>
+      {content}
     </TransitionsModal>
   );
 };

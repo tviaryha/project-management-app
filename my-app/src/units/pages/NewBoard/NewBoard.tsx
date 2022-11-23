@@ -19,7 +19,7 @@ const NewBoardModal = () => {
   const content = isLoading ? <CircularProgress color="inherit" /> : <Form />;
 
   return isOpen ? (
-    <TransitionsModal isOpen={isOpen} handleClose={handleClose}>
+    <TransitionsModal isOpen={isOpen} handleClose={handleClose} isLoading={isLoading}>
       {content}
     </TransitionsModal>
   ) : null;
