@@ -5,7 +5,8 @@ export enum Paths {
   mainPage = 'mainPage',
   newBoard = 'newBoard',
   editProfile = 'editProfile',
-  error = 'error'
+  error = 'error',
+  board = 'board'
 }
 
 export enum Developers {
@@ -33,4 +34,9 @@ export enum FormTranslationKeys {
 export enum ErrorCodes {
   CONFLICT = 409,
   NOT_FOUND = 404
+}
+
+export enum BoardsListTarnslations {
+  ns = 'boardsList',
+  noBoards = 'noBoards'
 }

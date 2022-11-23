@@ -19,7 +19,7 @@ import { AnonimUser, SignedInUser } from './common/AuthWrapper';
 import ErrorPage from './units/pages/ErrorPage/ErrorPage';
 import useCheckToken from './hooks/useCheckToken';
 
-const { base, signIn, signUp, mainPage, newBoard, editProfile } = Paths;
+const { base, signIn, signUp, mainPage, newBoard, editProfile, board } = Paths;
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +33,7 @@ const router = createBrowserRouter(
         <Route path={mainPage} element={<MainPage />} />
         <Route path={newBoard} element={<NewBoard />} />
         <Route path={editProfile} element={<EditProfile />} />
+        <Route path={`${board}/:id`} element={<div>todo</div>} />
       </Route>
       <Route path={'*'} element={<ErrorPage />} />
     </Route>
