@@ -2,6 +2,7 @@ import { Button, Grid, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ICreateBoardReq } from '../../../api/models/boards';
+import CloseRoundedButton from '../../../components/CloseRoundedButton';
 import { FormTranslationKeys, LocalStorageKeys } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import { closeModal, createBoard, toggleLoader } from '../../../redux/newBoardSlice';
@@ -55,33 +56,38 @@ const Form = () => {
     }
   };
 
+  const onClick = () => dispatch(closeModal());
+
   return (
-    <Grid
-      container
-      component="form"
-      onSubmit={handleSubmit(onSubmit)}
-      noValidate
-      flexDirection="column"
-      alignItems="center"
-      gap={3}>
-      <TextField
-        id="title"
-        label={t(title)}
-        variant="outlined"
-        required
-        type="text"
-        fullWidth
-        error={!!errors.title}
-        helperText={t(errors.title?.message || '', FormTranslationKeys)}
-        {...register(title, {
-          required: { value: true, message: requiredE }
-        })}
-      />
-      <DefaultSelect {...register(users)} />
-      <Button type="submit" variant="contained" fullWidth sx={{ maxWidth: '25ch' }}>
-        {t(createBtn)}
-      </Button>
-    </Grid>
+    <>
+      <Grid
+        container
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        flexDirection="column"
+        alignItems="center"
+        gap={3}>
+        <TextField
+          id="title"
+          label={t(title)}
+          variant="outlined"
+          required
+          type="text"
+          fullWidth
+          error={!!errors.title}
+          helperText={t(errors.title?.message || '', FormTranslationKeys)}
+          {...register(title, {
+            required: { value: true, message: requiredE }
+          })}
+        />
+        <DefaultSelect {...register(users)} />
+        <Button type="submit" variant="contained" fullWidth sx={{ maxWidth: '25ch' }}>
+          {t(createBtn)}
+        </Button>
+      </Grid>
+      <CloseRoundedButton onClick={onClick} />
+    </>
   );
 };
 
