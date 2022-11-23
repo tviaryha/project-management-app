@@ -1,10 +1,9 @@
 import { CircularProgress } from '@mui/material';
-import { useEffect } from 'react';
 import TransitionsModal from '../../../components/TransitionsModal';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import useCloseMenu from '../../../hooks/useCloseMenu';
-import { closeModal, getUsers } from '../../../redux/newBoardSlice';
+import { closeModal } from '../../../redux/newBoardSlice';
 import Form from './Form';
 
 const NewBoardModal = () => {
@@ -17,25 +16,13 @@ const NewBoardModal = () => {
     dispatch(closeModal());
   };
 
-  const loadUsers = async () => {
-    try {
-      await dispatch(getUsers());
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    loadUsers();
-  }, []);
-
   const content = isLoading ? <CircularProgress color="inherit" /> : <Form />;
 
-  return (
+  return isOpen ? (
     <TransitionsModal isOpen={isOpen} handleClose={handleClose}>
       {content}
     </TransitionsModal>
-  );
+  ) : null;
 };
 
 export default NewBoardModal;

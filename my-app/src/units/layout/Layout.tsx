@@ -12,7 +12,6 @@ const Layout = () => {
   const toastMessage = useAppSelector((state) => state.toast.message);
   const toastType = useAppSelector((state) => state.toast.type);
   const toastIsOpen = useAppSelector((state) => state.toast.isOpen);
-  const newBoardModalIsOpen = useAppSelector((state) => state.newBoard.isOpen);
 
   return (
     <>
@@ -20,7 +19,7 @@ const Layout = () => {
       <Toast message={toastMessage} type={toastType} isOpen={toastIsOpen} />
       <Loader />
       <ProfileModal />
-      {newBoardModalIsOpen && <NewBoardModal />}
+      <NewBoardModal />
       <Box component="main" flexGrow={1} sx={{ m: '20px 0' }}>
         <Container>
           <Outlet />

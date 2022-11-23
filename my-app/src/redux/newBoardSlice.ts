@@ -71,6 +71,7 @@ export const newBoardSlice = createSlice({
         state.users = action.payload;
       })
       .addCase(getUsers.rejected, (state) => {
+        state.isOpen = false;
         state.isLoading = false;
       })
       .addCase(createBoard.pending, (state) => {
