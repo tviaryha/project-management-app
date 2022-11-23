@@ -8,8 +8,17 @@ import { TranslationKeys as NewBoardTK } from './units/pages/NewBoard/enum';
 import { TranslationKeys as HeaderTK } from './units/layout/Header/enums';
 import { TranslationKeys as ErrorPageTK } from './units/pages/ErrorPage/enum';
 import { FormTranslationKeys as FormTK } from './enums';
+import { TranslationKeys as SignTK } from './units/auth/enum';
 
-const ns = [EditProfileTK.ns, ToastTK.ns, NewBoardTK.ns, HeaderTK.ns, ErrorPageTK.ns, FormTK.ns];
+const ns = [
+  EditProfileTK.ns,
+  ToastTK.ns,
+  NewBoardTK.ns,
+  HeaderTK.ns,
+  ErrorPageTK.ns,
+  FormTK.ns,
+  SignTK.ns
+];
 
 i18n
   .use(Backend)
