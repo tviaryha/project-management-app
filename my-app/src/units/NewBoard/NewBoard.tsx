@@ -1,4 +1,3 @@
-import { CircularProgress } from '@mui/material';
 import TransitionsModal from '../../components/TransitionsModal';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import useAppSelector from '../../hooks/useAppSelector';
@@ -16,11 +15,9 @@ const NewBoardModal = () => {
     dispatch(closeModal());
   };
 
-  const content = isLoading ? <CircularProgress color="inherit" /> : <Form />;
-
   return isOpen ? (
     <TransitionsModal isOpen={isOpen} handleClose={handleClose} isLoading={isLoading}>
-      {content}
+      <Form />
     </TransitionsModal>
   ) : null;
 };

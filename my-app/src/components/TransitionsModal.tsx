@@ -1,4 +1,4 @@
-import { Modal, Backdrop, Fade, Grid } from '@mui/material';
+import { Modal, Backdrop, Fade, Grid, CircularProgress } from '@mui/material';
 
 interface IProps {
   children: React.ReactElement | React.ReactElement[];
@@ -24,6 +24,8 @@ const TransitionsModal = ({ children, isOpen, handleClose, isLoading }: IProps) 
     p: 4
   };
 
+  const content = isLoading ? <CircularProgress color="inherit" /> : children;
+
   return (
     <Modal
       open={isOpen}
@@ -37,7 +39,7 @@ const TransitionsModal = ({ children, isOpen, handleClose, isLoading }: IProps) 
       }}>
       <Fade in={isOpen}>
         <Grid container sx={style}>
-          {children}
+          {content}
         </Grid>
       </Fade>
     </Modal>

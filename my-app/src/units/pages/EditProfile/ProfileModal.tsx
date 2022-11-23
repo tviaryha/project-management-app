@@ -1,4 +1,4 @@
-import { Button, Typography, Grid, CircularProgress } from '@mui/material';
+import { Button, Typography, Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { LocalStorageKeys, Paths } from '../../../enums';
@@ -48,10 +48,8 @@ const ProfileModal = () => {
     dispatch(closeProfileModal());
   };
 
-  const content = isLoading ? (
-    <CircularProgress color="inherit" />
-  ) : (
-    <>
+  return (
+    <TransitionsModal isOpen={modalIsOpen} handleClose={handleClose} isLoading={isLoading}>
       <Grid item textAlign="center">
         <Typography component="h4" variant="h5">
           {t(modalTitle)}
@@ -70,12 +68,6 @@ const ProfileModal = () => {
           {t(modalBtnNo)}
         </Grid>
       </Grid>
-    </>
-  );
-
-  return (
-    <TransitionsModal isOpen={modalIsOpen} handleClose={handleClose} isLoading={isLoading}>
-      {content}
     </TransitionsModal>
   );
 };
