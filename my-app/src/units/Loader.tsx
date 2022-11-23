@@ -5,7 +5,10 @@ export const Loader = () => {
   const isLoading = useAppSelector((state) => state.app.isLoaderVisible);
 
   return isLoading ? (
-    <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+    <Backdrop
+      timeout={500}
+      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      open={isLoading}>
       <CircularProgress color="inherit" />
     </Backdrop>
   ) : null;
