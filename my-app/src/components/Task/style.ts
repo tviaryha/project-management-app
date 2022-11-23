@@ -11,3 +11,13 @@ export const modalStyle = {
   textAlign: 'center',
   p: 4
 };
+
+export const listItemStyle = {
+  width: '100%',
+  maxWidth: 300,
+  borderRadius: 2,
+  bgcolor: 'background.paper',
+  boxShadow: 1,
+  cursor: 'pointer',
+  wordWrap: 'break-word'
+};
