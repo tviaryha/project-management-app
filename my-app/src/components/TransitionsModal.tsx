@@ -1,4 +1,5 @@
 import { Modal, Backdrop, Fade, Grid, CircularProgress } from '@mui/material';
+import useCloseMenu from '../hooks/useCloseMenu';
 
 interface IProps {
   children: React.ReactElement | React.ReactElement[];
@@ -8,6 +9,8 @@ interface IProps {
 }
 
 const TransitionsModal = ({ children, isOpen, handleClose, isLoading }: IProps) => {
+  useCloseMenu();
+
   const style = {
     position: 'relative',
     top: '50%',
