@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { api } from '../api/Api';
-import { ISignIn } from '../api/models/AuthInterfaces';
+import { ISignIn } from '../api/models/users';
 import { ErrorResponse } from '../api/models/ErrorResponse';
 
 interface IAuthState {

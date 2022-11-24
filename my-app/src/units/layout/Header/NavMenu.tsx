@@ -6,6 +6,9 @@ import { Paths } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import { signOut } from '../../../redux/signInSlice';
 import { useNavigate } from 'react-router-dom';
+import { getUsers, openModal } from '../../../redux/newBoardSlice';
+import { openToast, RespRes } from '../../../redux/toastSlice';
+import { TranslationKeys as ToastTranslations } from '../../Toast/enum';
 
 const LanguageToggler = () => {
   const { en, ru } = Languages;
@@ -25,13 +28,26 @@ const LanguageToggler = () => {
 };
 
 const NavMenu = () => {
-  const { newBoard, editProfile, base } = Paths;
+  const { editProfile, base } = Paths;
   const { ns, createNewBoard, profile, signOutBtn } = TranslationKeys;
-  const { t } = useTranslation([ns]);
+  const { t } = useTranslation([ns, ToastTranslations.ns]);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const createNewBoardClickHandler = () => navigate(newBoard);
+  const createNewBoardClickHandler = async () => {
+    try {
+      dispatch(openModal());
+      await dispatch(getUsers()).unwrap();
+    } catch {
+      dispatch(
+        openToast({
+          message: t(ToastTranslations.fail, { ns: ToastTranslations.ns }),
+          type: RespRes.error
+        })
+      );
+    }
+  };
+
   const editProfileClickHandler = () => navigate(editProfile);
   const signOutClickHandler = () => navigate(base);
 
