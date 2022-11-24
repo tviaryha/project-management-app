@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { ISignIn } from '../../api/models/AuthInterfaces';
+import { ISignIn } from '../../api/models/users';
 import { AuthFieldsNames } from './authFieldsNames';
 import { signIn } from '../../redux/signInSlice';
 import { Box, Button, Container, TextField, Typography } from '@mui/material';

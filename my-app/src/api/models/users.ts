@@ -18,3 +18,5 @@ export interface IUserResp {
   name: string;
   login: string;
 }
+
+export type IUsersResp = IUserResp[];
