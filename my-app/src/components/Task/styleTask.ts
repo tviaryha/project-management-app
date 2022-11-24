@@ -9,12 +9,17 @@ export const modalStyle = {
   borderRadius: 2,
   boxShadow: 24,
   textAlign: 'center',
-  p: 4
+  p: 4,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 2
 };
 
 export const listItemStyle = {
   width: '100%',
-  maxWidth: 300,
+  maxWidth: 330,
+  minHeight: 80,
+  paddingRight: 10,
   borderRadius: 2,
   bgcolor: 'background.paper',
   boxShadow: 1,
