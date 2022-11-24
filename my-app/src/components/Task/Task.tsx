@@ -9,7 +9,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import useAppDispatch from '../../hooks/useAppDispatch';
 import { ITask, IDeleteTask } from './types';
 import { useTranslation } from 'react-i18next';
 import { TaskTranslationKeys } from './types';
@@ -17,9 +16,10 @@ import { modalStyle, listItemStyle } from './styleTask';
 import TextField from '@mui/material/TextField';
 
 const Task = ({ title, description, _id, columnId, boardId }: ITask): JSX.Element => {
-  const { t } = useTranslation([TaskTranslationKeys.ns]);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = React.useState(false);
   const [isOpenEditModal, setIsOpenEditModal] = React.useState(false);
+  const { t } = useTranslation([TaskTranslationKeys.ns]);
+
   const {
     modalTitle,
     buttonDelete,
@@ -39,7 +39,7 @@ const Task = ({ title, description, _id, columnId, boardId }: ITask): JSX.Elemen
   }, []);
 
   const editTask = useCallback(({ title, description, _id, columnId, boardId }: ITask) => {
-    console.log(boardId, columnId, _id);
+    console.log(boardId, columnId, _id, title, description);
     //дописать функцию редактирования таска
   }, []);
 
