@@ -2,7 +2,7 @@ export enum Paths {
   base = '/',
   signIn = 'signIn',
   signUp = 'signUp',
-  mainPage = 'mainPage',
+  mainPage = '/mainPage',
   editProfile = 'editProfile',
   error = 'error',
   board = 'board'

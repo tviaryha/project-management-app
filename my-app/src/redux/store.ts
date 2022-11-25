@@ -8,6 +8,7 @@ import BurgerReducer from './burgerSlice';
 import ProfileReducer from './profileSlice';
 import NewBoardReducer from './newBoardSlice';
 import BoardsListReducer from './boardsListSlice';
+import BoardReducer from './boardSlice';
 
 const store = configureStore({
   reducer: {
@@ -19,7 +20,8 @@ const store = configureStore({
     burger: BurgerReducer,
     profile: ProfileReducer,
     newBoard: NewBoardReducer,
-    boardsList: BoardsListReducer
+    boardsList: BoardsListReducer,
+    board: BoardReducer
   }
 });
 

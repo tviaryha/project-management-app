@@ -1,9 +1,9 @@
-export interface ICreateBoardReq {
+export interface IBoardReq {
   title: string;
   owner: string;
   users: string[];
 }
 
-export interface ICreateBoardResp extends ICreateBoardReq {
+export interface IBoardResp extends IBoardReq {
   _id: string;
 }

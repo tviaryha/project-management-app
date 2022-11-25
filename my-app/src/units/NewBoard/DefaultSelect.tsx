@@ -13,7 +13,7 @@ import React from 'react';
 import { useState } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { ICreateBoardReq } from '../../api/models/boards';
+import { IBoardReq } from '../../api/models/boards';
 import { FormTranslationKeys, LocalStorageKeys } from '../../enums';
 import useAppSelector from '../../hooks/useAppSelector';
 import { TranslationKeys } from './enum';
@@ -36,7 +36,7 @@ const getStyles = (selectedLogin: string, logins: readonly string[], theme: Them
       : theme.typography.fontWeightMedium
 });
 
-type Props = ReturnType<UseFormRegister<ICreateBoardReq>>;
+type Props = ReturnType<UseFormRegister<IBoardReq>>;
 
 const DefaultSelect = React.forwardRef<typeof FormControl, Props>(({ name, onChange }, ref) => {
   const [logins, setLogins] = useState<string[]>([]);

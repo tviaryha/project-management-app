@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { api } from '../api/Api';
-import { ICreateBoardReq, ICreateBoardResp } from '../api/models/boards';
+import { IBoardResp, IBoardReq } from '../api/models/boards';
 import { IUsersResp } from '../api/models/users';
 import { ErrorResponse } from '../api/models/ErrorResponse';
 
@@ -18,8 +18,8 @@ const initialState: INewBoardModalState = {
 };
 
 export const createBoard = createAsyncThunk<
-  ICreateBoardResp,
-  ICreateBoardReq,
+  IBoardResp,
+  IBoardReq,
   {
     rejectValue: number | undefined;
   }

@@ -1,7 +1,7 @@
 import { Button, Grid, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { ICreateBoardReq } from '../../api/models/boards';
+import { IBoardReq } from '../../api/models/boards';
 import CloseRoundedButton from '../../components/CloseRoundedButton';
 import { FormTranslationKeys, LocalStorageKeys } from '../../enums';
 import useAppDispatch from '../../hooks/useAppDispatch';
@@ -18,7 +18,7 @@ const Form = () => {
     handleSubmit,
     getValues,
     formState: { errors }
-  } = useForm<ICreateBoardReq>({
+  } = useForm<IBoardReq>({
     defaultValues: {
       title: '',
       users: []

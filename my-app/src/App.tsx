@@ -17,6 +17,7 @@ import { SignUpForm } from './units/auth/SignUpForm';
 import { AnonimUser, SignedInUser } from './common/AuthWrapper';
 import ErrorPage from './units/pages/ErrorPage/ErrorPage';
 import useCheckToken from './hooks/useCheckToken';
+import Board from './units/pages/Board/Board';
 
 const { base, signIn, signUp, mainPage, editProfile, board } = Paths;
 
@@ -31,7 +32,7 @@ const router = createBrowserRouter(
       <Route element={<SignedInUser />}>
         <Route path={mainPage} element={<MainPage />} />
         <Route path={editProfile} element={<EditProfile />} />
-        <Route path={`${board}/:id`} element={<div>todo</div>} />
+        <Route path={`${board}/:id`} element={<Board />} />
       </Route>
       <Route path={'*'} element={<ErrorPage />} />
     </Route>

@@ -5,8 +5,7 @@ import { ISignIn, ISignInResp, IUserReq, IUserResp, IUsersResp } from './models/
 import jwt_decode from 'jwt-decode';
 import { IDecodedToken } from './interface';
 import { LocalStorageKeys } from '../enums';
-import { ICreateBoardReq, ICreateBoardResp } from './models/boards';
-import { IBoardResp } from './models/BoardsInterfaces';
+import { IBoardReq, IBoardResp } from './models/boards';
 
 const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
 
@@ -85,8 +84,13 @@ const getAllUserBoards = async (userId: string) => {
   return resp.data;
 };
 
-const createBoard = async (params: ICreateBoardReq) => {
-  const resp = await apiClient.post<ICreateBoardResp>('/boards', params);
+const createBoard = async (params: IBoardReq) => {
+  const resp = await apiClient.post<IBoardResp>('/boards', params);
+  return resp.data;
+};
+
+const getBoard = async (id: string) => {
+  const resp = await apiClient<IBoardResp>(`/boards/${id}`);
   return resp.data;
 };
 
@@ -99,5 +103,6 @@ export const api = {
   deleteUser,
   getUsers,
   createBoard,
-  getAllUserBoards
+  getAllUserBoards,
+  getBoard
 };
