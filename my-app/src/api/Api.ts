@@ -6,6 +6,7 @@ import jwt_decode from 'jwt-decode';
 import { IDecodedToken } from './interface';
 import { LocalStorageKeys } from '../enums';
 import { ICreateBoardReq, ICreateBoardResp } from './models/boards';
+import { IBoardResp } from './models/BoardsInterfaces';
 
 const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
 
@@ -79,6 +80,11 @@ const getUsers = async () => {
   return resp.data;
 };
 
+const getAllUserBoards = async (userId: string) => {
+  const resp = await apiClient.get<IBoardResp[]>(`/boardsSet/${userId}`);
+  return resp.data;
+};
+
 const createBoard = async (params: ICreateBoardReq) => {
   const resp = await apiClient.post<ICreateBoardResp>('/boards', params);
   return resp.data;
@@ -92,5 +98,6 @@ export const api = {
   updateUser,
   deleteUser,
   getUsers,
-  createBoard
+  createBoard,
+  getAllUserBoards
 };
