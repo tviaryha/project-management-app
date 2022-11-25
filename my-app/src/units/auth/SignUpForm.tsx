@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { IUserReq } from '../../api/models/AuthInterfaces';
+import { IUserReq } from '../../api/models/users';
 import { ErrorResponse } from '../../api/models/ErrorResponse';
 import { ErrorCodes, Paths } from '../../enums';
 import useAppDispatch from '../../hooks/useAppDispatch';

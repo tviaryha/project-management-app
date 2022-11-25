@@ -3,7 +3,6 @@ export enum Paths {
   signIn = 'signIn',
   signUp = 'signUp',
   mainPage = 'mainPage',
-  newBoard = 'newBoard',
   editProfile = 'editProfile',
   error = 'error',
   board = 'board'

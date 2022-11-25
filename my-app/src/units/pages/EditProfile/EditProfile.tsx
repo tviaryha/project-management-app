@@ -1,11 +1,11 @@
 import { Grid } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import LinearLoadingIndicator from '../../../components/LinearLoadingIndicator';
 import { ErrorCodes, LocalStorageKeys, Paths } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import useCloseMenu from '../../../hooks/useCloseMenu';
+import { hideLoader, showLoader } from '../../../redux/appSlice';
 import { clearProfile, getUser } from '../../../redux/profileSlice';
 import ProfileForm from './ProfileForm';
 import ProfileInfo from './ProfileInfo';
@@ -21,12 +21,15 @@ const EditProfile = () => {
     const userId = localStorage.getItem(LocalStorageKeys.userId);
 
     if (userId) {
+      dispatch(showLoader());
       try {
         await dispatch(getUser(userId)).unwrap();
       } catch (eCode) {
         if (eCode === ErrorCodes.NOT_FOUND) {
           navigate(Paths.error);
         }
+      } finally {
+        dispatch(hideLoader());
       }
     }
   };
@@ -38,11 +41,7 @@ const EditProfile = () => {
     };
   }, []);
 
-  if (isLoading) {
-    return <LinearLoadingIndicator />;
-  }
-
-  return (
+  return isLoading ? null : (
     <Grid container alignItems="center" gap={5} sx={{ mt: 8 }} flexDirection="column">
       <ProfileInfo name={name} login={login} />
       <ProfileForm />

@@ -6,6 +6,7 @@ import ToastReducer from './toastSlice';
 import LoaderReducer from './loaderSlice';
 import BurgerReducer from './burgerSlice';
 import ProfileReducer from './profileSlice';
+import NewBoardReducer from './newBoardSlice';
 import BoardsListReducer from './boardsListSlice';
 
 const store = configureStore({
@@ -17,6 +18,7 @@ const store = configureStore({
     loader: LoaderReducer,
     burger: BurgerReducer,
     profile: ProfileReducer,
+    newBoard: NewBoardReducer,
     boardsList: BoardsListReducer
   }
 });

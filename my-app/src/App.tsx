@@ -9,7 +9,6 @@ import { Paths } from './enums';
 import Layout from './units/layout/Layout';
 import WelcomePage from './units/pages/Welcome/Welcome';
 import MainPage from './units/pages/Main/Main';
-import NewBoard from './units/pages/NewBoard';
 import EditProfile from './units/pages/EditProfile/EditProfile';
 import { Suspense, useEffect } from 'react';
 import LinearLoadingIndicator from './components/LinearLoadingIndicator';
@@ -31,7 +30,6 @@ const router = createBrowserRouter(
       </Route>
       <Route element={<SignedInUser />}>
         <Route path={mainPage} element={<MainPage />} />
-        <Route path={newBoard} element={<NewBoard />} />
         <Route path={editProfile} element={<EditProfile />} />
         <Route path={`${board}/:id`} element={<div>todo</div>} />
       </Route>
