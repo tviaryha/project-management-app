@@ -18,7 +18,7 @@ import { AnonimUser, SignedInUser } from './common/AuthWrapper';
 import ErrorPage from './units/pages/ErrorPage/ErrorPage';
 import useCheckToken from './hooks/useCheckToken';
 
-const { base, signIn, signUp, mainPage, newBoard, editProfile, board } = Paths;
+const { base, signIn, signUp, mainPage, editProfile, board } = Paths;
 
 const router = createBrowserRouter(
   createRoutesFromElements(
