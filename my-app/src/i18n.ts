@@ -9,6 +9,7 @@ import { TranslationKeys as HeaderTK } from './units/layout/Header/enums';
 import { TranslationKeys as ErrorPageTK } from './units/pages/ErrorPage/enum';
 import { FormTranslationKeys as FormTK } from './enums';
 import { TranslationKeys as SignTK } from './units/auth/enum';
+import { TranslationKeys as ConfirmationModalTK } from './components/ConfirmationModal/enum';
 
 const ns = [
   EditProfileTK.ns,
@@ -17,7 +18,8 @@ const ns = [
   HeaderTK.ns,
   ErrorPageTK.ns,
   FormTK.ns,
-  SignTK.ns
+  SignTK.ns,
+  ConfirmationModalTK.ns
 ];
 
 i18n

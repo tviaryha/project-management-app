@@ -1,4 +1,3 @@
-import { Button, Typography, Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { LocalStorageKeys, Paths } from '../../../enums';
@@ -9,7 +8,7 @@ import { signOut } from '../../../redux/signInSlice';
 import { TranslationKeys } from './enum';
 import { TranslationKeys as ToastTranslations } from '../../Toast/enum';
 import { openToast, RespRes } from '../../../redux/toastSlice';
-import TransitionsModal from '../../../components/TransitionsModal';
+import ConfirmationModal from '../../../components/ConfirmationModal/ConfirmationModal';
 
 const ProfileModal = () => {
   const { modalIsOpen, isLoading } = useAppSelector((state) => state.profile);
@@ -17,7 +16,6 @@ const ProfileModal = () => {
   const { t } = useTranslation([TranslationKeys.ns, ToastTranslations.ns]);
   const navigate = useNavigate();
 
-  const { modalTitle, modalDescription, modalBtnYes, modalBtnNo } = TranslationKeys;
   const { successDeleteProfile, fail } = ToastTranslations;
 
   const deleteProfile = async () => {
@@ -49,26 +47,13 @@ const ProfileModal = () => {
   };
 
   return (
-    <TransitionsModal isOpen={modalIsOpen} handleClose={handleClose} isLoading={isLoading}>
-      <Grid item textAlign="center">
-        <Typography component="h4" variant="h5">
-          {t(modalTitle)}
-        </Typography>
-      </Grid>
-      <Grid item textAlign="center">
-        <Typography component="p" variant="body1">
-          {t(modalDescription)}
-        </Typography>
-      </Grid>
-      <Grid container gap={2} justifyContent="center">
-        <Grid item component={Button} variant="outlined" onClick={deleteProfile}>
-          {t(modalBtnYes)}
-        </Grid>
-        <Grid item component={Button} variant="contained" onClick={handleClose}>
-          {t(modalBtnNo)}
-        </Grid>
-      </Grid>
-    </TransitionsModal>
+    <ConfirmationModal
+      description={t(TranslationKeys.modalDescription)}
+      handleClose={handleClose}
+      isOpen={modalIsOpen}
+      isLoading={isLoading}
+      yesBtnClickHandler={deleteProfile}
+    />
   );
 };
 
