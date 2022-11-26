@@ -1,80 +1,109 @@
-// import { Grid, Typography } from '@mui/material';
-// import { useEffect } from 'react';
-// import { useTranslation } from 'react-i18next';
-// import BoardPreview from '../../../components/BoardPreview/BoardPreview';
-// import LinearLoadingIndicator from '../../../components/LinearLoadingIndicator';
-// import { BoardsListTarnslations, LocalStorageKeys, Paths } from '../../../enums';
-// import useAppDispatch from '../../../hooks/useAppDispatch';
-// import useAppSelector from '../../../hooks/useAppSelector';
-// import useCloseMenu from '../../../hooks/useCloseMenu';
-// import { loadUserBoards } from '../../../redux/boardsListSlice';
-
-// const Main = () => {
-//   useCloseMenu();
-//   const { noBoards } = BoardsListTarnslations;
-//   const { t } = useTranslation([BoardsListTarnslations.ns]);
-
-//   const { isLoading, boards } = useAppSelector((state) => state.boardsList);
-//   const dispatch = useAppDispatch();
-
-//   const getUserBoards = async () => {
-//     const userId = localStorage.getItem(LocalStorageKeys.userId);
-
-//     if (userId) {
-//       await dispatch(loadUserBoards(userId)).unwrap();
-//     }
-//   };
-//   useEffect(() => {
-//     getUserBoards();
-//   }, []);
-
-//   if (isLoading) {
-//     return <LinearLoadingIndicator />;
-//   }
-//   return (
-//     <Grid container component="section" justifyContent="space-evenly" gap="20px" mt={10}>
-//       {boards.length ? (
-//         boards.map((board) => (
-//           <BoardPreview
-//             title={board.title}
-//             boardId={board._id}
-//             key={board._id}
-//             linkTo={`/${Paths.board}/${board._id}`}
-//           />
-//         ))
-//       ) : (
-//         <Typography variant="h5" component="h4" mt={50}>
-//           {t(noBoards)}
-//         </Typography>
-//       )}
-//     </Grid>
-//   );
-// };
-
-// export default Main;
-
-import Task from '../../../components/Task/Task';
+import { Grid, Typography } from '@mui/material';
+import { useEffect, MouseEvent } from 'react';
+import { useTranslation } from 'react-i18next';
+import BoardPreview from '../../../components/BoardPreview/BoardPreview';
+import LinearLoadingIndicator from '../../../components/LinearLoadingIndicator';
+import { BoardsListTarnslations, LocalStorageKeys, Paths } from '../../../enums';
+import useAppDispatch from '../../../hooks/useAppDispatch';
+import useAppSelector from '../../../hooks/useAppSelector';
 import useCloseMenu from '../../../hooks/useCloseMenu';
-
-const TaskProps = {
-  _id: 'id',
-  title: 'Тестовый заголовок',
-  order: 1,
-  boardId: 'boardId',
-  columnId: 'columnId',
-  description: 'Тестовое описание Тестовое описание Тестовое описание',
-  userId: 'userId',
-  users: ['userId']
-};
+import { loadUserBoards } from '../../../redux/boardsListSlice';
+import {
+  setIsOpenModal,
+  toggleLoad,
+  deleteCurrentBoard,
+  setBoardId,
+  setBoardTitle
+} from '../../../redux/boardPreviewSlice';
+import ConfirmationModal from '../../../components/ConfirmationModal/ConfirmationModal';
+import { openToast, RespRes } from '../../../redux/toastSlice';
+import { TranslationKeys } from '../../../units/Toast/enum';
 
 const Main = () => {
   useCloseMenu();
+  const { noBoards } = BoardsListTarnslations;
+  const { successDeleteBoard, fail } = TranslationKeys;
+  const { t } = useTranslation([BoardsListTarnslations.ns, TranslationKeys.ns]);
+
+  const { isLoading, boards } = useAppSelector((state) => state.boardsList);
+  const { boardId, isOpenModal, isLoad, boardTitle } = useAppSelector(
+    (state) => state.boardPreview
+  );
+  const dispatch = useAppDispatch();
+
+  const getUserBoards = async () => {
+    const userId = localStorage.getItem(LocalStorageKeys.userId);
+
+    if (userId) {
+      await dispatch(loadUserBoards(userId)).unwrap();
+    }
+  };
+  useEffect(() => {
+    getUserBoards();
+  }, []);
+
+  const deleteBoard = async () => {
+    if (boardId && boardId.length > 0) {
+      try {
+        dispatch(toggleLoad());
+        await dispatch(deleteCurrentBoard(boardId));
+        dispatch(
+          openToast({
+            message: t(successDeleteBoard, { ns: TranslationKeys.ns }),
+            type: RespRes.success
+          })
+        );
+      } catch (error) {
+        const eMessage = t(fail, { ns: TranslationKeys.ns });
+        dispatch(openToast({ message: eMessage, type: RespRes.error }));
+      } finally {
+        dispatch(setIsOpenModal(false));
+        dispatch(toggleLoad());
+        getUserBoards();
+      }
+    }
+  };
+
+  const handleDeleteBoardClick = (
+    boardId: string,
+    boardTitle: string,
+    event: MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    dispatch(setIsOpenModal(true));
+    dispatch(setBoardId(boardId));
+    dispatch(setBoardTitle(boardTitle));
+  };
+
+  if (isLoading) {
+    return <LinearLoadingIndicator />;
+  }
 
   return (
-    <>
-      <Task {...TaskProps} />
-      <div>MainPage</div>
-    </>
+    <Grid container component="section" justifyContent="space-evenly" gap="20px" mt={10}>
+      {boards.length ? (
+        boards.map((board) => (
+          <BoardPreview
+            title={board.title}
+            boardId={board._id}
+            key={board._id}
+            linkTo={`/${Paths.board}/${board._id}`}
+            onDeleteButtonClick={handleDeleteBoardClick}
+          />
+        ))
+      ) : (
+        <Typography variant="h5" component="h4" mt={50}>
+          {t(noBoards)}
+        </Typography>
+      )}
+      <ConfirmationModal
+        description={boardTitle}
+        isOpen={isOpenModal}
+        handleClose={() => dispatch(setIsOpenModal(false))}
+        isLoading={isLoad}
+        yesBtnClickHandler={() => deleteBoard()}
+      />
+    </Grid>
   );
 };
 

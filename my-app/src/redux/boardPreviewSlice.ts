@@ -5,12 +5,16 @@ import { ErrorResponse } from '../api/models/ErrorResponse';
 
 interface IModalState {
   isOpenModal: boolean;
-  isLoading: boolean;
+  boardId: string;
+  boardTitle: string;
+  isLoad: boolean;
 }
 
 const initialState: IModalState = {
   isOpenModal: false,
-  isLoading: false
+  boardId: '',
+  boardTitle: '',
+  isLoad: false
 };
 
 export const deleteCurrentBoard = createAsyncThunk<
@@ -35,24 +39,30 @@ export const boardPreviewSlice = createSlice({
     setIsOpenModal: (state, action) => {
       state.isOpenModal = action.payload;
     },
-    toggleLoader: (state) => {
-      state.isLoading = !state.isLoading;
+    setBoardId: (state, action) => {
+      state.boardId = action.payload;
+    },
+    setBoardTitle: (state, action) => {
+      state.boardTitle = action.payload;
+    },
+    toggleLoad: (state) => {
+      state.isLoad = !state.isLoad;
     }
   },
   extraReducers: (builder) => {
     builder
       .addCase(deleteCurrentBoard.pending, (state) => {
-        state.isLoading = true;
+        state.isLoad = true;
       })
       .addCase(deleteCurrentBoard.rejected, (state) => {
-        state.isLoading = false;
+        state.isLoad = false;
       })
       .addCase(deleteCurrentBoard.fulfilled, (state) => {
-        state.isLoading = false;
+        state.isLoad = false;
       });
   }
 });
 
-export const { setIsOpenModal, toggleLoader } = boardPreviewSlice.actions;
+export const { setIsOpenModal, setBoardId, setBoardTitle, toggleLoad } = boardPreviewSlice.actions;
 
 export default boardPreviewSlice.reducer;
