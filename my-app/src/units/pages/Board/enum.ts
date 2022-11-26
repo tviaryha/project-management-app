@@ -1,4 +1,6 @@
 export enum TranslationKeys {
   ns = 'board',
-  mainPageBtn = 'mainPageBtn'
+  mainPageBtn = 'mainPageBtn',
+  addColumn = 'addColumn',
+  addTask = 'addTask'
 }

@@ -6,12 +6,10 @@ import { ErrorResponse } from '../api/models/ErrorResponse';
 
 interface IBoardState {
   title: string;
-  isLoading: boolean;
 }
 
 const initialState: IBoardState = {
-  title: '',
-  isLoading: false
+  title: ''
 };
 
 export const getBoard = createAsyncThunk<
@@ -34,22 +32,13 @@ export const boardSlice = createSlice({
   initialState,
   reducers: {
     clearBoard: (state) => {
-      state.isLoading = initialState.isLoading;
       state.title = initialState.title;
     }
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(getBoard.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getBoard.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.title = action.payload.title;
-      })
-      .addCase(getBoard.rejected, (state) => {
-        state.isLoading = false;
-      });
+    builder.addCase(getBoard.fulfilled, (state, action) => {
+      state.title = action.payload.title;
+    });
   }
 });
 
