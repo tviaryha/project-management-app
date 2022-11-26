@@ -25,7 +25,6 @@ export const deleteCurrentBoard = createAsyncThunk<
   }
 >('deleteCurrentBoard', async (boardId, thunkApi) => {
   try {
-    console.log('slice', boardId);
     await api.deleteBoard(boardId);
   } catch (e) {
     return thunkApi.rejectWithValue((<AxiosError<ErrorResponse>>e).response?.status);
