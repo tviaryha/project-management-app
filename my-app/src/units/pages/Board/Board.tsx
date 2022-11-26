@@ -10,7 +10,7 @@ import { clearBoard, getBoard } from '../../../redux/boardSlice';
 import { openToast, RespRes } from '../../../redux/toastSlice';
 import { TranslationKeys } from './enum';
 import { TranslationKeys as ToastTranslations } from '../../Toast/enum';
-import Columns from './Columns';
+import Columns from './Columns/Columns';
 import { clearColumns, getColumns } from '../../../redux/columnsSlice';
 
 const Board = () => {
@@ -61,7 +61,7 @@ const Board = () => {
       <Typography variant="h5" my={1}>
         {title}
       </Typography>
-      <Columns boardId={boardId} />
+      <Columns />
     </Box>
   ) : null;
 };

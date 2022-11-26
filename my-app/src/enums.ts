@@ -20,6 +20,7 @@ export enum LocalStorageKeys {
 
 export enum FormTranslationKeys {
   ns = 'form',
+  title = 'title',
   login = 'login',
   name = 'name',
   password = 'password',

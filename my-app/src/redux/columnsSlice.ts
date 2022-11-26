@@ -4,11 +4,15 @@ import { api } from '../api/Api';
 import { ColumnsResp, IColumnReq, IColumnResp } from '../api/models/columns';
 import { ErrorResponse } from '../api/models/ErrorResponse';
 
-interface IColumnsListState {
+interface IColumnsState {
+  isOpen: boolean;
+  isLoading: boolean;
   columns: ColumnsResp;
 }
 
-const initialState: IColumnsListState = {
+const initialState: IColumnsState = {
+  isOpen: false,
+  isLoading: false,
   columns: []
 };
 
@@ -46,17 +50,39 @@ export const columnsSlice = createSlice({
   name: 'columns',
   initialState,
   reducers: {
+    openModal: (state) => {
+      state.isOpen = true;
+    },
+    closeModal: (state) => {
+      state.isOpen = false;
+    },
     clearColumns: (state) => {
       state.columns = [];
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(getColumns.fulfilled, (state, action) => {
-      state.columns = action.payload;
-    });
+    builder
+      .addCase(getColumns.rejected, (state) => {
+        state.isLoading = false;
+        state.isOpen = false;
+      })
+      .addCase(getColumns.fulfilled, (state, action) => {
+        state.columns = action.payload;
+        if (state.isLoading && state.isOpen) {
+          state.isLoading = false;
+          state.isOpen = false;
+        }
+      })
+      .addCase(createColumn.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createColumn.rejected, (state) => {
+        state.isLoading = false;
+        state.isOpen = false;
+      });
   }
 });
 
-export const { clearColumns } = columnsSlice.actions;
+export const { openModal, closeModal, clearColumns } = columnsSlice.actions;
 
 export default columnsSlice.reducer;
