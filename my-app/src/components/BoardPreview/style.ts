@@ -4,7 +4,7 @@ export const boardStyle = {
   paddingRight: 10,
   borderRadius: 2,
   bgcolor: '#fff',
-  boxShadow: 1,
+  boxShadow: 2,
   cursor: 'pointer',
   wordWrap: 'break-word',
   '&:hover': {

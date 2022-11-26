@@ -5,15 +5,23 @@ export interface IDeleteTask {
   title: string;
 }
 
-export interface IEditTaskProps extends ITask {
-  closeModal: () => void;
-}
-
 export interface ITask extends IDeleteTask {
   description: string;
 }
 
-export interface IDeleteTaskProps extends IDeleteTask {
+export interface ICurrentTaskProps extends ITask {
+  editTask: (boardId: string, columnId: string, _id: string) => void;
+  deleteTask: (boardId: string, columnId: string, _id: string) => void;
+}
+
+export interface IEditProps extends ITask {
+  editTask: (
+    title: string,
+    description: string,
+    _id: string,
+    columnId: string,
+    boardId: string
+  ) => void;
   closeModal: () => void;
 }
 
