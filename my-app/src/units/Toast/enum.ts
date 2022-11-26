@@ -7,5 +7,6 @@ export enum TranslationKeys {
   successCreateBoard = 'successCreateBoard',
   error409 = 'error409',
   failSignIn401 = 'failSignIn401',
-  fail = 'fail'
+  fail = 'fail',
+  successDeleteBoard = 'successDeleteBoard'
 }

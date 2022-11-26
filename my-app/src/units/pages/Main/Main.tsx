@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import BoardPreview from '../../../components/BoardPreview/BoardPreview';
 import LinearLoadingIndicator from '../../../components/LinearLoadingIndicator';
 import { BoardsListTarnslations, LocalStorageKeys, Paths } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
@@ -35,9 +35,12 @@ const Main = () => {
     <Grid container component="section" justifyContent="space-evenly" gap="20px" mt={10}>
       {boards.length ? (
         boards.map((board) => (
-          <Link key={board._id} to={`/${Paths.board}/${board._id}`}>
-            <div>{board.title}</div>
-          </Link>
+          <BoardPreview
+            title={board.title}
+            boardId={board._id}
+            key={board._id}
+            linkTo={`/${Paths.board}/${board._id}`}
+          />
         ))
       ) : (
         <Typography variant="h5" component="h4" mt={50}>

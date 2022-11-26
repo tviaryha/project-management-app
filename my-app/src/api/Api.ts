@@ -90,6 +90,10 @@ const createBoard = async (params: ICreateBoardReq) => {
   return resp.data;
 };
 
+const deleteBoard = async (boardId: string) => {
+  await apiClient.delete(`/boards/${boardId}`);
+};
+
 export const api = {
   signIn,
   signUp,
@@ -99,5 +103,6 @@ export const api = {
   deleteUser,
   getUsers,
   createBoard,
-  getAllUserBoards
+  getAllUserBoards,
+  deleteBoard
 };
