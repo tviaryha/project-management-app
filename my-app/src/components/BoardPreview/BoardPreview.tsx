@@ -26,6 +26,7 @@ const BoardPreview = ({ title, boardId, linkTo }: IBoard): JSX.Element => {
     console.log(boardId);
   }, []);
 
+  //TODO: дописать функцию удаления таска
   const deleteBoard = async (boardId: string) => {
     try {
       dispatch(toggleLoader());
@@ -65,15 +66,8 @@ const BoardPreview = ({ title, boardId, linkTo }: IBoard): JSX.Element => {
             <DeleteIcon />
           </IconButton>
         ]}>
-        <ListItemText primary={title} secondary={boardId} />
+        <ListItemText primary={title} />
       </ListItem>
-      {/* <ConfirmationModal
-        description={boardId}
-        isOpen={isOpenModal}
-        handleClose={() => dispatch(setIsOpenModal(false))}
-        isLoading={isLoading}
-        yesBtnClickHandler={() => deleteBoard.bind(boardId)}
-      /> */}
     </>
   );
 };

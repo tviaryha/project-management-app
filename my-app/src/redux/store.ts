@@ -9,6 +9,7 @@ import ProfileReducer from './profileSlice';
 import NewBoardReducer from './newBoardSlice';
 import BoardsListReducer from './boardsListSlice';
 import BoardPreviewReducer from './boardPreviewSlice';
+import TaskReducer from './taskSlice';
 
 const store = configureStore({
   reducer: {
@@ -21,7 +22,8 @@ const store = configureStore({
     profile: ProfileReducer,
     newBoard: NewBoardReducer,
     boardsList: BoardsListReducer,
-    boardPreview: BoardPreviewReducer
+    boardPreview: BoardPreviewReducer,
+    task: TaskReducer
   }
 });
 
