@@ -37,5 +37,6 @@ export enum ErrorCodes {
 
 export enum BoardsListTarnslations {
   ns = 'boardsList',
-  noBoards = 'noBoards'
+  noBoards = 'noBoards',
+  descriptionInConfirmationModal = 'descriptionInConfirmationModal'
 }

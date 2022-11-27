@@ -44,8 +44,8 @@ export const boardPreviewSlice = createSlice({
     setBoardTitle: (state, action) => {
       state.boardTitle = action.payload;
     },
-    toggleLoad: (state) => {
-      state.isLoad = !state.isLoad;
+    setIsLoading: (state, action) => {
+      state.isLoad = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -62,6 +62,7 @@ export const boardPreviewSlice = createSlice({
   }
 });
 
-export const { setIsOpenModal, setBoardId, setBoardTitle, toggleLoad } = boardPreviewSlice.actions;
+export const { setIsOpenModal, setBoardId, setBoardTitle, setIsLoading } =
+  boardPreviewSlice.actions;
 
 export default boardPreviewSlice.reducer;

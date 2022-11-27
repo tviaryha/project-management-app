@@ -10,7 +10,7 @@ import useCloseMenu from '../../../hooks/useCloseMenu';
 import { loadUserBoards } from '../../../redux/boardsListSlice';
 import {
   setIsOpenModal,
-  toggleLoad,
+  setIsLoading,
   deleteCurrentBoard,
   setBoardId,
   setBoardTitle
@@ -21,7 +21,7 @@ import { TranslationKeys } from '../../../units/Toast/enum';
 
 const Main = () => {
   useCloseMenu();
-  const { noBoards } = BoardsListTarnslations;
+  const { noBoards, descriptionInConfirmationModal } = BoardsListTarnslations;
   const { successDeleteBoard, fail } = TranslationKeys;
   const { t } = useTranslation([BoardsListTarnslations.ns, TranslationKeys.ns]);
 
@@ -45,7 +45,7 @@ const Main = () => {
   const deleteBoard = async () => {
     if (boardId && boardId.length > 0) {
       try {
-        dispatch(toggleLoad());
+        dispatch(setIsLoading(true));
         await dispatch(deleteCurrentBoard(boardId));
         dispatch(
           openToast({
@@ -57,8 +57,8 @@ const Main = () => {
         const eMessage = t(fail, { ns: TranslationKeys.ns });
         dispatch(openToast({ message: eMessage, type: RespRes.error }));
       } finally {
+        dispatch(setIsLoading(false));
         dispatch(setIsOpenModal(false));
-        dispatch(toggleLoad());
         getUserBoards();
       }
     }
@@ -97,7 +97,7 @@ const Main = () => {
         </Typography>
       )}
       <ConfirmationModal
-        description={boardTitle}
+        description={`${t(descriptionInConfirmationModal)}  ${boardTitle}`}
         isOpen={isOpenModal}
         handleClose={() => dispatch(setIsOpenModal(false))}
         isLoading={isLoad}
