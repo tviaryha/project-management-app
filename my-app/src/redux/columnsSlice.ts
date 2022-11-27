@@ -1,17 +1,25 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { api } from '../api/Api';
-import { ColumnsResp, IColumnReq, IColumnResp, IColumnUpdate } from '../api/models/columns';
+import {
+  ColumnDelete,
+  ColumnsResp,
+  IColumnReq,
+  IColumnResp,
+  IColumnUpdate
+} from '../api/models/columns';
 import { ErrorResponse } from '../api/models/ErrorResponse';
 
 interface IColumnsState {
   isOpen: boolean;
+  isConfirmationModalOpen: boolean;
   isLoading: boolean;
   columns: ColumnsResp;
 }
 
 const initialState: IColumnsState = {
   isOpen: false,
+  isConfirmationModalOpen: false,
   isLoading: false,
   columns: []
 };
@@ -61,6 +69,20 @@ export const updateColumn = createAsyncThunk<
   }
 });
 
+export const deleteColumn = createAsyncThunk<
+  void,
+  ColumnDelete,
+  {
+    rejectValue: number | undefined;
+  }
+>('deleteColumn', async (params, thunkApi) => {
+  try {
+    await api.deleteColumn(params);
+  } catch (e) {
+    return thunkApi.rejectWithValue((<AxiosError<ErrorResponse>>e).response?.status);
+  }
+});
+
 export const columnsSlice = createSlice({
   name: 'columns',
   initialState,
@@ -70,6 +92,12 @@ export const columnsSlice = createSlice({
     },
     closeModal: (state) => {
       state.isOpen = false;
+    },
+    openConfirmationModal: (state) => {
+      state.isConfirmationModalOpen = true;
+    },
+    closeConfirmationModal: (state) => {
+      state.isConfirmationModalOpen = false;
     },
     clearColumns: (state) => {
       state.columns = [];
@@ -87,6 +115,10 @@ export const columnsSlice = createSlice({
           state.isLoading = false;
           state.isOpen = false;
         }
+        if (state.isLoading && state.isConfirmationModalOpen) {
+          state.isLoading = false;
+          state.isConfirmationModalOpen = false;
+        }
       })
       .addCase(createColumn.pending, (state) => {
         state.isLoading = true;
@@ -94,10 +126,23 @@ export const columnsSlice = createSlice({
       .addCase(createColumn.rejected, (state) => {
         state.isLoading = false;
         state.isOpen = false;
+      })
+      .addCase(deleteColumn.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteColumn.rejected, (state) => {
+        state.isLoading = false;
+        state.isConfirmationModalOpen = false;
       });
   }
 });
 
-export const { openModal, closeModal, clearColumns } = columnsSlice.actions;
+export const {
+  openModal,
+  closeModal,
+  openConfirmationModal,
+  closeConfirmationModal,
+  clearColumns
+} = columnsSlice.actions;
 
 export default columnsSlice.reducer;

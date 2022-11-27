@@ -13,4 +13,6 @@ export interface IColumnUpdate extends IColumnReq {
   _id: string;
 }
 
+export type ColumnDelete = Pick<IColumnResp, '_id' | 'boardId'>;
+
 export type ColumnsResp = IColumnResp[];

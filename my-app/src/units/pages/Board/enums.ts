@@ -3,7 +3,8 @@ export enum TranslationKeys {
   mainPageBtn = 'mainPageBtn',
   addColumn = 'addColumn',
   addTask = 'addTask',
-  addFormBtn = 'addFormBtn'
+  addFormBtn = 'addFormBtn',
+  modalDescription = 'modalDescription'
 }
 
 export enum Sizes {

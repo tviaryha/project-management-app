@@ -6,7 +6,13 @@ import jwt_decode from 'jwt-decode';
 import { IDecodedToken } from './interface';
 import { LocalStorageKeys } from '../enums';
 import { IBoardReq, IBoardResp } from './models/boards';
-import { ColumnsResp, IColumnReq, IColumnResp, IColumnUpdate } from './models/columns';
+import {
+  ColumnDelete,
+  ColumnsResp,
+  IColumnReq,
+  IColumnResp,
+  IColumnUpdate
+} from './models/columns';
 
 const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
 
@@ -116,6 +122,10 @@ const updateColumn = async ({ title, _id, boardId, order = 0 }: IColumnUpdate) =
   return resp.data;
 };
 
+const deleteColumn = async ({ boardId, _id }: ColumnDelete) => {
+  await apiClient.delete(`/boards/${boardId}/columns/${_id}`);
+};
+
 export const api = {
   signIn,
   signUp,
@@ -129,5 +139,6 @@ export const api = {
   getBoard,
   getColumns,
   createColumn,
-  updateColumn
+  updateColumn,
+  deleteColumn
 };
