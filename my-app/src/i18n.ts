@@ -26,7 +26,7 @@ const ns = [
   ConfirmationModalTK.ns,
   BoardsListTK.ns,
   WelcomePageTK.ns,
-  BoardTK.ns
+  BoardTK.ns,
   NewTaskTK.ns
 ];
 

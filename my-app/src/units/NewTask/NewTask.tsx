@@ -7,12 +7,8 @@ import { closeModal, getUsers } from '../../redux/newBoardSlice';
 import { getBoard } from '../../redux/newTaskSlice';
 import Form from './Form';
 
-interface Props {
-  columnId: string;
-}
-
-const NewTaskModal = (props: Props) => {
-  const { isOpen, isLoading } = useAppSelector((state) => state.newTask);
+const NewTaskModal = () => {
+  const { isOpen, isLoading, columnId } = useAppSelector((state) => state.newTask);
   const dispatch = useAppDispatch();
   const { id } = useParams();
 
@@ -32,7 +28,7 @@ const NewTaskModal = (props: Props) => {
 
   return isOpen ? (
     <TransitionsModal isOpen={isOpen} handleClose={handleClose} isLoading={isLoading}>
-      <Form columnId={props.columnId} boardId={id || ''} />
+      <Form columnId={columnId} boardId={id || ''} />
     </TransitionsModal>
   ) : null;
 };
