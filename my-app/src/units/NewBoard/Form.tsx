@@ -1,8 +1,12 @@
 import { Button, Grid, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { IBoardReq } from '../../api/models/boards';
+import { FormTranslationKeys, LocalStorageKeys, Paths } from '../../enums';
+import CloseRoundedButton from '../../components/CloseRoundedButton';
+import { ICreateBoardReq } from '../../api/models/boards';
+import { useNavigate } from 'react-router-dom';
 import { FormTranslationKeys, LocalStorageKeys } from '../../enums';
+import { IBoardReq } from '../../api/models/boards';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { createBoard } from '../../redux/newBoardSlice';
 import { openToast, RespRes } from '../../redux/toastSlice';
@@ -29,6 +33,7 @@ const Form = () => {
   const { successCreateBoard, fail } = ToastTranslations;
 
   const { t } = useTranslation([TranslationKeys.ns, FormTranslationKeys.ns, ToastTranslations.ns]);
+  const navigate = useNavigate();
 
   const onSubmit = async () => {
     const userId = localStorage.getItem(LocalStorageKeys.userId);
@@ -37,7 +42,9 @@ const Form = () => {
       const { title, users } = getValues();
       const params = { title, owner: userId, users: [...users, userId] };
       try {
-        await dispatch(createBoard(params)).unwrap();
+        dispatch(toggleLoader());
+        const resp = await dispatch(createBoard(params)).unwrap();
+        navigate(`${Paths.board}/${resp._id}`);
         dispatch(
           openToast({
             message: t(successCreateBoard, { ns: ToastTranslations.ns }),
