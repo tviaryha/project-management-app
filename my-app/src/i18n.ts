@@ -5,6 +5,7 @@ import { initReactI18next } from 'react-i18next';
 import { TranslationKeys as EditProfileTK } from './units/pages/EditProfile/enum';
 import { TranslationKeys as ToastTK } from './units/Toast/enum';
 import { TranslationKeys as NewBoardTK } from './units/NewBoard/enum';
+import { TranslationKeys as NewTaskTK } from './units/NewTask/enum';
 import { TranslationKeys as HeaderTK } from './units/layout/Header/enums';
 import { TranslationKeys as ErrorPageTK } from './units/pages/ErrorPage/enum';
 import { FormTranslationKeys as FormTK } from './enums';
@@ -26,6 +27,7 @@ const ns = [
   BoardsListTK.ns,
   WelcomePageTK.ns,
   BoardTK.ns
+  NewTaskTK.ns
 ];
 
 i18n
