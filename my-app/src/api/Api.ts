@@ -6,7 +6,7 @@ import jwt_decode from 'jwt-decode';
 import { IDecodedToken } from './interface';
 import { LocalStorageKeys } from '../enums';
 import { IBoardReq, IBoardResp } from './models/boards';
-import { ColumnsResp, IColumnReq, IColumnResp } from './models/columns';
+import { ColumnsResp, IColumnReq, IColumnResp, IColumnUpdate } from './models/columns';
 
 const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
 
@@ -100,8 +100,16 @@ const getColumns = async (id: string) => {
   return resp.data;
 };
 
-const createColumn = async ({ title, order = 0, boardId }: IColumnReq) => {
+const createColumn = async ({ title, boardId, order = 0 }: IColumnReq) => {
   const resp = await apiClient.post<IColumnResp>(`/boards/${boardId}/columns`, {
+    title,
+    order
+  });
+  return resp.data;
+};
+
+const updateColumn = async ({ title, _id, boardId, order = 0 }: IColumnUpdate) => {
+  const resp = await apiClient.put<IColumnResp>(`/boards/${boardId}/columns/${_id}`, {
     title,
     order
   });
@@ -120,5 +128,6 @@ export const api = {
   getAllUserBoards,
   getBoard,
   getColumns,
-  createColumn
+  createColumn,
+  updateColumn
 };

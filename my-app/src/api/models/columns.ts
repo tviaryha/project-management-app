@@ -9,4 +9,8 @@ export interface IColumnResp extends Omit<IColumnReq, 'order'> {
   order: 1;
 }
 
+export interface IColumnUpdate extends IColumnReq {
+  _id: string;
+}
+
 export type ColumnsResp = IColumnResp[];

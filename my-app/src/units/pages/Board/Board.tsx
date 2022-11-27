@@ -8,7 +8,7 @@ import useAppSelector from '../../../hooks/useAppSelector';
 import { hideLoader, showLoader } from '../../../redux/appSlice';
 import { clearBoard, getBoard } from '../../../redux/boardSlice';
 import { openToast, RespRes } from '../../../redux/toastSlice';
-import { TranslationKeys } from './enum';
+import { TranslationKeys } from './enums';
 import { TranslationKeys as ToastTranslations } from '../../Toast/enum';
 import Columns from './Columns/Columns';
 import { clearColumns, getColumns } from '../../../redux/columnsSlice';

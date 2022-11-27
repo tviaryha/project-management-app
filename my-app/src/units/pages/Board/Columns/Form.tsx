@@ -6,7 +6,7 @@ import { TranslationKeys as ToastTranslations } from '../../../Toast/enum';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FormTranslationKeys } from '../../../../enums';
-import { TranslationKeys } from '../enum';
+import { TranslationKeys } from '../enums';
 import { Grid, TextField, Button } from '@mui/material';
 
 const Form = () => {

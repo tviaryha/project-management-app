@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { api } from '../api/Api';
-import { ColumnsResp, IColumnReq, IColumnResp } from '../api/models/columns';
+import { ColumnsResp, IColumnReq, IColumnResp, IColumnUpdate } from '../api/models/columns';
 import { ErrorResponse } from '../api/models/ErrorResponse';
 
 interface IColumnsState {
@@ -40,6 +40,21 @@ export const getColumns = createAsyncThunk<
 >('getColumns', async (id, thunkApi) => {
   try {
     const resp = await api.getColumns(id);
+    return resp;
+  } catch (e) {
+    return thunkApi.rejectWithValue((<AxiosError<ErrorResponse>>e).response?.status);
+  }
+});
+
+export const updateColumn = createAsyncThunk<
+  IColumnResp,
+  IColumnUpdate,
+  {
+    rejectValue: number | undefined;
+  }
+>('updateColumn', async (params, thunkApi) => {
+  try {
+    const resp = await api.updateColumn(params);
     return resp;
   } catch (e) {
     return thunkApi.rejectWithValue((<AxiosError<ErrorResponse>>e).response?.status);
