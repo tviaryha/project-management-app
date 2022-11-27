@@ -7,6 +7,7 @@ import LoaderReducer from './loaderSlice';
 import BurgerReducer from './burgerSlice';
 import ProfileReducer from './profileSlice';
 import NewBoardReducer from './newBoardSlice';
+import NewTaskReducer from './newTaskSlice';
 import BoardsListReducer from './boardsListSlice';
 import BoardReducer from './boardSlice';
 import ColumnsReducer from './columnsSlice';
@@ -21,6 +22,7 @@ const store = configureStore({
     burger: BurgerReducer,
     profile: ProfileReducer,
     newBoard: NewBoardReducer,
+    newTask: NewTaskReducer,
     boardsList: BoardsListReducer,
     board: BoardReducer,
     columns: ColumnsReducer
