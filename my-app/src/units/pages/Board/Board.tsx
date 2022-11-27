@@ -54,14 +54,16 @@ const Board = () => {
   }, []);
 
   return title ? (
-    <Box component="section" sx={{ overflowX: 'scroll' }}>
+    <Box>
       <Button variant="outlined" onClick={mainPageBtnHandler} sx={{ my: 1 }}>
         {t(mainPageBtn)}
       </Button>
-      <Typography variant="h5" my={1}>
-        {title}
-      </Typography>
-      <Columns />
+      <Box component="section" sx={{ overflowX: 'scroll' }}>
+        <Typography variant="h5" my={1}>
+          {title}
+        </Typography>
+        <Columns />
+      </Box>
     </Box>
   ) : null;
 };
