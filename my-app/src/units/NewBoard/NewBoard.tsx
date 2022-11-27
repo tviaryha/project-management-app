@@ -1,4 +1,4 @@
-import TransitionsModal from '../../components/TransitionsModal';
+import TransitionsModalWithCloseBtn from '../../components/TransitionsModalWithCloseBtn';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import useAppSelector from '../../hooks/useAppSelector';
 import { closeModal } from '../../redux/newBoardSlice';
@@ -13,9 +13,9 @@ const NewBoardModal = () => {
   };
 
   return isOpen ? (
-    <TransitionsModal isOpen={isOpen} handleClose={handleClose} isLoading={isLoading}>
+    <TransitionsModalWithCloseBtn isOpen={isOpen} handleClose={handleClose} isLoading={isLoading}>
       <Form />
-    </TransitionsModal>
+    </TransitionsModalWithCloseBtn>
   ) : null;
 };
 

@@ -5,8 +5,14 @@ import { ISignIn, ISignInResp, IUserReq, IUserResp, IUsersResp } from './models/
 import jwt_decode from 'jwt-decode';
 import { IDecodedToken } from './interface';
 import { LocalStorageKeys } from '../enums';
-import { ICreateBoardReq, ICreateBoardResp } from './models/boards';
-import { IBoardResp } from './models/BoardsInterfaces';
+import { IBoardReq, IBoardResp } from './models/boards';
+import {
+  ColumnDelete,
+  ColumnsResp,
+  IColumnReq,
+  IColumnResp,
+  IColumnUpdate
+} from './models/columns';
 
 const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
 
@@ -85,9 +91,39 @@ const getAllUserBoards = async (userId: string) => {
   return resp.data;
 };
 
-const createBoard = async (params: ICreateBoardReq) => {
-  const resp = await apiClient.post<ICreateBoardResp>('/boards', params);
+const createBoard = async (params: IBoardReq) => {
+  const resp = await apiClient.post<IBoardResp>('/boards', params);
   return resp.data;
+};
+
+const getBoard = async (id: string) => {
+  const resp = await apiClient<IBoardResp>(`/boards/${id}`);
+  return resp.data;
+};
+
+const getColumns = async (id: string) => {
+  const resp = await apiClient<ColumnsResp>(`/boards/${id}/columns`);
+  return resp.data;
+};
+
+const createColumn = async ({ title, boardId, order = 0 }: IColumnReq) => {
+  const resp = await apiClient.post<IColumnResp>(`/boards/${boardId}/columns`, {
+    title,
+    order
+  });
+  return resp.data;
+};
+
+const updateColumn = async ({ title, _id, boardId, order = 0 }: IColumnUpdate) => {
+  const resp = await apiClient.put<IColumnResp>(`/boards/${boardId}/columns/${_id}`, {
+    title,
+    order
+  });
+  return resp.data;
+};
+
+const deleteColumn = async ({ boardId, _id }: ColumnDelete) => {
+  await apiClient.delete(`/boards/${boardId}/columns/${_id}`);
 };
 
 export const api = {
@@ -99,5 +135,10 @@ export const api = {
   deleteUser,
   getUsers,
   createBoard,
-  getAllUserBoards
+  getAllUserBoards,
+  getBoard,
+  getColumns,
+  createColumn,
+  updateColumn,
+  deleteColumn
 };

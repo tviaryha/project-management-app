@@ -12,6 +12,7 @@ import { TranslationKeys as SignTK } from './units/auth/enum';
 import { TranslationKeys as ConfirmationModalTK } from './components/ConfirmationModal/enum';
 import { BoardsListTranslations as BoardsListTK } from './units/pages/Main/Main';
 import { WelcomePageTarnslations as WelcomePageTK } from './units/pages/Welcome/Welcome';
+import { TranslationKeys as BoardTK } from './units/pages/Board/enums';
 
 const ns = [
   EditProfileTK.ns,
@@ -23,7 +24,8 @@ const ns = [
   SignTK.ns,
   ConfirmationModalTK.ns,
   BoardsListTK.ns,
-  WelcomePageTK.ns
+  WelcomePageTK.ns,
+  BoardTK.ns
 ];
 
 i18n

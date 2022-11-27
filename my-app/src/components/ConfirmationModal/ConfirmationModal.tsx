@@ -24,7 +24,7 @@ const ConfirmationModal = ({
         </Typography>
       </Grid>
       <Grid item textAlign="center">
-        <Typography component="p" variant="body1">
+        <Typography component="p" variant="body1" sx={{ wordWrap: 'break-word' }}>
           {description}
         </Typography>
       </Grid>

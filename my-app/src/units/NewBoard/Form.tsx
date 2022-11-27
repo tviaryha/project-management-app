@@ -1,11 +1,10 @@
 import { Button, Grid, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { ICreateBoardReq } from '../../api/models/boards';
-import CloseRoundedButton from '../../components/CloseRoundedButton';
+import { IBoardReq } from '../../api/models/boards';
 import { FormTranslationKeys, LocalStorageKeys } from '../../enums';
 import useAppDispatch from '../../hooks/useAppDispatch';
-import { closeModal, createBoard, toggleLoader } from '../../redux/newBoardSlice';
+import { createBoard } from '../../redux/newBoardSlice';
 import { openToast, RespRes } from '../../redux/toastSlice';
 import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import DefaultSelect from './DefaultSelect';
@@ -18,15 +17,15 @@ const Form = () => {
     handleSubmit,
     getValues,
     formState: { errors }
-  } = useForm<ICreateBoardReq>({
+  } = useForm<IBoardReq>({
     defaultValues: {
       title: '',
       users: []
     }
   });
 
-  const { requiredE } = FormTranslationKeys;
-  const { title, users, createBtn } = TranslationKeys;
+  const { title, requiredE } = FormTranslationKeys;
+  const { users, createBtn } = TranslationKeys;
   const { successCreateBoard, fail } = ToastTranslations;
 
   const { t } = useTranslation([TranslationKeys.ns, FormTranslationKeys.ns, ToastTranslations.ns]);
@@ -38,7 +37,6 @@ const Form = () => {
       const { title, users } = getValues();
       const params = { title, owner: userId, users: [...users, userId] };
       try {
-        dispatch(toggleLoader());
         await dispatch(createBoard(params)).unwrap();
         dispatch(
           openToast({
@@ -49,45 +47,37 @@ const Form = () => {
       } catch (e) {
         const eMessage = t(fail, { ns: ToastTranslations.ns });
         dispatch(openToast({ message: eMessage, type: RespRes.error }));
-      } finally {
-        dispatch(closeModal());
-        dispatch(toggleLoader());
       }
     }
   };
 
-  const onClick = () => dispatch(closeModal());
-
   return (
-    <>
-      <Grid
-        container
-        component="form"
-        onSubmit={handleSubmit(onSubmit)}
-        noValidate
-        flexDirection="column"
-        alignItems="center"
-        gap={3}>
-        <TextField
-          id="title"
-          label={t(title)}
-          variant="outlined"
-          required
-          type="text"
-          fullWidth
-          error={!!errors.title}
-          helperText={t(errors.title?.message || '', FormTranslationKeys)}
-          {...register(title, {
-            required: { value: true, message: requiredE }
-          })}
-        />
-        <DefaultSelect {...register(users)} />
-        <Button type="submit" variant="contained" fullWidth sx={{ maxWidth: '25ch' }}>
-          {t(createBtn)}
-        </Button>
-      </Grid>
-      <CloseRoundedButton onClick={onClick} />
-    </>
+    <Grid
+      container
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      flexDirection="column"
+      alignItems="center"
+      gap={3}>
+      <TextField
+        id="title"
+        label={t(title, FormTranslationKeys)}
+        variant="outlined"
+        required
+        type="text"
+        fullWidth
+        error={!!errors.title}
+        helperText={t(errors.title?.message || '', FormTranslationKeys)}
+        {...register(title, {
+          required: { value: true, message: requiredE }
+        })}
+      />
+      <DefaultSelect {...register(users)} />
+      <Button type="submit" variant="contained" fullWidth sx={{ maxWidth: '25ch' }}>
+        {t(createBtn)}
+      </Button>
+    </Grid>
   );
 };
 
