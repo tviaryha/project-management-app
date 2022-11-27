@@ -35,7 +35,7 @@ const TransitionsModal = ({ children, isOpen, handleClose, isLoading }: ITransit
         '& .MuiBackdrop-root': { cursor: 'pointer' }
       }}>
       <Fade in={isOpen}>
-        <Grid container sx={style}>
+        <Grid container flexDirection="column" sx={style}>
           {content}
         </Grid>
       </Fade>
