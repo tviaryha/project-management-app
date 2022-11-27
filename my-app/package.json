@@ -41,8 +41,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
-    "sb": "start-storybook -p 6006 -s public",
-    "build-sb": "build-storybook -s public"
+    "sb": "start-storybook -p 6006 public",
+    "build-sb": "build-storybook public"
   },
   "eslintConfig": {
     "extends": [

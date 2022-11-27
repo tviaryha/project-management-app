@@ -1,0 +1,9 @@
+{
+  "title": "Удалить таск?",
+  "buttonDelete": "УДАЛИТЬ",
+  "buttonCancel": "ОТМЕНА",
+  "buttonEdit": "СОХРАНИТЬ",
+  "buttonClose": "ЗАКРЫТЬ",
+  "helperTextTitle": "Заголовок",
+  "helperTextDescription": "Описание"
+}

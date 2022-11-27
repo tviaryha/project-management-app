@@ -10,7 +10,8 @@ export enum Paths {
 
 export enum Developers {
   Nozeil = 'Nozeil',
-  Verigota = 'Verigota'
+  Verigota = 'Verigota',
+  OlyaPolya = 'OlyaPolya'
 }
 
 export enum LocalStorageKeys {
@@ -34,9 +35,4 @@ export enum FormTranslationKeys {
 export enum ErrorCodes {
   CONFLICT = 409,
   NOT_FOUND = 404
-}
-
-export enum BoardsListTarnslations {
-  ns = 'boardsList',
-  noBoards = 'noBoards'
 }

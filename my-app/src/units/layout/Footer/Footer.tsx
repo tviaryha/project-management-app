@@ -21,6 +21,7 @@ const Footer = () => {
             flexBasis={0}>
             <FooterListItem content={Developers.Nozeil} nickname={Developers.Nozeil} />
             <FooterListItem content={Developers.Verigota} nickname={Developers.Verigota} />
+            <FooterListItem content={Developers.OlyaPolya} nickname={Developers.OlyaPolya} />
           </Grid>
           <Grid component={Typography} fontSize={fontSize}>
             © 2022
