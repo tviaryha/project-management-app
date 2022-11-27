@@ -1,9 +1,9 @@
 import { Person } from '@mui/icons-material';
 import { Grid, Card, Avatar, CardHeader, CardContent, Typography } from '@mui/material';
 
-export type СardProps = { bgcolor: string; title: string };
+export type СardProps = { bgcolor: string; title: string; description: string };
 
-const DeveloperСard = ({ bgcolor, title }: СardProps) => {
+const DeveloperСard = ({ bgcolor, title, description }: СardProps) => {
   return (
     <Grid
       container
@@ -23,11 +23,7 @@ const DeveloperСard = ({ bgcolor, title }: СardProps) => {
       />
 
       <CardContent sx={{ p: 0 }}>
-        <Typography variant="body2">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur ratione possimus
-          voluptate ullam esse omnis incidunt, reprehenderit, fugit ipsa culpa sint nisi sit dolorum
-          exercitationem pariatur distinctio, qui veniam explicabo.
-        </Typography>
+        <Typography variant="body2">{description}</Typography>
       </CardContent>
     </Grid>
   );
