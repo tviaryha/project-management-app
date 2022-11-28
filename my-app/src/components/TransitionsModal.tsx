@@ -6,7 +6,7 @@ const TransitionsModal = ({ children, isOpen, handleClose, isLoading }: ITransit
   useCloseMenu();
 
   const style = {
-    position: 'relative',
+    position: 'absolute',
     top: '50%',
     left: '50%',
     justifyContent: 'center',
@@ -18,24 +18,32 @@ const TransitionsModal = ({ children, isOpen, handleClose, isLoading }: ITransit
     bgcolor: isLoading ? 'transparent' : 'background.paper',
     elevating: isLoading ? 0 : 24,
     color: isLoading ? 'background.paper' : 'inherit',
+    outline: 'none',
     p: 4
   };
 
   const content = isLoading ? <CircularProgress color="inherit" /> : children;
+  const isPointer = isLoading ? 'auto' : 'pointer';
+
+  const onClose = () => {
+    if (!isLoading) {
+      handleClose();
+    }
+  };
 
   return (
     <Modal
       open={isOpen}
-      onClose={handleClose}
+      onClose={onClose}
       BackdropComponent={Backdrop}
       BackdropProps={{
         timeout: 500
       }}
       sx={{
-        '& .MuiBackdrop-root': { cursor: 'pointer' }
+        '& .MuiBackdrop-root': { cursor: isPointer }
       }}>
       <Fade in={isOpen}>
-        <Grid container sx={style}>
+        <Grid container flexDirection="column" sx={style}>
           {content}
         </Grid>
       </Fade>

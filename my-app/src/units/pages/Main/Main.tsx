@@ -4,9 +4,12 @@ import { useTranslation } from 'react-i18next';
 import BoardPreview from '../../../components/BoardPreview/BoardPreview';
 import LinearLoadingIndicator from '../../../components/LinearLoadingIndicator';
 import { BoardsListTarnslations, LocalStorageKeys, Paths } from '../../../enums';
+import { Link } from 'react-router-dom';
+import { LocalStorageKeys, Paths } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import useCloseMenu from '../../../hooks/useCloseMenu';
+import { showLoader, hideLoader } from '../../../redux/appSlice';
 import { loadUserBoards } from '../../../redux/boardsListSlice';
 import {
   setIsOpenModal,
@@ -29,15 +32,25 @@ const Main = () => {
   const { boardId, isOpenModal, isLoad, boardTitle } = useAppSelector(
     (state) => state.boardPreview
   );
+
   const dispatch = useAppDispatch();
 
   const getUserBoards = async () => {
     const userId = localStorage.getItem(LocalStorageKeys.userId);
 
     if (userId) {
-      await dispatch(loadUserBoards(userId)).unwrap();
+      try {
+        dispatch(showLoader());
+        await dispatch(loadUserBoards(userId)).unwrap();
+      } catch (error) {
+        const errorMesage = t(fail, { ns: TranslationKeys.ns });
+        dispatch(openToast({ message: errorMesage, type: RespRes.error }));
+      } finally {
+        dispatch(hideLoader());
+      }
     }
   };
+  
   useEffect(() => {
     getUserBoards();
   }, []);

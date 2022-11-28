@@ -2,7 +2,7 @@ export enum Paths {
   base = '/',
   signIn = 'signIn',
   signUp = 'signUp',
-  mainPage = 'mainPage',
+  mainPage = '/mainPage',
   editProfile = 'editProfile',
   error = 'error',
   board = 'board'
@@ -10,7 +10,8 @@ export enum Paths {
 
 export enum Developers {
   Nozeil = 'Nozeil',
-  Verigota = 'Verigota'
+  Verigota = 'Verigota',
+  OlyaPolya = 'OlyaPolya'
 }
 
 export enum LocalStorageKeys {
@@ -20,6 +21,7 @@ export enum LocalStorageKeys {
 
 export enum FormTranslationKeys {
   ns = 'form',
+  title = 'title',
   login = 'login',
   name = 'name',
   password = 'password',
@@ -40,3 +42,4 @@ export enum BoardsListTarnslations {
   noBoards = 'noBoards',
   descriptionInConfirmationModal = 'descriptionInConfirmationModal'
 }
+

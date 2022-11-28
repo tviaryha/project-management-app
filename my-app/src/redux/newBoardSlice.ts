@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { api } from '../api/Api';
-import { ICreateBoardReq, ICreateBoardResp } from '../api/models/boards';
+import { IBoardResp, IBoardReq } from '../api/models/boards';
 import { IUsersResp } from '../api/models/users';
 import { ErrorResponse } from '../api/models/ErrorResponse';
 
@@ -18,8 +18,8 @@ const initialState: INewBoardModalState = {
 };
 
 export const createBoard = createAsyncThunk<
-  ICreateBoardResp,
-  ICreateBoardReq,
+  IBoardResp,
+  IBoardReq,
   {
     rejectValue: number | undefined;
   }
@@ -56,9 +56,6 @@ export const newBoardSlice = createSlice({
     },
     openModal: (state) => {
       state.isOpen = true;
-    },
-    toggleLoader: (state) => {
-      state.isLoading = !state.isLoading;
     }
   },
   extraReducers: (builder) => {
@@ -78,14 +75,16 @@ export const newBoardSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(createBoard.fulfilled, (state) => {
+        state.isOpen = false;
         state.isLoading = false;
       })
       .addCase(createBoard.rejected, (state) => {
+        state.isOpen = false;
         state.isLoading = false;
       });
   }
 });
 
-export const { closeModal, openModal, toggleLoader } = newBoardSlice.actions;
+export const { closeModal, openModal } = newBoardSlice.actions;
 
 export default newBoardSlice.reducer;
