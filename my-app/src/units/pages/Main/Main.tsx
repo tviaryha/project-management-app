@@ -5,7 +5,6 @@ import BoardPreview from '../../../components/BoardPreview/BoardPreview';
 import LinearLoadingIndicator from '../../../components/LinearLoadingIndicator';
 import { BoardsListTarnslations, LocalStorageKeys, Paths } from '../../../enums';
 import { Link } from 'react-router-dom';
-import { LocalStorageKeys, Paths } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import useCloseMenu from '../../../hooks/useCloseMenu';
@@ -50,7 +49,7 @@ const Main = () => {
       }
     }
   };
-  
+
   useEffect(() => {
     getUserBoards();
   }, []);
