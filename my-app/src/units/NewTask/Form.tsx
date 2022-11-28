@@ -5,7 +5,7 @@ import { ICreateTaskParamResp, ICreateTaskReq } from '../../api/models/task';
 import CloseRoundedButton from '../../components/CloseRoundedButton';
 import { FormTranslationKeys, LocalStorageKeys } from '../../enums';
 import useAppDispatch from '../../hooks/useAppDispatch';
-import { closeModal, createTask, toggleLoader } from '../../redux/newTaskSlice';
+import { closeModal, createTask, showLoader, hideLoader } from '../../redux/newTaskSlice';
 import { openToast, RespRes } from '../../redux/toastSlice';
 import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import DefaultSelect from './DefaultSelect';
@@ -50,7 +50,7 @@ const Form = (props: Props) => {
         boardId: props.boardId
       };
       try {
-        dispatch(toggleLoader());
+        dispatch(showLoader());
         await dispatch(createTask(params)).unwrap();
         dispatch(
           openToast({
@@ -63,7 +63,7 @@ const Form = (props: Props) => {
         dispatch(openToast({ message: eMessage, type: RespRes.error }));
       } finally {
         dispatch(closeModal());
-        dispatch(toggleLoader());
+        dispatch(hideLoader());
       }
     }
   };
