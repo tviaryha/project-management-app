@@ -8,6 +8,8 @@ import BurgerReducer from './burgerSlice';
 import ProfileReducer from './profileSlice';
 import NewBoardReducer from './newBoardSlice';
 import BoardsListReducer from './boardsListSlice';
+import BoardPreviewReducer from './boardPreviewSlice';
+import TaskReducer from './taskSlice';
 import BoardReducer from './boardSlice';
 import ColumnsReducer from './columnsSlice';
 
@@ -22,6 +24,8 @@ const store = configureStore({
     profile: ProfileReducer,
     newBoard: NewBoardReducer,
     boardsList: BoardsListReducer,
+    boardPreview: BoardPreviewReducer,
+    task: TaskReducer,
     board: BoardReducer,
     columns: ColumnsReducer
   }

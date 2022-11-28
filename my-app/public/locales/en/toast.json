@@ -9,5 +9,6 @@
   "successDeleteColumn": "Congrats! Column deleted successfully!",
   "error409": "Ooops! User with same login already exits",
   "failSignIn401": "Ooops! Please, check your Login and Password!",
-  "fail": "Ooops! Something goes wrong... Please, try again later!"
+  "fail": "Ooops! Something goes wrong... Please, try again later!",
+  "successDeleteBoard": "Board deleted successfully!"
 }
