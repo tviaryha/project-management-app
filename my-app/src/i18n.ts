@@ -11,7 +11,7 @@ import { FormTranslationKeys as FormTK } from './enums';
 import { TranslationKeys as SignTK } from './units/auth/enum';
 import { TranslationKeys as ConfirmationModalTK } from './components/ConfirmationModal/enum';
 import { TaskTranslationKeys } from './units/Task/types';
-import { BoardsListTarnslations as BoardsListTK } from './enums';
+import { BoardsListTranslations as BoardsListTK } from './units/pages/Main/Main';
 import { WelcomePageTarnslations as WelcomePageTK } from './units/pages/Welcome/Welcome';
 import { TranslationKeys as BoardTK } from './units/pages/Board/enums';
 
