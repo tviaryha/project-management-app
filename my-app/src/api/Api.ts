@@ -99,6 +99,7 @@ const createBoard = async (params: IBoardReq) => {
 
 const deleteBoard = async (boardId: string) => {
   await apiClient.delete(`/boards/${boardId}`);
+};
 
 const getBoard = async (id: string) => {
   const resp = await apiClient<IBoardResp>(`/boards/${id}`);

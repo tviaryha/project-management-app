@@ -35,7 +35,7 @@ const Form = (props: Props) => {
 
   const { requiredE } = FormTranslationKeys;
   const { title, users, createBtn, description } = TranslationKeys;
-  const { successCreateBoard, fail } = ToastTranslations;
+  const { successCreateTask, fail } = ToastTranslations;
 
   const { t } = useTranslation([TranslationKeys.ns, FormTranslationKeys.ns, ToastTranslations.ns]);
 
@@ -54,7 +54,7 @@ const Form = (props: Props) => {
         await dispatch(createTask(params)).unwrap();
         dispatch(
           openToast({
-            message: t(successCreateBoard, { ns: ToastTranslations.ns }),
+            message: t(successCreateTask, { ns: ToastTranslations.ns }),
             type: RespRes.success
           })
         );
