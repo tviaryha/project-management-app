@@ -5,6 +5,7 @@ export enum TranslationKeys {
   successEditProfile = 'successEditProfile',
   successDeleteProfile = 'successDeleteProfile',
   successCreateBoard = 'successCreateBoard',
+  successCreateTask = 'successCreateTask',
   successCreateColumn = 'successCreateColumn',
   successChangeTitle = 'successChangeTitle',
   successDeleteColumn = 'successDeleteColumn',

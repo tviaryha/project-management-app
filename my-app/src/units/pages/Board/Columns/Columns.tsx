@@ -6,6 +6,7 @@ import useAppDispatch from '../../../../hooks/useAppDispatch';
 import { openModal } from '../../../../redux/columnsSlice';
 import AddIcon from '@mui/icons-material/Add';
 import Column from './Column';
+import NewTaskModal from '../../../NewTask/NewTask';
 
 const Columns = () => {
   const columns = useAppSelector((state) => state.columns.columns);
@@ -23,6 +24,7 @@ const Columns = () => {
       {columns.map((column) => (
         <Column key={column._id} title={column.title} _id={column._id} />
       ))}
+      <NewTaskModal />
       <Button
         onClick={addColumnHandler}
         startIcon={<AddIcon />}
