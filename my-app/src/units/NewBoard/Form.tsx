@@ -2,10 +2,7 @@ import { Button, Grid, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FormTranslationKeys, LocalStorageKeys, Paths } from '../../enums';
-import CloseRoundedButton from '../../components/CloseRoundedButton';
-import { ICreateBoardReq } from '../../api/models/boards';
 import { useNavigate } from 'react-router-dom';
-import { FormTranslationKeys, LocalStorageKeys } from '../../enums';
 import { IBoardReq } from '../../api/models/boards';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { createBoard } from '../../redux/newBoardSlice';
@@ -13,6 +10,7 @@ import { openToast, RespRes } from '../../redux/toastSlice';
 import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import DefaultSelect from './DefaultSelect';
 import { TranslationKeys } from './enum';
+import { toggleLoader } from '../../redux/newTaskSlice';
 
 const Form = () => {
   const dispatch = useAppDispatch();

@@ -42,4 +42,3 @@ export enum BoardsListTarnslations {
   noBoards = 'noBoards',
   descriptionInConfirmationModal = 'descriptionInConfirmationModal'
 }
-

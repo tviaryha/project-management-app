@@ -2,10 +2,7 @@ import { Grid, Typography } from '@mui/material';
 import { useEffect, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import BoardPreview from '../../../components/BoardPreview/BoardPreview';
-import LinearLoadingIndicator from '../../../components/LinearLoadingIndicator';
 import { BoardsListTarnslations, LocalStorageKeys, Paths } from '../../../enums';
-import { Link } from 'react-router-dom';
-import { LocalStorageKeys, Paths } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import useCloseMenu from '../../../hooks/useCloseMenu';
@@ -50,7 +47,7 @@ const Main = () => {
       }
     }
   };
-  
+
   useEffect(() => {
     getUserBoards();
   }, []);
@@ -88,27 +85,24 @@ const Main = () => {
     dispatch(setBoardTitle(boardTitle));
   };
 
-  if (isLoading) {
-    return <LinearLoadingIndicator />;
-  }
-
   return (
     <Grid container component="section" justifyContent="space-evenly" gap="20px" mt={10}>
-      {boards.length ? (
-        boards.map((board) => (
-          <BoardPreview
-            title={board.title}
-            boardId={board._id}
-            key={board._id}
-            linkTo={`/${Paths.board}/${board._id}`}
-            onDeleteButtonClick={handleDeleteBoardClick}
-          />
-        ))
-      ) : (
-        <Typography variant="h5" component="h4" mt={50}>
-          {t(noBoards)}
-        </Typography>
-      )}
+      {!isLoading &&
+        (boards.length ? (
+          boards.map((board) => (
+            <BoardPreview
+              title={board.title}
+              boardId={board._id}
+              key={board._id}
+              linkTo={`/${Paths.board}/${board._id}`}
+              onDeleteButtonClick={handleDeleteBoardClick}
+            />
+          ))
+        ) : (
+          <Typography variant="h5" component="h4" mt={50}>
+            {t(noBoards)}
+          </Typography>
+        ))}
       <ConfirmationModal
         description={`${t(descriptionInConfirmationModal)}  ${boardTitle}`}
         isOpen={isOpenModal}
