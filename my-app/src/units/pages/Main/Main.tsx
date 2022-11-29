@@ -2,7 +2,8 @@ import { Grid, Typography } from '@mui/material';
 import { useEffect, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import BoardPreview from '../../../components/BoardPreview/BoardPreview';
-import { BoardsListTarnslations, LocalStorageKeys, Paths } from '../../../enums';
+import { LocalStorageKeys, Paths } from '../../../enums';
+import { Link } from 'react-router-dom';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import useCloseMenu from '../../../hooks/useCloseMenu';
@@ -19,13 +20,19 @@ import ConfirmationModal from '../../../components/ConfirmationModal/Confirmatio
 import { openToast, RespRes } from '../../../redux/toastSlice';
 import { TranslationKeys } from '../../../units/Toast/enum';
 
+export enum BoardsListTranslations {
+  ns = 'boardsList',
+  noBoards = 'noBoards',
+  descriptionInConfirmationModal = 'descriptionInConfirmationModal'
+}
+
 const Main = () => {
   useCloseMenu();
-  const { noBoards, descriptionInConfirmationModal } = BoardsListTarnslations;
+  const { noBoards, descriptionInConfirmationModal } = BoardsListTranslations;
   const { successDeleteBoard, fail } = TranslationKeys;
-  const { t } = useTranslation([BoardsListTarnslations.ns, TranslationKeys.ns]);
+  const { t } = useTranslation([BoardsListTranslations.ns, TranslationKeys.ns]);
 
-  const { isLoading, boards } = useAppSelector((state) => state.boardsList);
+  const { boards } = useAppSelector((state) => state.boardsList);
   const { boardId, isOpenModal, isLoad, boardTitle } = useAppSelector(
     (state) => state.boardPreview
   );

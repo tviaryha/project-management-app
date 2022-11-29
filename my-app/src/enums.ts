@@ -37,8 +37,3 @@ export enum ErrorCodes {
   NOT_FOUND = 404
 }
 
-export enum BoardsListTarnslations {
-  ns = 'boardsList',
-  noBoards = 'noBoards',
-  descriptionInConfirmationModal = 'descriptionInConfirmationModal'
-}
