@@ -62,7 +62,6 @@ const Main = () => {
   const deleteBoard = async () => {
     if (boardId && boardId.length > 0) {
       try {
-        dispatch(setIsLoading(true));
         await dispatch(deleteCurrentBoard(boardId));
         dispatch(
           openToast({
@@ -74,7 +73,6 @@ const Main = () => {
         const eMessage = t(fail, { ns: TranslationKeys.ns });
         dispatch(openToast({ message: eMessage, type: RespRes.error }));
       } finally {
-        dispatch(setIsLoading(false));
         dispatch(setIsOpenModal(false));
         getUserBoards();
       }
@@ -94,22 +92,21 @@ const Main = () => {
 
   return (
     <Grid container component="section" justifyContent="space-evenly" gap="20px" mt={10}>
-      {!isLoading &&
-        (boards.length ? (
-          boards.map((board) => (
-            <BoardPreview
-              title={board.title}
-              boardId={board._id}
-              key={board._id}
-              linkTo={`/${Paths.board}/${board._id}`}
-              onDeleteButtonClick={handleDeleteBoardClick}
-            />
-          ))
-        ) : (
-          <Typography variant="h5" component="h4" mt={50}>
-            {t(noBoards)}
-          </Typography>
-        ))}
+      {boards.length ? (
+        boards.map((board) => (
+          <BoardPreview
+            title={board.title}
+            boardId={board._id}
+            key={board._id}
+            linkTo={`/${Paths.board}/${board._id}`}
+            onDeleteButtonClick={handleDeleteBoardClick}
+          />
+        ))
+      ) : (
+        <Typography variant="h5" component="h4" mt={50}>
+          {t(noBoards)}
+        </Typography>
+      )}
       <ConfirmationModal
         description={`${t(descriptionInConfirmationModal)}  ${boardTitle}`}
         isOpen={isOpenModal}
