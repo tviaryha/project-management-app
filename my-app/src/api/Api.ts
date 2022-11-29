@@ -5,7 +5,7 @@ import { ISignIn, ISignInResp, IUserReq, IUserResp, IUsersResp } from './models/
 import jwt_decode from 'jwt-decode';
 import { IDecodedToken } from './interface';
 import { LocalStorageKeys } from '../enums';
-import { ICreateTaskReq, ICreateTaskResp, IGetTasksReq } from './models/task';
+import { ICreateTaskReq, ICreateTaskResp } from './models/task';
 import { IBoardReq, IBoardResp } from './models/boards';
 import {
   ColumnDelete,
@@ -15,7 +15,7 @@ import {
   IColumnUpdate
 } from './models/columns';
 
-const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
+const BASE_URL = 'https://dreary-can-production.up.railway.app';
 
 const apiClient = axios.create({
   baseURL: BASE_URL

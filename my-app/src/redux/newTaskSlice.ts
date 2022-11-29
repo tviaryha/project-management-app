@@ -65,8 +65,11 @@ export const newTaskSlice = createSlice({
       state.isOpen = true;
       state.columnId = action.payload;
     },
-    toggleLoader: (state) => {
-      state.isLoading = !state.isLoading;
+    showLoader: (state) => {
+      state.isLoading = true;
+    },
+    hideLoader: (state) => {
+      state.isLoading = false;
     }
   },
   extraReducers: (builder) => {
@@ -105,6 +108,6 @@ export const newTaskSlice = createSlice({
   }
 });
 
-export const { closeModal, openModal, toggleLoader } = newTaskSlice.actions;
+export const { closeModal, openModal, showLoader, hideLoader } = newTaskSlice.actions;
 
 export default newTaskSlice.reducer;

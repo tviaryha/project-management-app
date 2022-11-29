@@ -10,7 +10,7 @@ import { openToast, RespRes } from '../../redux/toastSlice';
 import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import DefaultSelect from './DefaultSelect';
 import { TranslationKeys } from './enum';
-import { toggleLoader } from '../../redux/newTaskSlice';
+import { toggleLoader } from '../../redux/newBoardSlice';
 
 const Form = () => {
   const dispatch = useAppDispatch();
