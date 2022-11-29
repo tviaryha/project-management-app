@@ -6,13 +6,7 @@ import jwt_decode from 'jwt-decode';
 import { IDecodedToken } from './interface';
 import { LocalStorageKeys } from '../enums';
 import { IBoardReq, IBoardResp } from './models/boards';
-import {
-  ColumnDelete,
-  ColumnsResp,
-  IColumnReq,
-  IColumnResp,
-  IColumnUpdate
-} from './models/columns';
+import { ColumnDelete, ColumnsResp, IColumnReq, IColumnResp } from './models/columns';
 
 const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
 
@@ -106,7 +100,7 @@ const getColumns = async (id: string) => {
   return resp.data;
 };
 
-const createColumn = async ({ title, boardId, order = 0 }: IColumnReq) => {
+const createColumn = async ({ title, boardId, order }: IColumnReq) => {
   const resp = await apiClient.post<IColumnResp>(`/boards/${boardId}/columns`, {
     title,
     order
@@ -114,7 +108,7 @@ const createColumn = async ({ title, boardId, order = 0 }: IColumnReq) => {
   return resp.data;
 };
 
-const updateColumn = async ({ title, _id, boardId, order = 0 }: IColumnUpdate) => {
+const updateColumn = async ({ title, _id, boardId, order }: IColumnResp) => {
   const resp = await apiClient.put<IColumnResp>(`/boards/${boardId}/columns/${_id}`, {
     title,
     order

@@ -1,14 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { api } from '../api/Api';
-import {
-  ColumnDelete,
-  ColumnsResp,
-  IColumnReq,
-  IColumnResp,
-  IColumnUpdate
-} from '../api/models/columns';
+import { ColumnDelete, ColumnsResp, IColumnReq, IColumnResp } from '../api/models/columns';
 import { ErrorResponse } from '../api/models/ErrorResponse';
+import { mapColumnsOrder } from '../utils/utils';
 
 interface IColumnsState {
   isOpen: boolean;
@@ -56,7 +51,7 @@ export const getColumns = createAsyncThunk<
 
 export const updateColumn = createAsyncThunk<
   IColumnResp,
-  IColumnUpdate,
+  IColumnResp,
   {
     rejectValue: number | undefined;
   }
@@ -99,6 +94,9 @@ export const columnsSlice = createSlice({
     closeConfirmationModal: (state) => {
       state.isConfirmationModalOpen = false;
     },
+    setColumns: (state, action) => {
+      state.columns = action.payload;
+    },
     clearColumns: (state) => {
       state.columns = [];
     }
@@ -110,7 +108,8 @@ export const columnsSlice = createSlice({
         state.isOpen = false;
       })
       .addCase(getColumns.fulfilled, (state, action) => {
-        state.columns = action.payload;
+        const sortedColumns = action.payload.sort((a, b) => a.order - b.order);
+        state.columns = mapColumnsOrder(sortedColumns);
         if (state.isLoading && state.isOpen) {
           state.isLoading = false;
           state.isOpen = false;
@@ -142,7 +141,8 @@ export const {
   closeModal,
   openConfirmationModal,
   closeConfirmationModal,
-  clearColumns
+  clearColumns,
+  setColumns
 } = columnsSlice.actions;
 
 export default columnsSlice.reducer;

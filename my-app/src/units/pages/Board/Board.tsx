@@ -11,10 +11,13 @@ import { openToast, RespRes } from '../../../redux/toastSlice';
 import { TranslationKeys } from './enums';
 import { TranslationKeys as ToastTranslations } from '../../Toast/enum';
 import Columns from './Columns/Columns';
-import { clearColumns, getColumns } from '../../../redux/columnsSlice';
+import { clearColumns, getColumns, setColumns, updateColumn } from '../../../redux/columnsSlice';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { mapColumnsOrder, reorder } from '../../../utils/utils';
 
 const Board = () => {
   const { title } = useAppSelector((state) => state.board);
+  const columns = useAppSelector((state) => state.columns.columns);
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -53,6 +56,37 @@ const Board = () => {
     };
   }, []);
 
+  const onDragEnd = async (result: DropResult) => {
+    const { destination, source } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    if (source.index === destination.index) {
+      return;
+    }
+
+    const items = reorder(columns, source.index, destination.index);
+    const orderedItems = mapColumnsOrder(items);
+
+    dispatch(setColumns(orderedItems));
+
+    if (boardId) {
+      dispatch(showLoader());
+      try {
+        await dispatch(updateColumn(orderedItems[destination.index])).unwrap();
+        await dispatch(updateColumn(orderedItems[source.index])).unwrap();
+      } catch {
+        dispatch(
+          openToast({ message: t(fail, { ns: ToastTranslations.ns }), type: RespRes.error })
+        );
+      } finally {
+        dispatch(hideLoader());
+      }
+    }
+  };
+
   return title ? (
     <Box>
       <Button variant="outlined" onClick={mainPageBtnHandler} sx={{ my: 1 }}>
@@ -62,7 +96,9 @@ const Board = () => {
         <Typography variant="h5" my={1}>
           {title}
         </Typography>
-        <Columns />
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Columns />
+        </DragDropContext>
       </Box>
     </Box>
   ) : null;
