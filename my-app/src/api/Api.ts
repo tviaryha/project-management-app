@@ -5,6 +5,7 @@ import { ISignIn, ISignInResp, IUserReq, IUserResp, IUsersResp } from './models/
 import jwt_decode from 'jwt-decode';
 import { IDecodedToken } from './interface';
 import { LocalStorageKeys } from '../enums';
+import { ICreateTaskReq, ICreateTaskResp } from './models/task';
 import { IBoardReq, IBoardResp } from './models/boards';
 import {
   ColumnDelete,
@@ -14,7 +15,7 @@ import {
   IColumnUpdate
 } from './models/columns';
 
-const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
+const BASE_URL = 'https://dreary-can-production.up.railway.app';
 
 const apiClient = axios.create({
   baseURL: BASE_URL
@@ -130,6 +131,14 @@ const deleteColumn = async ({ boardId, _id }: ColumnDelete) => {
   await apiClient.delete(`/boards/${boardId}/columns/${_id}`);
 };
 
+const createTask = async (params: ICreateTaskReq) => {
+  const resp = await apiClient.post<ICreateTaskResp>(
+    `/boards/${params.boardId}/columns/${params.columnId}/tasks`,
+    params.data
+  );
+  return resp.data;
+};
+
 export const api = {
   signIn,
   signUp,
@@ -145,5 +154,6 @@ export const api = {
   getColumns,
   createColumn,
   updateColumn,
-  deleteColumn
+  deleteColumn,
+  createTask
 };

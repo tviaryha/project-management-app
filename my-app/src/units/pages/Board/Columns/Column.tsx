@@ -4,10 +4,17 @@ import { IColumnResp } from '../../../../api/models/columns';
 import { Sizes, TranslationKeys } from '../enums';
 import AddIcon from '@mui/icons-material/Add';
 import Title from './Title/Title';
+import useAppDispatch from '../../../../hooks/useAppDispatch';
+import { useCallback } from 'react';
+import { openModal } from '../../../../redux/newTaskSlice';
 
 const Column = ({ title, _id: columnId }: Pick<IColumnResp, 'title' | '_id'>) => {
   const { t } = useTranslation([TranslationKeys.ns]);
   const { addTask } = TranslationKeys;
+  const dispatch = useAppDispatch();
+  const onClick = useCallback(() => {
+    dispatch(openModal(columnId));
+  }, [columnId]);
 
   return (
     <Paper
@@ -20,7 +27,7 @@ const Column = ({ title, _id: columnId }: Pick<IColumnResp, 'title' | '_id'>) =>
         border: '1px solid red'
       }}>
       <Title title={title} columnId={columnId} />
-      <Button fullWidth startIcon={<AddIcon />}>
+      <Button fullWidth startIcon={<AddIcon />} onClick={onClick}>
         {t(addTask)}
       </Button>
     </Paper>

@@ -56,6 +56,9 @@ export const newBoardSlice = createSlice({
     },
     openModal: (state) => {
       state.isOpen = true;
+    },
+    toggleLoader: (state) => {
+      state.isLoading = !state.isLoading;
     }
   },
   extraReducers: (builder) => {
@@ -85,6 +88,6 @@ export const newBoardSlice = createSlice({
   }
 });
 
-export const { closeModal, openModal } = newBoardSlice.actions;
+export const { closeModal, openModal, toggleLoader } = newBoardSlice.actions;
 
 export default newBoardSlice.reducer;
