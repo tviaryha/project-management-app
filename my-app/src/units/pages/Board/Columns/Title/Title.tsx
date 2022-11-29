@@ -8,7 +8,8 @@ import {
   closeConfirmationModal,
   deleteColumn,
   getColumns,
-  openConfirmationModal
+  openConfirmationModal,
+  updateColumnTitle
 } from '../../../../../redux/columnsSlice';
 import ConfirmationModal from '../../../../../components/ConfirmationModal/ConfirmationModal';
 import useAppSelector from '../../../../../hooks/useAppSelector';
@@ -35,7 +36,10 @@ const Title = ({ title, _id, order }: TitleProps) => {
     setShouldShowTitle(!shouldShowTitle);
   };
 
-  const setNewTitle = (title: string) => setColumnTitle(title);
+  const setNewTitle = (title: string) => {
+    dispatch(updateColumnTitle({ title, _id }));
+    setColumnTitle(title);
+  };
 
   const deleteBtnHandler = () => {
     if (!isOpen) {

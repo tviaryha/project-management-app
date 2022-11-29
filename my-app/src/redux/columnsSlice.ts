@@ -97,6 +97,15 @@ export const columnsSlice = createSlice({
     setColumns: (state, action) => {
       state.columns = action.payload;
     },
+    updateColumnTitle: (state, action) => {
+      const { title, _id } = action.payload as { title: string; _id: string };
+      state.columns = state.columns.map((column) => {
+        if (column._id === _id) {
+          column.title = title;
+        }
+        return column;
+      });
+    },
     clearColumns: (state) => {
       state.columns = [];
     }
@@ -142,7 +151,8 @@ export const {
   openConfirmationModal,
   closeConfirmationModal,
   clearColumns,
-  setColumns
+  setColumns,
+  updateColumnTitle
 } = columnsSlice.actions;
 
 export default columnsSlice.reducer;

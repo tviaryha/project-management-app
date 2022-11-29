@@ -5,12 +5,14 @@ import { initReactI18next } from 'react-i18next';
 import { TranslationKeys as EditProfileTK } from './units/pages/EditProfile/enum';
 import { TranslationKeys as ToastTK } from './units/Toast/enum';
 import { TranslationKeys as NewBoardTK } from './units/NewBoard/enum';
+import { TranslationKeys as NewTaskTK } from './units/NewTask/enum';
 import { TranslationKeys as HeaderTK } from './units/layout/Header/enums';
 import { TranslationKeys as ErrorPageTK } from './units/pages/ErrorPage/enum';
 import { FormTranslationKeys as FormTK } from './enums';
 import { TranslationKeys as SignTK } from './units/auth/enum';
 import { TranslationKeys as ConfirmationModalTK } from './components/ConfirmationModal/enum';
 import { BoardsListTranslations as BoardsListTK } from './units/pages/Main/Main';
+import { TaskTranslationKeys } from './units/Task/types';
 import { WelcomePageTarnslations as WelcomePageTK } from './units/pages/Welcome/Welcome';
 import { TranslationKeys as BoardTK } from './units/pages/Board/enums';
 
@@ -23,9 +25,11 @@ const ns = [
   FormTK.ns,
   SignTK.ns,
   ConfirmationModalTK.ns,
+  TaskTranslationKeys.ns,
   BoardsListTK.ns,
   WelcomePageTK.ns,
-  BoardTK.ns
+  BoardTK.ns,
+  NewTaskTK.ns
 ];
 
 i18n

@@ -7,6 +7,7 @@ import { IDecodedToken } from './interface';
 import { LocalStorageKeys } from '../enums';
 import { IBoardReq, IBoardResp } from './models/boards';
 import { ColumnDelete, ColumnsResp, IColumnReq, IColumnResp } from './models/columns';
+import { ICreateTaskReq, ICreateTaskResp } from './models/task';
 
 const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
 
@@ -95,6 +96,10 @@ const getBoard = async (id: string) => {
   return resp.data;
 };
 
+const deleteBoard = async (boardId: string) => {
+  await apiClient.delete(`/boards/${boardId}`);
+};
+
 const getColumns = async (id: string) => {
   const resp = await apiClient<ColumnsResp>(`/boards/${id}/columns`);
   return resp.data;
@@ -120,6 +125,14 @@ const deleteColumn = async ({ boardId, _id }: ColumnDelete) => {
   await apiClient.delete(`/boards/${boardId}/columns/${_id}`);
 };
 
+const createTask = async (params: ICreateTaskReq) => {
+  const resp = await apiClient.post<ICreateTaskResp>(
+    `/boards/${params.boardId}/columns/${params.columnId}/tasks`,
+    params.data
+  );
+  return resp.data;
+};
+
 export const api = {
   signIn,
   signUp,
@@ -130,9 +143,11 @@ export const api = {
   getUsers,
   createBoard,
   getAllUserBoards,
+  deleteBoard,
   getBoard,
   getColumns,
   createColumn,
   updateColumn,
-  deleteColumn
+  deleteColumn,
+  createTask
 };

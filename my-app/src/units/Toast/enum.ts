@@ -5,10 +5,12 @@ export enum TranslationKeys {
   successEditProfile = 'successEditProfile',
   successDeleteProfile = 'successDeleteProfile',
   successCreateBoard = 'successCreateBoard',
+  successCreateTask = 'successCreateTask',
   successCreateColumn = 'successCreateColumn',
   successChangeTitle = 'successChangeTitle',
   successDeleteColumn = 'successDeleteColumn',
   error409 = 'error409',
   failSignIn401 = 'failSignIn401',
-  fail = 'fail'
+  fail = 'fail',
+  successDeleteBoard = 'successDeleteBoard'
 }
