@@ -1,15 +1,15 @@
 import { Grid, IconButton, Typography } from '@mui/material';
 import { useState } from 'react';
 import Form from './Form';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { red } from '@mui/material/colors';
+import DeleteIcon from '@mui/icons-material/Delete';
 import useAppDispatch from '../../../../../hooks/useAppDispatch';
 import { useParams } from 'react-router-dom';
 import {
   closeConfirmationModal,
   deleteColumn,
   getColumns,
-  openConfirmationModal
+  openConfirmationModal,
+  updateColumnTitle
 } from '../../../../../redux/columnsSlice';
 import ConfirmationModal from '../../../../../components/ConfirmationModal/ConfirmationModal';
 import useAppSelector from '../../../../../hooks/useAppSelector';
@@ -17,10 +17,9 @@ import { TranslationKeys as ToastTranslations } from '../../../../Toast/enum';
 import { useTranslation } from 'react-i18next';
 import { openToast, RespRes } from '../../../../../redux/toastSlice';
 import { TranslationKeys } from '../../enums';
+import { TitleProps } from './types';
 
-type Props = { title: string; columnId: string };
-
-const Title = ({ title, columnId }: Props) => {
+const Title = ({ title, _id, order }: TitleProps) => {
   const { id: boardId } = useParams();
 
   const { isLoading } = useAppSelector((state) => state.columns);
@@ -37,7 +36,10 @@ const Title = ({ title, columnId }: Props) => {
     setShouldShowTitle(!shouldShowTitle);
   };
 
-  const setNewTitle = (title: string) => setColumnTitle(title);
+  const setNewTitle = (title: string) => {
+    dispatch(updateColumnTitle({ title, _id }));
+    setColumnTitle(title);
+  };
 
   const deleteBtnHandler = () => {
     if (!isOpen) {
@@ -56,7 +58,7 @@ const Title = ({ title, columnId }: Props) => {
   const handleConfirmationModalYes = async () => {
     if (boardId) {
       try {
-        await dispatch(deleteColumn({ _id: columnId, boardId })).unwrap();
+        await dispatch(deleteColumn({ _id, boardId })).unwrap();
         await dispatch(getColumns(boardId)).unwrap();
         dispatch(
           openToast({
@@ -89,8 +91,9 @@ const Title = ({ title, columnId }: Props) => {
           alignSelf="flex-start"
           component={IconButton}
           onClick={deleteBtnHandler}
-          sx={{ p: 0, color: red[500] }}>
-          <DeleteOutlineIcon />
+          size="small"
+          sx={{ p: 0 }}>
+          <DeleteIcon />
         </Grid>
       </Grid>
       <ConfirmationModal
@@ -104,7 +107,8 @@ const Title = ({ title, columnId }: Props) => {
   ) : (
     <Form
       title={columnTitle}
-      columnId={columnId}
+      _id={_id}
+      order={order}
       toggleShouldShowTitle={toggleShouldShowTitle}
       setNewTitle={setNewTitle}
     />

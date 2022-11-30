@@ -6,7 +6,7 @@ import useAppDispatch from '../../../../hooks/useAppDispatch';
 import { openModal } from '../../../../redux/columnsSlice';
 import AddIcon from '@mui/icons-material/Add';
 import Column from './Column';
-import NewTaskModal from '../../../NewTask/NewTask';
+import { Droppable } from 'react-beautiful-dnd';
 
 const Columns = () => {
   const columns = useAppSelector((state) => state.columns.columns);
@@ -20,18 +20,30 @@ const Columns = () => {
   const addColumnHandler = async () => dispatch(openModal());
 
   return (
-    <Box my={1} sx={{ display: 'inline-flex' }}>
-      {columns.map((column) => (
-        <Column key={column._id} title={column.title} _id={column._id} />
-      ))}
-      <NewTaskModal />
-      <Button
-        onClick={addColumnHandler}
-        startIcon={<AddIcon />}
-        sx={{ width: Sizes.COLUMN_WIDTH, height: btnHeight, lineHeight: 0 }}>
-        {t(addColumn)}
-      </Button>
-    </Box>
+    <Droppable direction="horizontal" droppableId="columns">
+      {(provided) => (
+        <Box sx={{ display: 'inline-flex' }}>
+          <Box
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            my={1}
+            sx={{
+              display: 'inline-flex'
+            }}>
+            {columns.map((column, index) => (
+              <Column key={column._id} title={column.title} _id={column._id} index={index} />
+            ))}
+            {provided.placeholder}
+          </Box>
+          <Button
+            onClick={addColumnHandler}
+            startIcon={<AddIcon />}
+            sx={{ width: Sizes.COLUMN_WIDTH, height: btnHeight, lineHeight: 0 }}>
+            {t(addColumn)}
+          </Button>
+        </Box>
+      )}
+    </Droppable>
   );
 };
 

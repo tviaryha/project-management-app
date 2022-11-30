@@ -10,13 +10,11 @@ import { setupInterceptors } from './api/Api';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <CssBaseline>
-        <App />
-      </CssBaseline>
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <CssBaseline>
+      <App />
+    </CssBaseline>
+  </Provider>
 );
 
 setupInterceptors(store);

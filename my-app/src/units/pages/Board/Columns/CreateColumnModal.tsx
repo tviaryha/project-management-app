@@ -5,14 +5,14 @@ import { closeModal } from '../../../../redux/columnsSlice';
 import Form from './Form';
 
 const CreateColumnModal = () => {
-  const { isLoading, isOpen } = useAppSelector((state) => state.columns);
+  const { isLoading, isOpen, columns } = useAppSelector((state) => state.columns);
   const dispatch = useAppDispatch();
 
   const handleClose = () => dispatch(closeModal());
 
   return isOpen ? (
     <TransitionsModalWithCloseBtn isOpen={isOpen} handleClose={handleClose} isLoading={isLoading}>
-      <Form />
+      <Form order={columns.length} />
     </TransitionsModalWithCloseBtn>
   ) : null;
 };

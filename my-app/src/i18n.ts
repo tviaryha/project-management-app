@@ -11,10 +11,10 @@ import { TranslationKeys as ErrorPageTK } from './units/pages/ErrorPage/enum';
 import { FormTranslationKeys as FormTK } from './enums';
 import { TranslationKeys as SignTK } from './units/auth/enum';
 import { TranslationKeys as ConfirmationModalTK } from './components/ConfirmationModal/enum';
-import { TaskTranslationKeys } from './units/Task/types';
-import { WelcomePageTarnslations as WelcomePageTK } from './units/pages/Welcome/Welcome';
-import { TranslationKeys as BoardTK } from './units/pages/Board/enums';
 import { BoardsListTranslations as BoardsListTK } from './units/pages/Main/Main';
+import { TaskTranslationKeys } from './units/Task/types';
+import { WelcomePageTranslations as WelcomePageTK } from './units/pages/Welcome/Welcome';
+import { TranslationKeys as BoardTK } from './units/pages/Board/enums';
 
 const ns = [
   EditProfileTK.ns,
