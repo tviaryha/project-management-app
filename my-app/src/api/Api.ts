@@ -6,7 +6,13 @@ import jwt_decode from 'jwt-decode';
 import { IDecodedToken } from './interface';
 import { LocalStorageKeys } from '../enums';
 import { IBoardReq, IBoardResp } from './models/boards';
-import { ColumnDelete, ColumnsResp, IColumnReq, IColumnResp } from './models/columns';
+import {
+  ColumnDelete,
+  ColumnsResp,
+  IColumnReq,
+  IColumnResp,
+  UpdateColumnsOrderReq
+} from './models/columns';
 import { ICreateTaskReq, ICreateTaskResp } from './models/task';
 
 const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
@@ -133,6 +139,11 @@ const createTask = async (params: ICreateTaskReq) => {
   return resp.data;
 };
 
+const updateSetOfColumns = async (params: UpdateColumnsOrderReq) => {
+  const resp = await apiClient.patch<ColumnsResp>('/columnsSet', params);
+  return resp.data;
+};
+
 export const api = {
   signIn,
   signUp,
@@ -149,5 +160,6 @@ export const api = {
   createColumn,
   updateColumn,
   deleteColumn,
+  updateSetOfColumns,
   createTask
 };

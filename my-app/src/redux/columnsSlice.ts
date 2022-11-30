@@ -1,7 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { api } from '../api/Api';
-import { ColumnDelete, ColumnsResp, IColumnReq, IColumnResp } from '../api/models/columns';
+import {
+  ColumnDelete,
+  ColumnsResp,
+  IColumnReq,
+  IColumnResp,
+  UpdateColumnsOrderReq
+} from '../api/models/columns';
 import { ErrorResponse } from '../api/models/ErrorResponse';
 import { mapColumnsOrder } from '../utils/utils';
 
@@ -78,6 +84,21 @@ export const deleteColumn = createAsyncThunk<
   }
 });
 
+export const updateSetOfColumns = createAsyncThunk<
+  ColumnsResp,
+  UpdateColumnsOrderReq,
+  {
+    rejectValue: number | undefined;
+  }
+>('updateSetOfColumns', async (params, thunkApi) => {
+  try {
+    const resp = await api.updateSetOfColumns(params);
+    return resp;
+  } catch (e) {
+    return thunkApi.rejectWithValue((<AxiosError<ErrorResponse>>e).response?.status);
+  }
+});
+
 export const columnsSlice = createSlice({
   name: 'columns',
   initialState,
@@ -97,8 +118,8 @@ export const columnsSlice = createSlice({
     setColumns: (state, action) => {
       state.columns = action.payload;
     },
-    updateColumnTitle: (state, action) => {
-      const { title, _id } = action.payload as { title: string; _id: string };
+    updateColumnTitle: (state, action: { payload: { title: string; _id: string } }) => {
+      const { title, _id } = action.payload;
       state.columns = state.columns.map((column) => {
         if (column._id === _id) {
           column.title = title;
@@ -141,6 +162,10 @@ export const columnsSlice = createSlice({
       .addCase(deleteColumn.rejected, (state) => {
         state.isLoading = false;
         state.isConfirmationModalOpen = false;
+      })
+      .addCase(updateSetOfColumns.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.columns = action.payload;
       });
   }
 });

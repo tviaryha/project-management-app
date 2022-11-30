@@ -11,3 +11,5 @@ export interface IColumnResp extends IColumnReq {
 export type ColumnDelete = Pick<IColumnResp, '_id' | 'boardId'>;
 
 export type ColumnsResp = IColumnResp[];
+
+export type UpdateColumnsOrderReq = Pick<IColumnResp, '_id' | 'order'>[];

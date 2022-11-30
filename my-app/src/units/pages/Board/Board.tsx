@@ -11,9 +11,15 @@ import { openToast, RespRes } from '../../../redux/toastSlice';
 import { TranslationKeys } from './enums';
 import { TranslationKeys as ToastTranslations } from '../../Toast/enum';
 import Columns from './Columns/Columns';
-import { clearColumns, getColumns, setColumns, updateColumn } from '../../../redux/columnsSlice';
+import {
+  clearColumns,
+  getColumns,
+  setColumns,
+  updateSetOfColumns
+} from '../../../redux/columnsSlice';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { mapColumnsOrder, reorder } from '../../../utils/utils';
+import { UpdateColumnsOrderReq } from '../../../api/models/columns';
 
 const Board = () => {
   const { title } = useAppSelector((state) => state.board);
@@ -72,11 +78,15 @@ const Board = () => {
 
     dispatch(setColumns(orderedItems));
 
+    const setOfColumns = orderedItems.reduce<UpdateColumnsOrderReq>((prev, curr) => {
+      prev.push({ _id: curr._id, order: curr.order });
+      return prev;
+    }, []);
+
     if (boardId) {
       dispatch(showLoader());
       try {
-        await dispatch(updateColumn(orderedItems[destination.index])).unwrap();
-        await dispatch(updateColumn(orderedItems[source.index])).unwrap();
+        await dispatch(updateSetOfColumns(setOfColumns)).unwrap();
       } catch {
         dispatch(
           openToast({ message: t(fail, { ns: ToastTranslations.ns }), type: RespRes.error })
