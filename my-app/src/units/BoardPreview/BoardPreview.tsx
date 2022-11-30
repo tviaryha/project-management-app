@@ -5,8 +5,16 @@ import ListItemText from '@mui/material/ListItemText';
 import { IBoard } from './types';
 import { Link } from 'react-router-dom';
 import { boardStyle } from './style';
+import PeopleIcon from '@mui/icons-material/People';
+import { Typography } from '@mui/material';
 
-const BoardPreview = ({ title, boardId, linkTo, onDeleteButtonClick }: IBoard): JSX.Element => {
+const BoardPreview = ({
+  title,
+  boardId,
+  linkTo,
+  onDeleteButtonClick,
+  users
+}: IBoard): JSX.Element => {
   return (
     <>
       <ListItem
@@ -24,7 +32,28 @@ const BoardPreview = ({ title, boardId, linkTo, onDeleteButtonClick }: IBoard): 
             <DeleteIcon />
           </IconButton>
         ]}>
-        <ListItemText primary={title} />
+        <ListItemText
+          primary={title}
+          secondary={
+            <Typography
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                wordBreak: 'break-word'
+              }}>
+              <PeopleIcon color="primary" />
+              <Typography
+                sx={{
+                  color: '#000000',
+                  opacity: 0.6,
+                  fontSize: 14
+                }}>
+                {users.length > 3 ? `${users.join(', ')} ...` : users.join(', ')}
+              </Typography>
+            </Typography>
+          }
+        />
       </ListItem>
     </>
   );
