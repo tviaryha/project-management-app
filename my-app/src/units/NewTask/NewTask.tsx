@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import TransitionsModal from '../../components/TransitionsModal';
+import TransitionsModalWithCloseBtn from '../../components/TransitionsModalWithCloseBtn';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import useAppSelector from '../../hooks/useAppSelector';
-import { closeModal, getUsers } from '../../redux/newBoardSlice';
-import { getBoard } from '../../redux/newTaskSlice';
+import { getUsers } from '../../redux/newBoardSlice';
+import { closeModal, getBoard } from '../../redux/newTaskSlice';
 import Form from './Form';
 
 const NewTaskModal = () => {
@@ -22,14 +22,12 @@ const NewTaskModal = () => {
     }
   }, [id, dispatch]);
 
-  const handleClose = () => {
-    dispatch(closeModal());
-  };
+  const handleClose = () => dispatch(closeModal());
 
   return isOpen ? (
-    <TransitionsModal isOpen={isOpen} handleClose={handleClose} isLoading={isLoading}>
+    <TransitionsModalWithCloseBtn isOpen={isOpen} handleClose={handleClose} isLoading={isLoading}>
       <Form columnId={columnId} boardId={id || ''} />
-    </TransitionsModal>
+    </TransitionsModalWithCloseBtn>
   ) : null;
 };
 

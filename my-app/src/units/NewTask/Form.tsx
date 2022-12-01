@@ -2,7 +2,6 @@ import { Button, Grid, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ICreateTaskParamResp, ICreateTaskReq } from '../../api/models/task';
-import CloseRoundedButton from '../../components/CloseRoundedButton';
 import { FormTranslationKeys, LocalStorageKeys } from '../../enums';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { closeModal, createTask, showLoader, hideLoader } from '../../redux/newTaskSlice';
@@ -68,8 +67,6 @@ const Form = (props: Props) => {
     }
   };
 
-  const onClick = () => dispatch(closeModal());
-
   return (
     <>
       <Grid
@@ -111,7 +108,6 @@ const Form = (props: Props) => {
           {t(createBtn)}
         </Button>
       </Grid>
-      <CloseRoundedButton onClick={onClick} />
     </>
   );
 };

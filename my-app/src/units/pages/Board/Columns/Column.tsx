@@ -4,6 +4,8 @@ import { Sizes, TranslationKeys } from '../enums';
 import AddIcon from '@mui/icons-material/Add';
 import Title from './Title/Title';
 import { Draggable } from 'react-beautiful-dnd';
+import useAppDispatch from '../../../../hooks/useAppDispatch';
+import { openModal } from '../../../../redux/newTaskSlice';
 
 type Props = {
   title: string;
@@ -12,8 +14,11 @@ type Props = {
 };
 
 const Column = ({ title, _id, index }: Props) => {
+  const dispatch = useAppDispatch();
   const { t } = useTranslation([TranslationKeys.ns]);
   const { addTask } = TranslationKeys;
+
+  const onClick = () => dispatch(openModal(_id));
 
   return (
     <Draggable draggableId={_id} index={index}>
@@ -30,7 +35,7 @@ const Column = ({ title, _id, index }: Props) => {
             p: 1
           }}>
           <Title title={title} _id={_id} order={index} />
-          <Button fullWidth startIcon={<AddIcon />}>
+          <Button fullWidth startIcon={<AddIcon />} onClick={onClick}>
             {t(addTask)}
           </Button>
         </Paper>
