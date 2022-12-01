@@ -1,11 +1,19 @@
-import { Paper, Button } from '@mui/material';
+import { Paper, Button, Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Sizes, TranslationKeys } from '../enums';
 import AddIcon from '@mui/icons-material/Add';
 import Title from './Title/Title';
 import { Draggable } from 'react-beautiful-dnd';
 import useAppDispatch from '../../../../hooks/useAppDispatch';
-import { openModal } from '../../../../redux/newTaskSlice';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getTasks, setIsColumnsLoaded } from '../../../../redux/columnsSlice';
+import { TasksResp } from '../../../../api/models/tasks';
+import Task from '../../../../components/Task/Task';
+import useAppSelector from '../../../../hooks/useAppSelector';
+import { hideLoader } from '../../../../redux/appSlice';
+import { hideLoader as hideTaskLoader } from '../../../../redux/newTaskSlice';
+import NewTaskModal from '../../../NewTask/NewTask';
 
 type Props = {
   title: string;
@@ -13,35 +21,110 @@ type Props = {
   _id: string;
 };
 
-const Column = ({ title, _id, index }: Props) => {
+const Column = ({ title, _id: columnId, index }: Props) => {
+  const [tasks, setTasks] = useState<TasksResp>([]);
+  const [shouldRerenderTasks, setShouldRerenderTasks] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const { id: boardId } = useParams();
+
+  const { columns, isColumnsLoaded } = useAppSelector((state) => state.columns);
   const dispatch = useAppDispatch();
+
   const { t } = useTranslation([TranslationKeys.ns]);
   const { addTask } = TranslationKeys;
 
-  const onClick = () => dispatch(openModal(_id));
+  const setShouldRerenderTasksToTrue = () => setShouldRerenderTasks(true);
 
-  return (
-    <Draggable draggableId={_id} index={index}>
-      {(provided) => (
-        <Paper
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          sx={{
-            display: 'inline-block',
-            width: Sizes.COLUMN_WIDTH,
-            height: 'fit-content',
-            mr: 2,
-            p: 1
-          }}>
-          <Title title={title} _id={_id} order={index} />
-          <Button fullWidth startIcon={<AddIcon />} onClick={onClick}>
-            {t(addTask)}
-          </Button>
-        </Paper>
+  const onClick = () => setIsModalOpen(true);
+
+  const loadTasks = async () => {
+    if (boardId) {
+      const tasksResp = await dispatch(getTasks({ boardId, columnId })).unwrap();
+      setTasks(tasksResp);
+    }
+
+    if (index === columns.length - 1) {
+      dispatch(setIsColumnsLoaded(true));
+      dispatch(hideLoader());
+    }
+  };
+
+  const updateTasks = async () => {
+    if (boardId) {
+      try {
+        const tasksResp = await dispatch(getTasks({ boardId, columnId })).unwrap();
+        setTasks(tasksResp);
+      } catch {
+        console.log('e');
+      } finally {
+        dispatch(hideTaskLoader());
+        setIsModalOpen(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (shouldRerenderTasks) {
+      updateTasks();
+      setShouldRerenderTasks(false);
+    }
+  }, [shouldRerenderTasks]);
+
+  useEffect(() => {
+    console.log('me');
+    loadTasks();
+  }, []);
+
+  return isColumnsLoaded && boardId ? (
+    <>
+      <Draggable draggableId={columnId} index={index}>
+        {(provided) => (
+          <Paper
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            sx={{
+              display: 'inline-block',
+              width: Sizes.COLUMN_WIDTH,
+              height: 'fit-content',
+              mr: 2,
+              p: 1
+            }}>
+            <Title title={title} _id={columnId} order={index} />
+            <Box>
+              {tasks.map((task) => {
+                if (boardId) {
+                  return (
+                    <Task
+                      key={task._id}
+                      _id={task._id}
+                      boardId={boardId}
+                      columnId={columnId}
+                      description={task.description}
+                      title={task.title}
+                    />
+                  );
+                }
+              })}
+            </Box>
+            <Button fullWidth startIcon={<AddIcon />} onClick={onClick}>
+              {t(addTask)}
+            </Button>
+          </Paper>
+        )}
+      </Draggable>
+      {isModalOpen && (
+        <NewTaskModal
+          isOpen={isModalOpen}
+          boardId={boardId}
+          columnId={columnId}
+          setIsModalOpen={setIsModalOpen}
+          setShouldRerenderTasksToTrue={setShouldRerenderTasksToTrue}
+        />
       )}
-    </Draggable>
-  );
+    </>
+  ) : null;
 };
 
 export default Column;

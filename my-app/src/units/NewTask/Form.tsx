@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ICreateTaskParamResp, ICreateTaskReq } from '../../api/models/task';
 import { FormTranslationKeys, LocalStorageKeys } from '../../enums';
 import useAppDispatch from '../../hooks/useAppDispatch';
-import { closeModal, createTask, showLoader, hideLoader } from '../../redux/newTaskSlice';
+import { createTask } from '../../redux/newTaskSlice';
 import { openToast, RespRes } from '../../redux/toastSlice';
 import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import DefaultSelect from './DefaultSelect';
@@ -13,9 +13,10 @@ import { TranslationKeys } from './enum';
 interface Props {
   columnId: string;
   boardId: string;
+  setShouldRerenderTasksToTrue: () => void;
 }
 
-const Form = (props: Props) => {
+const Form = ({ boardId, columnId, setShouldRerenderTasksToTrue }: Props) => {
   const dispatch = useAppDispatch();
   const {
     register,
@@ -45,12 +46,12 @@ const Form = (props: Props) => {
       const { title, description, users } = getValues();
       const params: ICreateTaskReq = {
         data: { title, order: 0, description, userId: userId, users: [...users] }, //TODO Need to replace order with tasks quantity in the column
-        columnId: props.columnId,
-        boardId: props.boardId
+        columnId,
+        boardId
       };
       try {
-        dispatch(showLoader());
         await dispatch(createTask(params)).unwrap();
+        setShouldRerenderTasksToTrue();
         dispatch(
           openToast({
             message: t(successCreateTask, { ns: ToastTranslations.ns }),
@@ -60,9 +61,6 @@ const Form = (props: Props) => {
       } catch (e) {
         const eMessage = t(fail, { ns: ToastTranslations.ns });
         dispatch(openToast({ message: eMessage, type: RespRes.error }));
-      } finally {
-        dispatch(closeModal());
-        dispatch(hideLoader());
       }
     }
   };

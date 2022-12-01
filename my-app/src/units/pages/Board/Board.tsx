@@ -20,7 +20,6 @@ import {
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { mapColumnsOrder, reorder } from '../../../utils/utils';
 import { UpdateColumnsOrderReq } from '../../../api/models/columns';
-import NewTaskModal from '../../NewTask/NewTask';
 
 const Board = () => {
   const { title } = useAppSelector((state) => state.board);
@@ -49,8 +48,6 @@ const Board = () => {
         dispatch(
           openToast({ message: t(fail, { ns: ToastTranslations.ns }), type: RespRes.error })
         );
-      } finally {
-        dispatch(hideLoader());
       }
     }
   };
@@ -111,7 +108,6 @@ const Board = () => {
           <Columns />
         </DragDropContext>
       </Box>
-      <NewTaskModal />
     </Box>
   ) : null;
 };

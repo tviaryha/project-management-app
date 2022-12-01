@@ -9,6 +9,7 @@ import {
   UpdateColumnsOrderReq
 } from '../api/models/columns';
 import { ErrorResponse } from '../api/models/ErrorResponse';
+import { GetTasksParams, TasksResp } from '../api/models/tasks';
 import { mapColumnsOrder } from '../utils/utils';
 
 interface IColumnsState {
@@ -16,13 +17,15 @@ interface IColumnsState {
   isConfirmationModalOpen: boolean;
   isLoading: boolean;
   columns: ColumnsResp;
+  isColumnsLoaded: boolean;
 }
 
 const initialState: IColumnsState = {
   isOpen: false,
   isConfirmationModalOpen: false,
   isLoading: false,
-  columns: []
+  columns: [],
+  isColumnsLoaded: false
 };
 
 export const createColumn = createAsyncThunk<
@@ -99,6 +102,21 @@ export const updateSetOfColumns = createAsyncThunk<
   }
 });
 
+export const getTasks = createAsyncThunk<
+  TasksResp,
+  GetTasksParams,
+  {
+    rejectValue: number | undefined;
+  }
+>('getTasks', async (params, thunkApi) => {
+  try {
+    const resp = await api.getTasks(params);
+    return resp;
+  } catch (e) {
+    return thunkApi.rejectWithValue((<AxiosError<ErrorResponse>>e).response?.status);
+  }
+});
+
 export const columnsSlice = createSlice({
   name: 'columns',
   initialState,
@@ -127,8 +145,12 @@ export const columnsSlice = createSlice({
         return column;
       });
     },
+    setIsColumnsLoaded: (state, action: { payload: boolean; type: string }) => {
+      state.isColumnsLoaded = action.payload;
+    },
     clearColumns: (state) => {
       state.columns = [];
+      state.isColumnsLoaded = initialState.isColumnsLoaded;
     }
   },
   extraReducers: (builder) => {
@@ -136,6 +158,7 @@ export const columnsSlice = createSlice({
       .addCase(getColumns.rejected, (state) => {
         state.isLoading = false;
         state.isOpen = false;
+        state.isConfirmationModalOpen = false;
       })
       .addCase(getColumns.fulfilled, (state, action) => {
         const sortedColumns = action.payload.sort((a, b) => a.order - b.order);
@@ -166,6 +189,12 @@ export const columnsSlice = createSlice({
       .addCase(updateSetOfColumns.fulfilled, (state, action) => {
         state.isLoading = false;
         state.columns = action.payload;
+      })
+      .addCase(getTasks.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(getTasks.rejected, (state) => {
+        state.isLoading = false;
       });
   }
 });
@@ -177,7 +206,8 @@ export const {
   closeConfirmationModal,
   clearColumns,
   setColumns,
-  updateColumnTitle
+  updateColumnTitle,
+  setIsColumnsLoaded
 } = columnsSlice.actions;
 
 export default columnsSlice.reducer;

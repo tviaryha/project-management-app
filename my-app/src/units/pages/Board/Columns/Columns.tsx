@@ -9,7 +9,7 @@ import Column from './Column';
 import { Droppable } from 'react-beautiful-dnd';
 
 const Columns = () => {
-  const columns = useAppSelector((state) => state.columns.columns);
+  const { columns } = useAppSelector((state) => state.columns);
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation([TranslationKeys.ns]);

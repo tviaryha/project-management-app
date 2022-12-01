@@ -14,6 +14,7 @@ import {
   UpdateColumnsOrderReq
 } from './models/columns';
 import { ICreateTaskReq, ICreateTaskResp } from './models/task';
+import { GetTasksParams, TasksResp } from './models/tasks';
 
 const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
 
@@ -144,6 +145,11 @@ const updateSetOfColumns = async (params: UpdateColumnsOrderReq) => {
   return resp.data;
 };
 
+const getTasks = async ({ boardId, columnId }: GetTasksParams) => {
+  const resp = await apiClient.get<TasksResp>(`/boards/${boardId}/columns/${columnId}/tasks`);
+  return resp.data;
+};
+
 export const api = {
   signIn,
   signUp,
@@ -161,5 +167,6 @@ export const api = {
   updateColumn,
   deleteColumn,
   updateSetOfColumns,
-  createTask
+  createTask,
+  getTasks
 };

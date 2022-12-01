@@ -8,19 +8,15 @@ import { getUsers } from './newBoardSlice';
 import { IBoardResp } from '../api/models/BoardsInterfaces';
 
 interface INewTaskModalState {
-  isOpen: boolean;
   isLoading: boolean;
   allUsers: IUsersResp;
   boardUsers: string[];
-  columnId: string;
 }
 
 const initialState: INewTaskModalState = {
-  isOpen: false,
   isLoading: false,
   allUsers: [],
-  boardUsers: [],
-  columnId: ''
+  boardUsers: []
 };
 
 export const createTask = createAsyncThunk<
@@ -57,14 +53,6 @@ export const newTaskSlice = createSlice({
   name: 'newTask',
   initialState,
   reducers: {
-    closeModal: (state) => {
-      state.isOpen = false;
-      state.columnId = '';
-    },
-    openModal: (state, action) => {
-      state.isOpen = true;
-      state.columnId = action.payload;
-    },
     showLoader: (state) => {
       state.isLoading = true;
     },
@@ -78,36 +66,24 @@ export const newTaskSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getUsers.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.allUsers = action.payload;
       })
       .addCase(getUsers.rejected, (state) => {
-        state.isOpen = false;
         state.isLoading = false;
-      })
-      .addCase(getBoard.pending, (state) => {
-        state.isLoading = true;
       })
       .addCase(getBoard.fulfilled, (state, action) => {
         state.isLoading = false;
         state.boardUsers = action.payload.users;
       })
       .addCase(getBoard.rejected, (state) => {
-        state.isOpen = false;
         state.isLoading = false;
       })
       .addCase(createTask.pending, (state) => {
         state.isLoading = true;
-      })
-      .addCase(createTask.fulfilled, (state) => {
-        state.isLoading = false;
-      })
-      .addCase(createTask.rejected, (state) => {
-        state.isLoading = false;
       });
   }
 });
 
-export const { closeModal, openModal, showLoader, hideLoader } = newTaskSlice.actions;
+export const { showLoader, hideLoader } = newTaskSlice.actions;
 
 export default newTaskSlice.reducer;
