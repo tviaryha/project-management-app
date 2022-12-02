@@ -5,7 +5,7 @@ import DeveloperСard from './DeveloperСard';
 import Section from './Section';
 import { useTranslation } from 'react-i18next';
 
-export enum WelcomePageTarnslations {
+export enum WelcomePageTranslations {
   ns = 'welcomePage',
   title = 'title',
   appDescription = 'appDescription',
@@ -15,8 +15,8 @@ export enum WelcomePageTarnslations {
 }
 
 const Welcome = () => {
-  const { devDesc1, devDesc2, devDesc3, appDescription, title } = WelcomePageTarnslations;
-  const { t } = useTranslation([WelcomePageTarnslations.ns]);
+  const { devDesc1, devDesc2, devDesc3, appDescription, title } = WelcomePageTranslations;
+  const { t } = useTranslation([WelcomePageTranslations.ns]);
   return (
     <Box sx={{ textAlign: 'center' }}>
       <Grid container flexDirection="column" justifyContent="center" gap="50px">

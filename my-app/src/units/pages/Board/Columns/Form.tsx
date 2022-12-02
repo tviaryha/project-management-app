@@ -8,8 +8,9 @@ import { useTranslation } from 'react-i18next';
 import { FormTranslationKeys } from '../../../../enums';
 import { TranslationKeys } from '../enums';
 import { Grid, TextField, Button } from '@mui/material';
+import { IColumnResp } from '../../../../api/models/columns';
 
-const Form = () => {
+const Form = ({ order }: Pick<IColumnResp, 'order'>) => {
   const { id: boardId } = useParams<{ id: string }>();
 
   const dispatch = useAppDispatch();
@@ -33,7 +34,7 @@ const Form = () => {
   const onSubmit = async () => {
     if (boardId) {
       try {
-        await dispatch(createColumn({ title: getValues().title, boardId })).unwrap();
+        await dispatch(createColumn({ title: getValues().title, boardId, order })).unwrap();
         await dispatch(getColumns(boardId)).unwrap();
         dispatch(
           openToast({

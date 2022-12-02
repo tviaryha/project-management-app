@@ -12,15 +12,9 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { hideLoader, showLoader } from '../../../../../redux/appSlice';
 import { green, red } from '@mui/material/colors';
 import { useForm } from 'react-hook-form';
+import { ITitleFormProps } from './types';
 
-type Props = {
-  title: string;
-  columnId: string;
-  toggleShouldShowTitle: () => void;
-  setNewTitle: (title: string) => void;
-};
-
-const Form = ({ title, columnId, toggleShouldShowTitle, setNewTitle }: Props) => {
+const Form = ({ title, _id, order, toggleShouldShowTitle, setNewTitle }: ITitleFormProps) => {
   const { id: boardId } = useParams<{ id: string }>();
 
   const dispatch = useAppDispatch();
@@ -47,7 +41,7 @@ const Form = ({ title, columnId, toggleShouldShowTitle, setNewTitle }: Props) =>
     if (boardId && newTitle !== title) {
       dispatch(showLoader());
       try {
-        await dispatch(updateColumn({ title: newTitle, boardId, _id: columnId })).unwrap();
+        await dispatch(updateColumn({ title: newTitle, boardId, _id, order })).unwrap();
         setNewTitle(newTitle);
         dispatch(
           openToast({

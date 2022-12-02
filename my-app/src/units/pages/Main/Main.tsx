@@ -3,7 +3,6 @@ import { useEffect, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import BoardPreview from '../../BoardPreview/BoardPreview';
 import { LocalStorageKeys, Paths } from '../../../enums';
-import { Link } from 'react-router-dom';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import useCloseMenu from '../../../hooks/useCloseMenu';
@@ -32,7 +31,7 @@ const Main = () => {
   const { successDeleteBoard, fail } = TranslationKeys;
   const { t } = useTranslation([BoardsListTranslations.ns, TranslationKeys.ns]);
 
-  const { boards } = useAppSelector((state) => state.boardsList);
+  const { isLoading, boards } = useAppSelector((state) => state.boardsList);
   const { boardId, isOpenModal, isLoad, boardTitle } = useAppSelector(
     (state) => state.boardPreview
   );
