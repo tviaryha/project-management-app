@@ -51,7 +51,7 @@ export const boardPreviewSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(deleteCurrentBoard.pending, (state) => {
-        state.isLoad = true;
+        state.isLoad = false;
       })
       .addCase(deleteCurrentBoard.rejected, (state) => {
         state.isLoad = false;

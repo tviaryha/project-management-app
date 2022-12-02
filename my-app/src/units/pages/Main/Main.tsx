@@ -61,7 +61,6 @@ const Main = () => {
   const deleteBoard = async () => {
     if (boardId && boardId.length > 0) {
       try {
-        dispatch(setIsLoading(true));
         await dispatch(deleteCurrentBoard(boardId));
         dispatch(
           openToast({
@@ -73,7 +72,6 @@ const Main = () => {
         const eMessage = t(fail, { ns: TranslationKeys.ns });
         dispatch(openToast({ message: eMessage, type: RespRes.error }));
       } finally {
-        dispatch(setIsLoading(false));
         dispatch(setIsOpenModal(false));
         getUserBoards();
       }
