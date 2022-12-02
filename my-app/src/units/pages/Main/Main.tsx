@@ -94,22 +94,23 @@ const Main = () => {
 
   return (
     <Grid container component="section" justifyContent="space-evenly" gap="20px" mt={10}>
-      {boards.length ? (
-        boards.map((board) => (
-          <BoardPreview
-            title={board.title}
-            boardId={board._id}
-            key={board._id}
-            linkTo={`/${Paths.board}/${board._id}`}
-            users={users.filter(({ _id }) => board.users.includes(_id)).map(({ name }) => name)}
-            onDeleteButtonClick={handleDeleteBoardClick}
-          />
-        ))
-      ) : (
-        <Typography variant="h5" component="h4" mt={50}>
-          {t(noBoards)}
-        </Typography>
-      )}
+      {!isLoading &&
+        (boards.length ? (
+          boards.map((board) => (
+            <BoardPreview
+              title={board.title}
+              boardId={board._id}
+              key={board._id}
+              linkTo={`/${Paths.board}/${board._id}`}
+              users={users.filter(({ _id }) => board.users.includes(_id)).map(({ name }) => name)}
+              onDeleteButtonClick={handleDeleteBoardClick}
+            />
+          ))
+        ) : (
+          <Typography variant="h5" component="h4" mt={50}>
+            {t(noBoards)}
+          </Typography>
+        ))}
       <ConfirmationModal
         description={`${t(descriptionInConfirmationModal)}  ${boardTitle}`}
         isOpen={isOpenModal}
