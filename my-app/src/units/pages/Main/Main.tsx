@@ -76,6 +76,7 @@ const Main = () => {
         const eMessage = t(fail, { ns: TranslationKeys.ns });
         dispatch(openToast({ message: eMessage, type: RespRes.error }));
       } finally {
+        dispatch(setIsOpenModal(false));
         getUserBoards();
       }
     }
