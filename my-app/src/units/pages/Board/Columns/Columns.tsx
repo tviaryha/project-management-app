@@ -7,6 +7,7 @@ import { openModal } from '../../../../redux/columnsSlice';
 import AddIcon from '@mui/icons-material/Add';
 import Column from './Column';
 import { Droppable } from 'react-beautiful-dnd';
+import NewTaskModal from '../../../NewTask/NewTask';
 
 const Columns = () => {
   const columns = useAppSelector((state) => state.columns.columns);
@@ -41,6 +42,7 @@ const Columns = () => {
             sx={{ width: Sizes.COLUMN_WIDTH, height: btnHeight, lineHeight: 0 }}>
             {t(addColumn)}
           </Button>
+          <NewTaskModal />
         </Box>
       )}
     </Droppable>
