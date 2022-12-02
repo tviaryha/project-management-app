@@ -6,9 +6,10 @@ import {
   ColumnsResp,
   IColumnReq,
   IColumnResp,
-  IColumnUpdate
+  UpdateColumnsOrderReq
 } from '../api/models/columns';
 import { ErrorResponse } from '../api/models/ErrorResponse';
+import { mapColumnsOrder } from '../utils/utils';
 
 interface IColumnsState {
   isOpen: boolean;
@@ -56,7 +57,7 @@ export const getColumns = createAsyncThunk<
 
 export const updateColumn = createAsyncThunk<
   IColumnResp,
-  IColumnUpdate,
+  IColumnResp,
   {
     rejectValue: number | undefined;
   }
@@ -83,6 +84,21 @@ export const deleteColumn = createAsyncThunk<
   }
 });
 
+export const updateSetOfColumns = createAsyncThunk<
+  ColumnsResp,
+  UpdateColumnsOrderReq,
+  {
+    rejectValue: number | undefined;
+  }
+>('updateSetOfColumns', async (params, thunkApi) => {
+  try {
+    const resp = await api.updateSetOfColumns(params);
+    return resp;
+  } catch (e) {
+    return thunkApi.rejectWithValue((<AxiosError<ErrorResponse>>e).response?.status);
+  }
+});
+
 export const columnsSlice = createSlice({
   name: 'columns',
   initialState,
@@ -99,6 +115,18 @@ export const columnsSlice = createSlice({
     closeConfirmationModal: (state) => {
       state.isConfirmationModalOpen = false;
     },
+    setColumns: (state, action) => {
+      state.columns = action.payload;
+    },
+    updateColumnTitle: (state, action: { payload: { title: string; _id: string } }) => {
+      const { title, _id } = action.payload;
+      state.columns = state.columns.map((column) => {
+        if (column._id === _id) {
+          column.title = title;
+        }
+        return column;
+      });
+    },
     clearColumns: (state) => {
       state.columns = [];
     }
@@ -110,7 +138,8 @@ export const columnsSlice = createSlice({
         state.isOpen = false;
       })
       .addCase(getColumns.fulfilled, (state, action) => {
-        state.columns = action.payload;
+        const sortedColumns = action.payload.sort((a, b) => a.order - b.order);
+        state.columns = mapColumnsOrder(sortedColumns);
         if (state.isLoading && state.isOpen) {
           state.isLoading = false;
           state.isOpen = false;
@@ -133,6 +162,10 @@ export const columnsSlice = createSlice({
       .addCase(deleteColumn.rejected, (state) => {
         state.isLoading = false;
         state.isConfirmationModalOpen = false;
+      })
+      .addCase(updateSetOfColumns.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.columns = action.payload;
       });
   }
 });
@@ -142,7 +175,9 @@ export const {
   closeModal,
   openConfirmationModal,
   closeConfirmationModal,
-  clearColumns
+  clearColumns,
+  setColumns,
+  updateColumnTitle
 } = columnsSlice.actions;
 
 export default columnsSlice.reducer;

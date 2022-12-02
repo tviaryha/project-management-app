@@ -5,17 +5,17 @@ import { ISignIn, ISignInResp, IUserReq, IUserResp, IUsersResp } from './models/
 import jwt_decode from 'jwt-decode';
 import { IDecodedToken } from './interface';
 import { LocalStorageKeys } from '../enums';
-import { ICreateTaskReq, ICreateTaskResp } from './models/task';
 import { IBoardReq, IBoardResp } from './models/boards';
 import {
   ColumnDelete,
   ColumnsResp,
   IColumnReq,
   IColumnResp,
-  IColumnUpdate
+  UpdateColumnsOrderReq
 } from './models/columns';
+import { ICreateTaskReq, ICreateTaskResp } from './models/task';
 
-const BASE_URL = 'https://dreary-can-production.up.railway.app';
+const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
 
 const apiClient = axios.create({
   baseURL: BASE_URL
@@ -97,13 +97,13 @@ const createBoard = async (params: IBoardReq) => {
   return resp.data;
 };
 
-const deleteBoard = async (boardId: string) => {
-  await apiClient.delete(`/boards/${boardId}`);
-};
-
 const getBoard = async (id: string) => {
   const resp = await apiClient<IBoardResp>(`/boards/${id}`);
   return resp.data;
+};
+
+const deleteBoard = async (boardId: string) => {
+  await apiClient.delete(`/boards/${boardId}`);
 };
 
 const getColumns = async (id: string) => {
@@ -111,7 +111,7 @@ const getColumns = async (id: string) => {
   return resp.data;
 };
 
-const createColumn = async ({ title, boardId, order = 0 }: IColumnReq) => {
+const createColumn = async ({ title, boardId, order }: IColumnReq) => {
   const resp = await apiClient.post<IColumnResp>(`/boards/${boardId}/columns`, {
     title,
     order
@@ -119,7 +119,7 @@ const createColumn = async ({ title, boardId, order = 0 }: IColumnReq) => {
   return resp.data;
 };
 
-const updateColumn = async ({ title, _id, boardId, order = 0 }: IColumnUpdate) => {
+const updateColumn = async ({ title, _id, boardId, order }: IColumnResp) => {
   const resp = await apiClient.put<IColumnResp>(`/boards/${boardId}/columns/${_id}`, {
     title,
     order
@@ -139,6 +139,11 @@ const createTask = async (params: ICreateTaskReq) => {
   return resp.data;
 };
 
+const updateSetOfColumns = async (params: UpdateColumnsOrderReq) => {
+  const resp = await apiClient.patch<ColumnsResp>('/columnsSet', params);
+  return resp.data;
+};
+
 export const api = {
   signIn,
   signUp,
@@ -155,5 +160,6 @@ export const api = {
   createColumn,
   updateColumn,
   deleteColumn,
+  updateSetOfColumns,
   createTask
 };
