@@ -19,14 +19,20 @@ const Columns = () => {
 
   const addColumnHandler = async () => dispatch(openModal());
 
+  const sx = {
+    display: 'inline-flex',
+    width: '100%',
+    my: 1,
+    overflowX: 'auto'
+  };
+
   return (
     <Droppable direction="horizontal" droppableId="columns">
       {(provided) => (
-        <Box sx={{ display: 'inline-flex' }}>
+        <Box sx={sx}>
           <Box
             ref={provided.innerRef}
             {...provided.droppableProps}
-            my={1}
             sx={{
               display: 'inline-flex'
             }}>
@@ -35,12 +41,15 @@ const Columns = () => {
             ))}
             {provided.placeholder}
           </Box>
-          <Button
-            onClick={addColumnHandler}
-            startIcon={<AddIcon />}
-            sx={{ width: Sizes.COLUMN_WIDTH, height: btnHeight, lineHeight: 0 }}>
-            {t(addColumn)}
-          </Button>
+          <Box>
+            <Button
+              variant="outlined"
+              onClick={addColumnHandler}
+              startIcon={<AddIcon />}
+              sx={{ width: Sizes.COLUMN_WIDTH, height: btnHeight, lineHeight: 0 }}>
+              {t(addColumn)}
+            </Button>
+          </Box>
         </Box>
       )}
     </Droppable>

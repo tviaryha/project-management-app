@@ -1,4 +1,4 @@
-import { Paper, Button, Box } from '@mui/material';
+import { Paper, Button, List } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Sizes, TranslationKeys } from '../enums';
 import AddIcon from '@mui/icons-material/Add';
@@ -72,7 +72,6 @@ const Column = ({ title, _id: columnId, index }: Props) => {
   }, [shouldRerenderTasks]);
 
   useEffect(() => {
-    console.log('me');
     loadTasks();
   }, []);
 
@@ -85,14 +84,19 @@ const Column = ({ title, _id: columnId, index }: Props) => {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             sx={{
-              display: 'inline-block',
               width: Sizes.COLUMN_WIDTH,
               height: 'fit-content',
+              maxHeight: '100%',
+              border: '1px solid red',
               mr: 2,
               p: 1
             }}>
             <Title title={title} _id={columnId} order={index} />
-            <Box>
+            <List
+              sx={{
+                maxHeight: '470px',
+                overflowY: 'auto'
+              }}>
               {tasks.map((task) => {
                 if (boardId) {
                   return (
@@ -107,7 +111,7 @@ const Column = ({ title, _id: columnId, index }: Props) => {
                   );
                 }
               })}
-            </Box>
+            </List>
             <Button fullWidth startIcon={<AddIcon />} onClick={onClick}>
               {t(addTask)}
             </Button>

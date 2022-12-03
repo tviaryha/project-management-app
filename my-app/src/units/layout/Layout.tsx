@@ -1,5 +1,5 @@
 import { Box, Container } from '@mui/material';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import useAppSelector from '../../hooks/useAppSelector';
 import { Loader } from '../Loader';
 import ProfileModal from '../pages/EditProfile/ProfileModal';
@@ -14,6 +14,16 @@ const Layout = () => {
   const toastType = useAppSelector((state) => state.toast.type);
   const toastIsOpen = useAppSelector((state) => state.toast.isOpen);
 
+  const { id } = useParams();
+
+  const content = id ? (
+    <Outlet />
+  ) : (
+    <Container>
+      <Outlet />
+    </Container>
+  );
+
   return (
     <>
       <Header />
@@ -22,10 +32,13 @@ const Layout = () => {
       <ProfileModal />
       <NewBoardModal />
       <CreateColumnModal />
-      <Box component="main" flexGrow={1} sx={{ m: '20px 0' }}>
-        <Container>
-          <Outlet />
-        </Container>
+      <Box
+        component="main"
+        flexGrow={1}
+        sx={{
+          mx: { xs: '16px', sm: '24px' }
+        }}>
+        {content}
       </Box>
       <Footer />
     </>

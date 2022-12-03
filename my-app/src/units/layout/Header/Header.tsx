@@ -1,5 +1,5 @@
 import { CloseRounded as Close, MenuRounded as MenuIcon } from '@mui/icons-material';
-import { AppBar, Container, Grid, Link, Toolbar, useScrollTrigger } from '@mui/material';
+import { AppBar, Grid, Link, Toolbar, useScrollTrigger } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Paths } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
@@ -26,23 +26,21 @@ const Header = () => {
 
   return (
     <AppBar color={color} position="sticky" elevation={elevation} sx={{ transition: 'all 0.5s' }}>
-      <Container>
-        <Toolbar disableGutters>
-          <Grid container justifyContent="space-between" alignItems="center" sx={{ width: '100%' }}>
-            <Grid item>
-              <Link
-                variant="h5"
-                underline="none"
-                onClick={titleClickHandler}
-                sx={{ cursor: 'pointer' }}>
-                TaskTrack
-              </Link>
-            </Grid>
-            <BurgerMenuIconButton Icon={MenuIcon} />
-            <Navigation display="none" />
+      <Toolbar>
+        <Grid container justifyContent="space-between" alignItems="center" sx={{ width: '100%' }}>
+          <Grid item>
+            <Link
+              variant="h5"
+              underline="none"
+              onClick={titleClickHandler}
+              sx={{ cursor: 'pointer' }}>
+              TaskTrack
+            </Link>
           </Grid>
-        </Toolbar>
-      </Container>
+          <BurgerMenuIconButton Icon={MenuIcon} />
+          <Navigation display="none" />
+        </Grid>
+      </Toolbar>
       <BurgerMenu
         anchor="right"
         open={isOpen}

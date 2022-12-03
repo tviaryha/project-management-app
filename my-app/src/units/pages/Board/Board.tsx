@@ -60,6 +60,13 @@ const Board = () => {
     };
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflowY = 'hidden';
+    return () => {
+      document.body.removeAttribute('style');
+    };
+  }, []);
+
   const onDragEnd = async (result: DropResult) => {
     const { destination, source } = result;
 
@@ -96,11 +103,11 @@ const Board = () => {
   };
 
   return title ? (
-    <Box>
+    <>
       <Button variant="outlined" onClick={mainPageBtnHandler} sx={{ my: 1 }}>
         {t(mainPageBtn)}
       </Button>
-      <Box component="section" sx={{ overflowX: 'scroll' }}>
+      <Box component="section">
         <Typography variant="h5" my={1}>
           {title}
         </Typography>
@@ -108,7 +115,7 @@ const Board = () => {
           <Columns />
         </DragDropContext>
       </Box>
-    </Box>
+    </>
   ) : null;
 };
 

@@ -11,7 +11,7 @@ import { Grid, TextField, Button } from '@mui/material';
 import { IColumnResp } from '../../../../api/models/columns';
 
 const Form = ({ order }: Pick<IColumnResp, 'order'>) => {
-  const { id: boardId } = useParams<{ id: string }>();
+  const { id: boardId } = useParams();
 
   const dispatch = useAppDispatch();
 
