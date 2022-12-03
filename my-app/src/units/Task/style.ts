@@ -1,3 +1,5 @@
+import { blue } from '@mui/material/colors';
+
 export const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -16,13 +18,13 @@ export const modalStyle = {
 };
 
 export const listItemStyle = {
-  width: '100%',
+  width: '200px',
   maxWidth: 330,
   minHeight: 80,
   paddingRight: 10,
+  my: 1,
   borderRadius: 2,
-  bgcolor: 'background.paper',
-  boxShadow: 1,
+  bgcolor: blue[50],
   cursor: 'pointer',
   wordWrap: 'break-word'
 };

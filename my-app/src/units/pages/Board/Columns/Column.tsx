@@ -1,19 +1,18 @@
-import { Paper, Button, List } from '@mui/material';
+import { Paper, Button, List, Grid, Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Sizes, TranslationKeys } from '../enums';
+import { DndTypes, Sizes, TranslationKeys } from '../enums';
 import AddIcon from '@mui/icons-material/Add';
 import Title from './Title/Title';
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 import useAppDispatch from '../../../../hooks/useAppDispatch';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getTasks, setIsColumnsLoaded } from '../../../../redux/columnsSlice';
-import { TasksResp } from '../../../../api/models/tasks';
-import Task from '../../../../components/Task/Task';
 import useAppSelector from '../../../../hooks/useAppSelector';
 import { hideLoader } from '../../../../redux/appSlice';
-import { hideLoader as hideTaskLoader } from '../../../../redux/newTaskSlice';
-import NewTaskModal from '../../../NewTask/NewTask';
+import { openModal } from '../../../../redux/newTaskSlice';
+import Task from '../../../Task/Task';
+import { blue } from '@mui/material/colors';
 
 type Props = {
   title: string;
@@ -22,26 +21,24 @@ type Props = {
 };
 
 const Column = ({ title, _id: columnId, index }: Props) => {
-  const [tasks, setTasks] = useState<TasksResp>([]);
-  const [shouldRerenderTasks, setShouldRerenderTasks] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
   const { id: boardId } = useParams();
 
   const { columns, isColumnsLoaded } = useAppSelector((state) => state.columns);
+  const tasks = useAppSelector((state) => state.columns.tasks[columnId]);
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation([TranslationKeys.ns]);
   const { addTask } = TranslationKeys;
 
-  const setShouldRerenderTasksToTrue = () => setShouldRerenderTasks(true);
-
-  const onClick = () => setIsModalOpen(true);
+  const onClick = useCallback(() => {
+    if (boardId) {
+      dispatch(openModal({ boardId, columnId }));
+    }
+  }, [boardId, columnId, dispatch]);
 
   const loadTasks = async () => {
     if (boardId) {
-      const tasksResp = await dispatch(getTasks({ boardId, columnId })).unwrap();
-      setTasks(tasksResp);
+      await dispatch(getTasks({ boardId, columnId })).unwrap();
     }
 
     if (index === columns.length - 1) {
@@ -50,84 +47,74 @@ const Column = ({ title, _id: columnId, index }: Props) => {
     }
   };
 
-  const updateTasks = async () => {
-    if (boardId) {
-      try {
-        const tasksResp = await dispatch(getTasks({ boardId, columnId })).unwrap();
-        setTasks(tasksResp);
-      } catch {
-        console.log('e');
-      } finally {
-        dispatch(hideTaskLoader());
-        setIsModalOpen(false);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (shouldRerenderTasks) {
-      updateTasks();
-      setShouldRerenderTasks(false);
-    }
-  }, [shouldRerenderTasks]);
-
   useEffect(() => {
     loadTasks();
   }, []);
 
   return isColumnsLoaded && boardId ? (
-    <>
-      <Draggable draggableId={columnId} index={index}>
-        {(provided) => (
-          <Paper
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            sx={{
-              width: Sizes.COLUMN_WIDTH,
-              height: 'fit-content',
-              maxHeight: '100%',
-              border: '1px solid red',
-              mr: 2,
-              p: 1
-            }}>
-            <Title title={title} _id={columnId} order={index} />
-            <List
-              sx={{
-                maxHeight: '470px',
-                overflowY: 'auto'
-              }}>
-              {tasks.map((task) => {
-                if (boardId) {
-                  return (
-                    <Task
-                      key={task._id}
-                      _id={task._id}
-                      boardId={boardId}
-                      columnId={columnId}
-                      description={task.description}
-                      title={task.title}
-                    />
-                  );
-                }
-              })}
-            </List>
-            <Button fullWidth startIcon={<AddIcon />} onClick={onClick}>
-              {t(addTask)}
-            </Button>
-          </Paper>
-        )}
-      </Draggable>
-      {isModalOpen && (
-        <NewTaskModal
-          isOpen={isModalOpen}
-          boardId={boardId}
-          columnId={columnId}
-          setIsModalOpen={setIsModalOpen}
-          setShouldRerenderTasksToTrue={setShouldRerenderTasksToTrue}
-        />
+    <Draggable draggableId={columnId} index={index}>
+      {(provided) => (
+        <Paper
+          elevation={0}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          sx={{
+            border: `2px solid ${blue[100]}`,
+            width: Sizes.COLUMN_WIDTH,
+            height: 'fit-content',
+            maxHeight: '100%',
+            mr: 2,
+            p: 1
+          }}>
+          <Title title={title} _id={columnId} order={index} provided={provided} />
+
+          <Droppable droppableId={columnId} type={DndTypes.tasks}>
+            {(provided, snapshot) => (
+              <Box
+                sx={{
+                  borderRadius: '5px',
+                  bgcolor: snapshot.isDraggingOver ? blue[100] : 'background.paper',
+                  maxHeight: '470px',
+                  overflow: 'auto',
+                  my: 1
+                }}>
+                <Grid
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  container
+                  flexDirection="column"
+                  alignItems="center"
+                  component={List}>
+                  {tasks &&
+                    tasks.map((task, index) => {
+                      if (boardId) {
+                        return (
+                          <Task
+                            key={task._id}
+                            index={index}
+                            title={task.title}
+                            description={task.description}
+                            _id={task._id}
+                            columnId={columnId}
+                            boardId={boardId}
+                            editTask={() => console.log('edit')}
+                            deleteTask={() => console.log('delete')}
+                          />
+                        );
+                      }
+                    })}
+                </Grid>
+                {provided.placeholder}
+              </Box>
+            )}
+          </Droppable>
+
+          <Button fullWidth startIcon={<AddIcon />} onClick={onClick}>
+            {t(addTask)}
+          </Button>
+        </Paper>
       )}
-    </>
+    </Draggable>
   ) : null;
 };
 

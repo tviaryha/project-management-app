@@ -3,36 +3,26 @@ import { AxiosError } from 'axios';
 import { api } from '../api/Api';
 import { IUsersResp } from '../api/models/users';
 import { ErrorResponse } from '../api/models/ErrorResponse';
-import { ICreateTaskReq, ICreateTaskResp } from '../api/models/task';
 import { getUsers } from './newBoardSlice';
 import { IBoardResp } from '../api/models/BoardsInterfaces';
 
 interface INewTaskModalState {
   isLoading: boolean;
+  isOpen: boolean;
+  boardId: string;
+  columnId: string;
   allUsers: IUsersResp;
   boardUsers: string[];
 }
 
 const initialState: INewTaskModalState = {
   isLoading: false,
+  isOpen: false,
+  boardId: '',
+  columnId: '',
   allUsers: [],
   boardUsers: []
 };
-
-export const createTask = createAsyncThunk<
-  ICreateTaskResp,
-  ICreateTaskReq,
-  {
-    rejectValue: number | undefined;
-  }
->('createTask', async (params, thunkApi) => {
-  try {
-    const resp = await api.createTask(params);
-    return resp;
-  } catch (e) {
-    return thunkApi.rejectWithValue((<AxiosError<ErrorResponse>>e).response?.status);
-  }
-});
 
 export const getBoard = createAsyncThunk<
   IBoardResp,
@@ -58,6 +48,19 @@ export const newTaskSlice = createSlice({
     },
     hideLoader: (state) => {
       state.isLoading = false;
+    },
+    openModal: (
+      state,
+      action: { payload: { boardId: string; columnId: string }; type: string }
+    ) => {
+      state.isOpen = true;
+      state.boardId = action.payload.boardId;
+      state.columnId = action.payload.columnId;
+    },
+    closeModal: (state) => {
+      state.isOpen = false;
+      state.boardId = initialState.boardId;
+      state.columnId = initialState.columnId;
     }
   },
   extraReducers: (builder) => {
@@ -77,13 +80,10 @@ export const newTaskSlice = createSlice({
       })
       .addCase(getBoard.rejected, (state) => {
         state.isLoading = false;
-      })
-      .addCase(createTask.pending, (state) => {
-        state.isLoading = true;
       });
   }
 });
 
-export const { showLoader, hideLoader } = newTaskSlice.actions;
+export const { openModal, closeModal, showLoader, hideLoader } = newTaskSlice.actions;
 
 export default newTaskSlice.reducer;

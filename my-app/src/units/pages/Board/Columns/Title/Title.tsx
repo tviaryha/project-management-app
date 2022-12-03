@@ -17,9 +17,9 @@ import { TranslationKeys as ToastTranslations } from '../../../../Toast/enum';
 import { useTranslation } from 'react-i18next';
 import { openToast, RespRes } from '../../../../../redux/toastSlice';
 import { TranslationKeys } from '../../enums';
-import { TitleProps } from './types';
+import { ITitleProps } from './types';
 
-const Title = ({ title, _id, order }: TitleProps) => {
+const Title = ({ title, _id, order, provided }: ITitleProps) => {
   const { id: boardId } = useParams();
 
   const { isLoading } = useAppSelector((state) => state.columns);
@@ -76,7 +76,12 @@ const Title = ({ title, _id, order }: TitleProps) => {
 
   const displayTitle = shouldShowTitle ? (
     <>
-      <Grid container justifyContent="space-between" gap={1} flexWrap="nowrap">
+      <Grid
+        container
+        justifyContent="space-between"
+        gap={1}
+        flexWrap="nowrap"
+        {...provided.dragHandleProps}>
         <Grid
           item
           component={Typography}

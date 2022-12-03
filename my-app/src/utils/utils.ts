@@ -1,6 +1,7 @@
-import { ColumnsResp, IColumnResp } from '../api/models/columns';
+import { IColumnResp } from '../api/models/columns';
+import { ITaskResp } from '../api/models/tasks';
 
-export const reorder = (list: ColumnsResp, startIndex: number, endIndex: number) => {
+export const reorder = <T>(list: T[], startIndex: number, endIndex: number) => {
   const result = [...list];
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
@@ -8,10 +9,10 @@ export const reorder = (list: ColumnsResp, startIndex: number, endIndex: number)
   return result;
 };
 
-export const mapColumnsOrder = (columns: IColumnResp[]) => {
-  return columns.map((column, index) => {
-    const newColumn = { ...column };
-    newColumn.order = index;
-    return newColumn;
+export const mapItemsByOrder = <T extends ITaskResp | IColumnResp>(items: T[]) => {
+  return items.map((item, index) => {
+    const newItem = { ...item };
+    newItem.order = index;
+    return newItem;
   });
 };

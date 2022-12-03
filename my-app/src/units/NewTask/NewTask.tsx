@@ -4,27 +4,13 @@ import TransitionsModalWithCloseBtn from '../../components/TransitionsModalWithC
 import useAppDispatch from '../../hooks/useAppDispatch';
 import useAppSelector from '../../hooks/useAppSelector';
 import { getUsers } from '../../redux/newBoardSlice';
-import { getBoard } from '../../redux/newTaskSlice';
+import { closeModal, getBoard } from '../../redux/newTaskSlice';
 import Form from './Form';
 import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import { openToast, RespRes } from '../../redux/toastSlice';
 
-type Props = {
-  isOpen: boolean;
-  columnId: string;
-  boardId: string;
-  setShouldRerenderTasksToTrue: () => void;
-  setIsModalOpen: (isOpen: boolean) => void;
-};
-
-const NewTaskModal = ({
-  isOpen,
-  columnId,
-  boardId,
-  setShouldRerenderTasksToTrue,
-  setIsModalOpen
-}: Props) => {
-  const { isLoading } = useAppSelector((state) => state.newTask);
+const NewTaskModal = () => {
+  const { isOpen, boardId, isLoading } = useAppSelector((state) => state.newTask);
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation([ToastTranslations.ns]);
@@ -36,7 +22,7 @@ const NewTaskModal = ({
         await dispatch(getUsers()).unwrap();
         await dispatch(getBoard(boardId)).unwrap();
       } catch {
-        setIsModalOpen(false);
+        dispatch(closeModal());
         dispatch(
           openToast({ message: t(fail, { ns: ToastTranslations.ns }), type: RespRes.error })
         );
@@ -48,17 +34,12 @@ const NewTaskModal = ({
     load();
   }, [isOpen]);
 
-  const handleClose = () => setIsModalOpen(false);
-
-  return (
+  const handleClose = () => dispatch(closeModal());
+  return isOpen ? (
     <TransitionsModalWithCloseBtn isOpen={isOpen} handleClose={handleClose} isLoading={isLoading}>
-      <Form
-        columnId={columnId}
-        boardId={boardId}
-        setShouldRerenderTasksToTrue={setShouldRerenderTasksToTrue}
-      />
+      <Form />
     </TransitionsModalWithCloseBtn>
-  );
+  ) : null;
 };
 
 export default NewTaskModal;

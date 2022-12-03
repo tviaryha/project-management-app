@@ -4,19 +4,17 @@ import { useTranslation } from 'react-i18next';
 import { ICreateTaskParamResp, ICreateTaskReq } from '../../api/models/task';
 import { FormTranslationKeys, LocalStorageKeys } from '../../enums';
 import useAppDispatch from '../../hooks/useAppDispatch';
-import { createTask } from '../../redux/newTaskSlice';
+import useAppSelector from '../../hooks/useAppSelector';
+import { createTask } from '../../redux/columnsSlice';
+import { closeModal, hideLoader, showLoader } from '../../redux/newTaskSlice';
 import { openToast, RespRes } from '../../redux/toastSlice';
 import { TranslationKeys as ToastTranslations } from '../Toast/enum';
 import DefaultSelect from './DefaultSelect';
 import { TranslationKeys } from './enum';
 
-interface Props {
-  columnId: string;
-  boardId: string;
-  setShouldRerenderTasksToTrue: () => void;
-}
-
-const Form = ({ boardId, columnId, setShouldRerenderTasksToTrue }: Props) => {
+const Form = () => {
+  const { boardId, columnId } = useAppSelector((state) => state.newTask);
+  const tasks = useAppSelector((state) => state.columns.tasks);
   const dispatch = useAppDispatch();
   const {
     register,
@@ -45,13 +43,19 @@ const Form = ({ boardId, columnId, setShouldRerenderTasksToTrue }: Props) => {
     if (userId) {
       const { title, description, users } = getValues();
       const params: ICreateTaskReq = {
-        data: { title, order: 0, description, userId: userId, users: [...users] }, //TODO Need to replace order with tasks quantity in the column
+        data: {
+          title,
+          order: tasks[columnId].length,
+          description,
+          userId: userId,
+          users: [...users]
+        },
         columnId,
         boardId
       };
+      dispatch(showLoader());
       try {
         await dispatch(createTask(params)).unwrap();
-        setShouldRerenderTasksToTrue();
         dispatch(
           openToast({
             message: t(successCreateTask, { ns: ToastTranslations.ns }),
@@ -62,6 +66,8 @@ const Form = ({ boardId, columnId, setShouldRerenderTasksToTrue }: Props) => {
         const eMessage = t(fail, { ns: ToastTranslations.ns });
         dispatch(openToast({ message: eMessage, type: RespRes.error }));
       }
+      dispatch(closeModal());
+      dispatch(hideLoader());
     }
   };
 

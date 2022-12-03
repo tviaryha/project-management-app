@@ -1,4 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
+import { api } from '../api/Api';
+import { ErrorResponse } from '../api/models/ErrorResponse';
+import { DeleteTaskParams, IUpdateTask } from '../api/models/tasks';
 
 interface IModalState {
   isOpenEditTaskModal: boolean;
@@ -11,6 +15,34 @@ const initialState: IModalState = {
   isOpenDeleteTaskModal: false,
   isLoading: false
 };
+
+export const deleteTask = createAsyncThunk<
+  void,
+  DeleteTaskParams,
+  {
+    rejectValue: number | undefined;
+  }
+>('deleteColumn', async (params, thunkApi) => {
+  try {
+    await api.deleteTask(params);
+  } catch (e) {
+    return thunkApi.rejectWithValue((<AxiosError<ErrorResponse>>e).response?.status);
+  }
+});
+
+export const updateTask = createAsyncThunk<
+  void,
+  IUpdateTask,
+  {
+    rejectValue: number | undefined;
+  }
+>('deleteColumn', async (params, thunkApi) => {
+  try {
+    await api.updateTask(params);
+  } catch (e) {
+    return thunkApi.rejectWithValue((<AxiosError<ErrorResponse>>e).response?.status);
+  }
+});
 
 export const taskSlice = createSlice({
   name: 'taskSlice',

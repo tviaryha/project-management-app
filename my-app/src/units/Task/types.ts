@@ -10,6 +10,7 @@ export interface ITask extends IDeleteTask {
 }
 
 export interface ICurrentTaskProps extends ITask {
+  index: number;
   editTask: (boardId: string, columnId: string, _id: string) => void;
   deleteTask: (boardId: string, columnId: string, _id: string) => void;
 }
