@@ -12,7 +12,7 @@ interface IBoardsListState {
 
 const initialState: IBoardsListState = {
   boards: [],
-  isLoading: false,
+  isLoading: true,
   modalIsOpen: false
 };
 
@@ -40,12 +40,12 @@ export const boardsList = createSlice({
         state.isLoading = true;
       })
       .addCase(loadUserBoards.fulfilled, (state, action: PayloadAction<IBoardResp[]>) => {
-        state.isLoading = false;
         state.boards = action.payload;
+        state.isLoading = false;
       })
       .addCase(loadUserBoards.rejected, (state) => {
-        state.isLoading = false;
         state.boards = [];
+        state.isLoading = false;
       });
   }
 });

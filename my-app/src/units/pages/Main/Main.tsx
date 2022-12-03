@@ -32,6 +32,7 @@ const Main = () => {
   const { t } = useTranslation([BoardsListTranslations.ns, TranslationKeys.ns]);
 
   const { isLoading, boards } = useAppSelector((state) => state.boardsList);
+
   const { boardId, isOpenModal, isLoad, boardTitle } = useAppSelector(
     (state) => state.boardPreview
   );
@@ -41,10 +42,9 @@ const Main = () => {
 
   const getUserBoards = async () => {
     const userId = localStorage.getItem(LocalStorageKeys.userId);
-
+    dispatch(showLoader());
     if (userId) {
       try {
-        dispatch(showLoader());
         await dispatch(getAllUsers());
         await dispatch(loadUserBoards(userId)).unwrap();
       } catch (error) {
@@ -76,7 +76,6 @@ const Main = () => {
         const eMessage = t(fail, { ns: TranslationKeys.ns });
         dispatch(openToast({ message: eMessage, type: RespRes.error }));
       } finally {
-        dispatch(setIsOpenModal(false));
         getUserBoards();
       }
     }
@@ -96,7 +95,7 @@ const Main = () => {
   return (
     <Grid container component="section" justifyContent="space-evenly" gap="20px" mt={10}>
       {!isLoading &&
-        (boards.length ? (
+        (boards.length > 0 ? (
           boards.map((board) => (
             <BoardPreview
               title={board.title}
