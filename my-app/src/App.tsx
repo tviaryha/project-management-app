@@ -36,7 +36,10 @@ const router = createBrowserRouter(
       </Route>
       <Route path={'*'} element={<ErrorPage />} />
     </Route>
-  )
+  ),
+  {
+    basename: process.env.PUBLIC_URL
+  }
 );
 
 const App = () => {

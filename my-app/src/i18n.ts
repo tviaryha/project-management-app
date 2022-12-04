@@ -43,6 +43,9 @@ i18n
     },
     interpolation: {
       escapeValue: false
+    },
+    backend: {
+      loadPath: `${process.env.PUBLIC_URL}/locales/{{lng}}/{{ns}}.json`
     }
   });
 
