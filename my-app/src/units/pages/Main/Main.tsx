@@ -99,8 +99,8 @@ const Main = () => {
           boards.map((board) => (
             <BoardPreview
               title={board.title}
-              boardId={board._id}
               key={board._id}
+              boardId={board._id}
               linkTo={`/${Paths.board}/${board._id}`}
               users={users.filter(({ _id }) => board.users.includes(_id)).map(({ name }) => name)}
               onDeleteButtonClick={handleDeleteBoardClick}

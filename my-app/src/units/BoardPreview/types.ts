@@ -1,6 +1,7 @@
 import { MouseEvent } from 'react';
 export interface IBoard {
   title: string;
+  key: string;
   boardId: string;
   linkTo: string;
   users: string[];
