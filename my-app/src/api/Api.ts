@@ -17,7 +17,6 @@ import { ICreateTaskReq, ICreateTaskResp } from './models/task';
 import {
   DeleteTaskParams,
   GetTasksParams,
-  ITaskResp,
   IUpdateTask,
   TasksResp,
   UpdateTasksOrderReq

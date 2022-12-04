@@ -6,6 +6,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { ICurrentTaskProps } from './types';
 import { listItemStyle } from './style';
 import { Draggable } from 'react-beautiful-dnd';
+import { openDeleteTaskModal } from '../../redux/taskSlice';
+import useAppDispatch from '../../hooks/useAppDispatch';
 
 const Task = ({
   title,
@@ -14,9 +16,12 @@ const Task = ({
   columnId,
   boardId,
   index,
-  editTask,
-  deleteTask
+  editTask
 }: ICurrentTaskProps): JSX.Element => {
+  const dispatch = useAppDispatch();
+
+  const deleteTask = () => dispatch(openDeleteTaskModal({ boardId, columnId, taskId: _id }));
+
   return (
     <Draggable draggableId={_id} index={index}>
       {(provided) => (
@@ -39,7 +44,7 @@ const Task = ({
               aria-label="delete"
               size="small"
               edge="end"
-              onClick={() => deleteTask(boardId, columnId, _id)}>
+              onClick={deleteTask}>
               <DeleteIcon fontSize="small" />
             </IconButton>
           ]}>

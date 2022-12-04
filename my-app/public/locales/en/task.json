@@ -5,6 +5,7 @@
   "buttonEdit": "SAVE",
   "buttonClose": "CLOSE",
   "helperTextTitle": "Title",
-  "helperTextDescription": "Description"
+  "helperTextDescription": "Description",
+  "deleteDescription": "This task will be deleted. This action can not be undone"
 }
 

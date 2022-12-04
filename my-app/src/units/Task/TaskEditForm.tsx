@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { IEditProps } from './types';
 import { useTranslation } from 'react-i18next';
-import { TaskTranslationKeys } from './types';
+import { TaskTranslationKeys } from './enum';
 import { modalStyle } from './style';
 import TextField from '@mui/material/TextField';
 

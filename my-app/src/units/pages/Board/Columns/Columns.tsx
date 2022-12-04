@@ -10,6 +10,8 @@ import { Droppable } from 'react-beautiful-dnd';
 import NewTaskModal from '../../../NewTask/NewTask';
 import { hideLoader } from '../../../../redux/appSlice';
 import { useEffect } from 'react';
+import EditTaskModal from '../../../Task/EditTaskModal';
+import DeleteTaskModal from '../../../Task/DeleteTaskModal';
 
 const Columns = () => {
   const { columns, isColumnsLoaded } = useAppSelector((state) => state.columns);
@@ -64,6 +66,8 @@ const Columns = () => {
         )}
       </Droppable>
       <NewTaskModal />
+      {/* <EditTaskModal /> */}
+      <DeleteTaskModal />
     </>
   );
 };

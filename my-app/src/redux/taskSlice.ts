@@ -8,12 +8,18 @@ interface IModalState {
   isOpenEditTaskModal: boolean;
   isOpenDeleteTaskModal: boolean;
   isLoading: boolean;
+  boardId: string;
+  columnId: string;
+  taskId: string;
 }
 
 const initialState: IModalState = {
   isOpenEditTaskModal: false,
   isOpenDeleteTaskModal: false,
-  isLoading: false
+  isLoading: false,
+  boardId: '',
+  columnId: '',
+  taskId: ''
 };
 
 export const deleteTask = createAsyncThunk<
@@ -22,7 +28,7 @@ export const deleteTask = createAsyncThunk<
   {
     rejectValue: number | undefined;
   }
->('deleteColumn', async (params, thunkApi) => {
+>('deleteTask', async (params, thunkApi) => {
   try {
     await api.deleteTask(params);
   } catch (e) {
@@ -36,7 +42,7 @@ export const updateTask = createAsyncThunk<
   {
     rejectValue: number | undefined;
   }
->('deleteColumn', async (params, thunkApi) => {
+>('updateTask', async (params, thunkApi) => {
   try {
     await api.updateTask(params);
   } catch (e) {
@@ -51,15 +57,35 @@ export const taskSlice = createSlice({
     setIsOpenEditTaskModal: (state, action) => {
       state.isOpenEditTaskModal = action.payload;
     },
-    setIsOpenDeleteTaskModal: (state, action) => {
-      state.isOpenDeleteTaskModal = action.payload;
+    openDeleteTaskModal: (state, action: { payload: DeleteTaskParams; type: string }) => {
+      const { boardId, columnId, taskId } = action.payload;
+      state.isOpenDeleteTaskModal = true;
+      state.boardId = boardId;
+      state.columnId = columnId;
+      state.taskId = taskId;
     },
-    toggleLoader: (state) => {
+    closeDeleteTaskModal: (state) => {
+      state.isOpenDeleteTaskModal = false;
+      state.boardId = initialState.boardId;
+      state.columnId = initialState.columnId;
+      state.taskId = initialState.taskId;
+    },
+    toggleIsLoading: (state) => {
       state.isLoading = !state.isLoading;
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(deleteTask.rejected, (state) => {
+      state.isOpenDeleteTaskModal = false;
+    });
   }
 });
 
-export const { setIsOpenEditTaskModal, setIsOpenDeleteTaskModal, toggleLoader } = taskSlice.actions;
+export const {
+  setIsOpenEditTaskModal,
+  openDeleteTaskModal,
+  closeDeleteTaskModal,
+  toggleIsLoading
+} = taskSlice.actions;
 
 export default taskSlice.reducer;

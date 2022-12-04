@@ -98,7 +98,6 @@ const Column = ({ title, _id: columnId, index }: Props) => {
                             columnId={columnId}
                             boardId={boardId}
                             editTask={() => console.log('edit')}
-                            deleteTask={() => console.log('delete')}
                           />
                         );
                       }
