@@ -1,0 +1,10 @@
+{
+  "title": "Delete current task?",
+  "buttonDelete": "DELETE",
+  "buttonCancel": "CANCEL",
+  "buttonEdit": "SAVE",
+  "buttonClose": "CLOSE",
+  "helperTextTitle": "Title",
+  "helperTextDescription": "Description"
+}
+
