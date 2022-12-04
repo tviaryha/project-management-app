@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { ISignIn } from '../../api/models/users';
 import { AuthFieldsNames } from './authFieldsNames';
 import { signIn } from '../../redux/signInSlice';
-import { Box, Button, Container, TextField, Typography } from '@mui/material';
+import { Button, Grid, TextField, Typography } from '@mui/material';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { useNavigate } from 'react-router-dom';
 import { ErrorResponse } from '../../api/models/ErrorResponse';
@@ -60,73 +60,60 @@ export const SignInForm: FC = () => {
     }
   };
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center'
-        }}>
-        <Typography
-          component="h1"
-          variant="h5"
+    <Grid
+      item
+      component="section"
+      flexDirection="column"
+      alignItems="center"
+      sx={{ width: '100%', maxWidth: '50ch' }}
+      margin="auto">
+      <Typography component="h1" variant="h5" marginBottom={3} textAlign="center">
+        {t(signInTitle, SignFormsTranslationKeys)}
+      </Typography>
+      <Grid
+        container
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        gap={3}>
+        <TextField
+          id="login"
+          label={t(login)}
+          variant="outlined"
+          fullWidth
+          required
+          type="text"
+          error={!!errors.login}
+          helperText={t(errors.login?.message || '')}
+          {...register(AuthFieldsNames.LOGIN, {
+            required: { value: true, message: requiredE }
+          })}
+        />
+        <TextField
+          id="password"
+          label={t(password)}
+          variant="outlined"
+          fullWidth
+          required
+          type="password"
+          error={!!errors.password}
+          helperText={t(errors.password?.message || '')}
+          {...register(AuthFieldsNames.PASSWORD, {
+            required: { value: true, message: requiredE }
+          })}
+        />
+        <Button
+          type="submit"
+          variant="contained"
           sx={{
-            marginBottom: 3
+            width: '25ch'
           }}>
-          {t(signInTitle, SignFormsTranslationKeys)}
-        </Typography>
-        <Box
-          component="form"
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-          sx={{
-            mt: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 3
-          }}>
-          <TextField
-            id="login"
-            label={t(login)}
-            variant="outlined"
-            required
-            type="text"
-            sx={{
-              width: '50ch'
-            }}
-            error={!!errors.login}
-            helperText={t(errors.login?.message || '')}
-            {...register(AuthFieldsNames.LOGIN, {
-              required: { value: true, message: requiredE }
-            })}
-          />
-          <TextField
-            id="password"
-            label={t(password)}
-            variant="outlined"
-            required
-            type="password"
-            sx={{
-              width: '50ch'
-            }}
-            error={!!errors.password}
-            helperText={t(errors.password?.message || '')}
-            {...register(AuthFieldsNames.PASSWORD, {
-              required: { value: true, message: requiredE }
-            })}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{
-              width: '25ch'
-            }}>
-            {t(btn, SignFormsTranslationKeys)}
-          </Button>
-        </Box>
-      </Box>
-    </Container>
+          {t(btn, SignFormsTranslationKeys)}
+        </Button>
+      </Grid>
+    </Grid>
   );
 };

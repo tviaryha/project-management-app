@@ -1,4 +1,4 @@
-import { Container, Box, Typography, TextField, Button } from '@mui/material';
+import { Container, Box, Grid, Typography, TextField, Button } from '@mui/material';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -78,109 +78,98 @@ export const SignUpForm: FC = () => {
     t<string>(confirmPasswordE, SignFormsTranslationKeys);
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
+    <Grid
+      item
+      component="section"
+      flexDirection="column"
+      alignItems="center"
+      sx={{ width: '100%', maxWidth: '50ch' }}
+      margin="auto">
+      <Typography
+        component="h1"
+        variant="h5"
+        textAlign="center"
         sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center'
+          marginBottom: 3
         }}>
-        <Typography
-          component="h1"
-          variant="h5"
+        {t(signUpTitle, SignFormsTranslationKeys)}
+      </Typography>
+      <Grid
+        container
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        gap={3}>
+        <TextField
+          id="name"
+          label={t(name)}
+          variant="outlined"
+          fullWidth
+          required
+          type="text"
+          error={!!errors.name}
+          helperText={t(errors.name?.message || '')}
+          {...register(AuthFieldsNames.NAME, {
+            required: { value: true, message: requiredE },
+            minLength: { value: 3, message: minLength3E },
+            maxLength: { value: 30, message: maxLength30E }
+          })}
+        />
+        <TextField
+          id="login"
+          label={t(login)}
+          variant="outlined"
+          fullWidth
+          required
+          type="text"
+          error={!!errors.login}
+          helperText={t(errors.login?.message || '')}
+          {...register(AuthFieldsNames.LOGIN, {
+            required: { value: true, message: requiredE },
+            minLength: { value: 3, message: minLength3E },
+            maxLength: { value: 30, message: maxLength30E }
+          })}
+        />
+        <TextField
+          id="password"
+          label={t(password)}
+          variant="outlined"
+          fullWidth
+          required
+          type="password"
+          error={!!errors.password}
+          helperText={t(errors.password?.message || '')}
+          {...register(AuthFieldsNames.PASSWORD, {
+            validate: (value) => passwordRegExp.test(value) || passwordPatternE,
+            required: { value: true, message: requiredE }
+          })}
+        />
+        <TextField
+          id="confirm-password"
+          label={t(confirmPassword, SignFormsTranslationKeys)}
+          variant="outlined"
+          fullWidth
+          required
+          type="password"
+          error={!!errors.confirm_password}
+          helperText={t(errors.confirm_password?.message || '')}
+          {...register(AuthFieldsNames.CONFIRM_PASSWORD, {
+            validate: validateConfirmPassword,
+            required: { value: true, message: requiredE }
+          })}
+        />
+        <Button
+          type="submit"
+          variant="contained"
           sx={{
-            marginBottom: 3
+            width: '25ch'
           }}>
-          {t(signUpTitle, SignFormsTranslationKeys)}
-        </Typography>
-        <Box
-          component="form"
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-          sx={{
-            mt: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 3
-          }}>
-          <TextField
-            id="name"
-            label={t(name)}
-            variant="outlined"
-            required
-            type="text"
-            sx={{
-              width: '50ch'
-            }}
-            error={!!errors.name}
-            helperText={t(errors.name?.message || '')}
-            {...register(AuthFieldsNames.NAME, {
-              required: { value: true, message: requiredE },
-              minLength: { value: 3, message: minLength3E },
-              maxLength: { value: 30, message: maxLength30E }
-            })}
-          />
-          <TextField
-            id="login"
-            label={t(login)}
-            variant="outlined"
-            required
-            type="text"
-            sx={{
-              width: '50ch'
-            }}
-            error={!!errors.login}
-            helperText={t(errors.login?.message || '')}
-            {...register(AuthFieldsNames.LOGIN, {
-              required: { value: true, message: requiredE },
-              minLength: { value: 3, message: minLength3E },
-              maxLength: { value: 30, message: maxLength30E }
-            })}
-          />
-          <TextField
-            id="password"
-            label={t(password)}
-            variant="outlined"
-            required
-            type="password"
-            sx={{
-              width: '50ch'
-            }}
-            error={!!errors.password}
-            helperText={t(errors.password?.message || '')}
-            {...register(AuthFieldsNames.PASSWORD, {
-              validate: (value) => passwordRegExp.test(value) || passwordPatternE,
-              required: { value: true, message: requiredE }
-            })}
-          />
-          <TextField
-            id="confirm-password"
-            label={t(confirmPassword, SignFormsTranslationKeys)}
-            variant="outlined"
-            required
-            type="password"
-            sx={{
-              width: '50ch'
-            }}
-            error={!!errors.confirm_password}
-            helperText={t(errors.confirm_password?.message || '')}
-            {...register(AuthFieldsNames.CONFIRM_PASSWORD, {
-              validate: validateConfirmPassword,
-              required: { value: true, message: requiredE }
-            })}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{
-              width: '25ch'
-            }}>
-            {t(btn, SignFormsTranslationKeys)}
-          </Button>
-        </Box>
-      </Box>
-    </Container>
+          {t(btn, SignFormsTranslationKeys)}
+        </Button>
+      </Grid>
+    </Grid>
   );
 };
