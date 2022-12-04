@@ -1,5 +1,5 @@
 import { Grid, Typography } from '@mui/material';
-import { useEffect, MouseEvent } from 'react';
+import { useEffect, SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import BoardPreview from '../../BoardPreview/BoardPreview';
 import { LocalStorageKeys, Paths } from '../../../enums';
@@ -84,7 +84,7 @@ const Main = () => {
   const handleDeleteBoardClick = (
     boardId: string,
     boardTitle: string,
-    event: MouseEvent<HTMLButtonElement>
+    event: SyntheticEvent<HTMLElement>
   ) => {
     event.preventDefault();
     dispatch(setIsOpenModal(true));

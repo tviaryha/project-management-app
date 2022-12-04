@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { boardStyle } from './style';
 import PeopleIcon from '@mui/icons-material/People';
 import { Box, Typography } from '@mui/material';
-import { JSXElementConstructor, MouseEvent } from 'react';
+import { JSXElementConstructor, SyntheticEvent } from 'react';
 
 const BoardPreview: JSXElementConstructor<IBoard> = ({
   title,
@@ -27,7 +27,7 @@ const BoardPreview: JSXElementConstructor<IBoard> = ({
           key="delete"
           aria-label="delete"
           edge="end"
-          onClick={(event: MouseEvent<HTMLButtonElement>) =>
+          onClick={(event: SyntheticEvent<HTMLElement>) =>
             onDeleteButtonClick(boardId, title, event)
           }>
           <DeleteIcon />
