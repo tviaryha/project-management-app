@@ -1,5 +1,5 @@
 import {
-  createBrowserRouter,
+  createHashRouter,
   createRoutesFromElements,
   Route,
   RouterProvider
@@ -20,7 +20,7 @@ import Board from './units/pages/Board/Board';
 
 const { base, signIn, signUp, mainPage, editProfile, board } = Paths;
 
-const router = createBrowserRouter(
+const router = createHashRouter(
   createRoutesFromElements(
     <Route path={base} element={<Layout />}>
       <Route index element={<WelcomePage />} />
@@ -35,10 +35,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path={'*'} element={<ErrorPage />} />
     </Route>
-  ),
-  {
-    basename: process.env.PUBLIC_URL
-  }
+  )
 );
 
 const App = () => {

@@ -34,7 +34,7 @@ i18n
   .use(initReactI18next)
   .init({
     ns,
-    fallbackLng: 'en-US',
+    fallbackLng: 'en',
     debug: false,
     detection: {
       caches: ['localStorage']
