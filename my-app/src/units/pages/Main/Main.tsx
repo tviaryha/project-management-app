@@ -7,7 +7,7 @@ import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import useCloseMenu from '../../../hooks/useCloseMenu';
 import { showLoader, hideLoader } from '../../../redux/appSlice';
-import { loadUserBoards } from '../../../redux/boardsListSlice';
+import { clearBoardsList, loadUserBoards, toggleIsLoading } from '../../../redux/boardsListSlice';
 import {
   setIsOpenModal,
   deleteCurrentBoard,
@@ -42,6 +42,7 @@ const Main = () => {
 
   const getUserBoards = async () => {
     const userId = localStorage.getItem(LocalStorageKeys.userId);
+    dispatch(toggleIsLoading());
     dispatch(showLoader());
     if (userId) {
       try {
@@ -52,12 +53,16 @@ const Main = () => {
         dispatch(openToast({ message: errorMesage, type: RespRes.error }));
       } finally {
         dispatch(hideLoader());
+        dispatch(toggleIsLoading());
       }
     }
   };
 
   useEffect(() => {
     getUserBoards();
+    return () => {
+      dispatch(clearBoardsList());
+    };
   }, []);
 
   const deleteBoard = async () => {
@@ -92,25 +97,24 @@ const Main = () => {
     dispatch(setBoardTitle(boardTitle));
   };
 
-  return (
+  return isLoading ? null : (
     <Grid container component="section" justifyContent="space-evenly" gap="20px" mt={10}>
-      {!isLoading &&
-        (boards.length > 0 ? (
-          boards.map((board) => (
-            <BoardPreview
-              title={board.title}
-              key={board._id}
-              boardId={board._id}
-              linkTo={`/${Paths.board}/${board._id}`}
-              users={users.filter(({ _id }) => board.users.includes(_id)).map(({ name }) => name)}
-              onDeleteButtonClick={handleDeleteBoardClick}
-            />
-          ))
-        ) : (
-          <Typography variant="h5" component="h4" mt={50}>
-            {t(noBoards)}
-          </Typography>
-        ))}
+      {boards.length > 0 ? (
+        boards.map((board) => (
+          <BoardPreview
+            title={board.title}
+            key={board._id}
+            boardId={board._id}
+            linkTo={`/${Paths.board}/${board._id}`}
+            users={users.filter(({ _id }) => board.users.includes(_id)).map(({ name }) => name)}
+            onDeleteButtonClick={handleDeleteBoardClick}
+          />
+        ))
+      ) : (
+        <Typography variant="h5" component="h4" mt={50}>
+          {t(noBoards)}
+        </Typography>
+      )}
       <ConfirmationModal
         description={`${t(descriptionInConfirmationModal)}  ${boardTitle}`}
         isOpen={isOpenModal}

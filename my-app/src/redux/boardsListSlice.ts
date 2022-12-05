@@ -12,7 +12,7 @@ interface IBoardsListState {
 
 const initialState: IBoardsListState = {
   boards: [],
-  isLoading: true,
+  isLoading: false,
   modalIsOpen: false
 };
 
@@ -33,20 +33,24 @@ export const loadUserBoards = createAsyncThunk<
 export const boardsList = createSlice({
   name: 'boardsList',
   initialState,
-  reducers: {},
+  reducers: {
+    clearBoardsList: (state) => {
+      state.boards = initialState.boards;
+    },
+    toggleIsLoading: (state) => {
+      state.isLoading = !state.isLoading;
+    }
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(loadUserBoards.pending, (state) => {
-        state.isLoading = true;
-      })
       .addCase(loadUserBoards.fulfilled, (state, action: PayloadAction<IBoardResp[]>) => {
         state.boards = action.payload;
-        state.isLoading = false;
       })
       .addCase(loadUserBoards.rejected, (state) => {
         state.boards = [];
-        state.isLoading = false;
       });
   }
 });
+export const { clearBoardsList, toggleIsLoading } = boardsList.actions;
+
 export default boardsList.reducer;
