@@ -13,7 +13,6 @@ import { TranslationKeys as ConfirmationModalTK } from './components/Confirmatio
 import { BoardsListTranslations as BoardsListTK } from './units/pages/Main/Main';
 import { TranslationKeys as TaskTK } from './units/Task/enum';
 import { WelcomePageTranslations as WelcomePageTK } from './units/pages/Welcome/Welcome';
-import { TranslationKeys as BoardTK } from './units/pages/Board/enums';
 
 const ns = [
   EditProfileTK.ns,
@@ -26,7 +25,6 @@ const ns = [
   TaskTK.ns,
   BoardsListTK.ns,
   WelcomePageTK.ns,
-  BoardTK.ns,
   NewTaskTK.ns
 ];
 
@@ -43,6 +41,9 @@ i18n
     },
     interpolation: {
       escapeValue: false
+    },
+    backend: {
+      loadPath: `${process.env.PUBLIC_URL}/locales/{{lng}}/{{ns}}.json`
     }
   });
 

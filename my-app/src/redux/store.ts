@@ -13,6 +13,7 @@ import BoardPreviewReducer from './boardPreviewSlice';
 import TaskReducer from './taskSlice';
 import BoardReducer from './boardSlice';
 import ColumnsReducer from './columnsSlice';
+import AllUsersReducer from './allUsersSlice';
 
 const store = configureStore({
   reducer: {
@@ -29,7 +30,8 @@ const store = configureStore({
     boardPreview: BoardPreviewReducer,
     task: TaskReducer,
     board: BoardReducer,
-    columns: ColumnsReducer
+    columns: ColumnsReducer,
+    usersList: AllUsersReducer
   }
 });
 

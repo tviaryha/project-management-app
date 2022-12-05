@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material';
-import { useEffect, MouseEvent } from 'react';
+import { useEffect, SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import BoardPreview from '../../../components/BoardPreview/BoardPreview';
+import BoardPreview from '../../BoardPreview/BoardPreview';
 import { LocalStorageKeys, Paths } from '../../../enums';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
@@ -10,7 +10,6 @@ import { showLoader, hideLoader } from '../../../redux/appSlice';
 import { loadUserBoards } from '../../../redux/boardsListSlice';
 import {
   setIsOpenModal,
-  setIsLoading,
   deleteCurrentBoard,
   setBoardId,
   setBoardTitle
@@ -18,6 +17,7 @@ import {
 import ConfirmationModal from '../../../components/ConfirmationModal/ConfirmationModal';
 import { openToast, RespRes } from '../../../redux/toastSlice';
 import { TranslationKeys } from '../../../units/Toast/enum';
+import { getAllUsers } from '../../../redux/allUsersSlice';
 
 export enum BoardsListTranslations {
   ns = 'boardsList',
@@ -32,18 +32,20 @@ const Main = () => {
   const { t } = useTranslation([BoardsListTranslations.ns, TranslationKeys.ns]);
 
   const { isLoading, boards } = useAppSelector((state) => state.boardsList);
+
   const { boardId, isOpenModal, isLoad, boardTitle } = useAppSelector(
     (state) => state.boardPreview
   );
+  const { users } = useAppSelector((state) => state.usersList);
 
   const dispatch = useAppDispatch();
 
   const getUserBoards = async () => {
     const userId = localStorage.getItem(LocalStorageKeys.userId);
-
+    dispatch(showLoader());
     if (userId) {
       try {
-        dispatch(showLoader());
+        await dispatch(getAllUsers());
         await dispatch(loadUserBoards(userId)).unwrap();
       } catch (error) {
         const errorMesage = t(fail, { ns: TranslationKeys.ns });
@@ -60,8 +62,9 @@ const Main = () => {
 
   const deleteBoard = async () => {
     if (boardId && boardId.length > 0) {
+      dispatch(setIsOpenModal(false));
+      dispatch(showLoader());
       try {
-        dispatch(setIsLoading(true));
         await dispatch(deleteCurrentBoard(boardId));
         dispatch(
           openToast({
@@ -73,8 +76,6 @@ const Main = () => {
         const eMessage = t(fail, { ns: TranslationKeys.ns });
         dispatch(openToast({ message: eMessage, type: RespRes.error }));
       } finally {
-        dispatch(setIsLoading(false));
-        dispatch(setIsOpenModal(false));
         getUserBoards();
       }
     }
@@ -83,7 +84,7 @@ const Main = () => {
   const handleDeleteBoardClick = (
     boardId: string,
     boardTitle: string,
-    event: MouseEvent<HTMLButtonElement>
+    event: SyntheticEvent<HTMLElement>
   ) => {
     event.preventDefault();
     dispatch(setIsOpenModal(true));
@@ -94,13 +95,14 @@ const Main = () => {
   return (
     <Grid container component="section" justifyContent="space-evenly" gap="20px" mt={10}>
       {!isLoading &&
-        (boards.length ? (
+        (boards.length > 0 ? (
           boards.map((board) => (
             <BoardPreview
               title={board.title}
-              boardId={board._id}
               key={board._id}
+              boardId={board._id}
               linkTo={`/${Paths.board}/${board._id}`}
+              users={users.filter(({ _id }) => board.users.includes(_id)).map(({ name }) => name)}
               onDeleteButtonClick={handleDeleteBoardClick}
             />
           ))
