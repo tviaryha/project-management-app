@@ -19,13 +19,13 @@ const Header = () => {
   });
   const handlerBurgerMenuToggle = () => dispatch(closeBurgerMenu());
 
-  const color = trigger ? 'secondary' : 'inherit';
+  const color = trigger ? '#FDFFDC' : 'inherit';
   const elevation = trigger ? 4 : 0;
 
   const titleClickHandler = () => navigate(Paths.base);
 
   return (
-    <AppBar color={color} position="sticky" elevation={elevation} sx={{ transition: 'all 0.5s' }}>
+    <AppBar position="sticky" elevation={elevation} sx={{ bgcolor: color, transition: 'all 0.5s' }}>
       <Toolbar>
         <Grid container justifyContent="space-between" alignItems="center" sx={{ width: '100%' }}>
           <Grid item>

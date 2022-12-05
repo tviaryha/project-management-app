@@ -34,6 +34,7 @@ const Columns = () => {
     display: 'inline-flex',
     width: '100%',
     my: 1,
+    py: 1,
     overflowX: 'auto'
   };
 

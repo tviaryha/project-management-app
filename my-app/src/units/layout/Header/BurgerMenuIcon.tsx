@@ -13,9 +13,13 @@ const BurgerMenuIconButton = ({ Icon }: BurgerMenuIconProps) => {
 
   return (
     <IconButton
-      color="inherit"
       onClick={onClick}
-      sx={{ display: { md: 'none' }, width: 'fit-content', alignSelf: 'flex-end' }}>
+      sx={{
+        display: { md: 'none' },
+        width: 'fit-content',
+        alignSelf: 'flex-end',
+        color: '#000000'
+      }}>
       <Icon fontSize="large" />
     </IconButton>
   );
