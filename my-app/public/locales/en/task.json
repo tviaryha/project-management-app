@@ -1,11 +1,9 @@
 {
-  "title": "Delete current task?",
-  "buttonDelete": "DELETE",
-  "buttonCancel": "CANCEL",
-  "buttonEdit": "SAVE",
-  "buttonClose": "CLOSE",
-  "helperTextTitle": "Title",
-  "helperTextDescription": "Description",
-  "deleteDescription": "This task will be deleted. This action can not be undone"
+  "deleteDescription": "This task will be deleted. This action can not be undone",
+  "title": "Title",
+  "editBtn": "Edit",
+  "users": "Users",
+  "description": "Description",
+  "usersHelper": "You can assign the task only to users who have access to this board"
 }
 

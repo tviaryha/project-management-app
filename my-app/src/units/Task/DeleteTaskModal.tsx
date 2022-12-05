@@ -6,7 +6,7 @@ import { getTasks } from '../../redux/columnsSlice';
 import { deleteTask, closeDeleteTaskModal, toggleIsLoading } from '../../redux/taskSlice';
 import { openToast, RespRes } from '../../redux/toastSlice';
 import { TranslationKeys as ToastTranslations } from '../Toast/enum';
-import { TaskTranslationKeys } from './enum';
+import { TranslationKeys } from './enum';
 
 const DeleteTaskModal = () => {
   const { isLoading, isOpenDeleteTaskModal, boardId, columnId, taskId } = useAppSelector(
@@ -14,8 +14,8 @@ const DeleteTaskModal = () => {
   );
   const dispatch = useAppDispatch();
 
-  const { t } = useTranslation([TaskTranslationKeys.ns, ToastTranslations.ns]);
-  const { deleteDescription } = TaskTranslationKeys;
+  const { t } = useTranslation([TranslationKeys.ns, ToastTranslations.ns]);
+  const { deleteDescription } = TranslationKeys;
   const { fail, successDeleteTask } = ToastTranslations;
 
   const handleClose = () => dispatch(closeDeleteTaskModal());

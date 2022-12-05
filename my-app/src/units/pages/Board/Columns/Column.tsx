@@ -13,6 +13,8 @@ import { hideLoader } from '../../../../redux/appSlice';
 import { openModal } from '../../../../redux/newTaskSlice';
 import Task from '../../../Task/Task';
 import { blue } from '@mui/material/colors';
+import { openToast, RespRes } from '../../../../redux/toastSlice';
+import { TranslationKeys as ToastTranslations } from '../../../Toast/enum';
 
 type Props = {
   title: string;
@@ -27,8 +29,9 @@ const Column = ({ title, _id: columnId, index }: Props) => {
   const tasks = useAppSelector((state) => state.columns.tasks[columnId]);
   const dispatch = useAppDispatch();
 
-  const { t } = useTranslation([TranslationKeys.ns]);
+  const { t } = useTranslation([TranslationKeys.ns, ToastTranslations.ns]);
   const { addTask } = TranslationKeys;
+  const { fail } = ToastTranslations;
 
   const onClick = useCallback(() => {
     if (boardId) {
@@ -38,7 +41,13 @@ const Column = ({ title, _id: columnId, index }: Props) => {
 
   const loadTasks = async () => {
     if (boardId) {
-      await dispatch(getTasks({ boardId, columnId })).unwrap();
+      try {
+        await dispatch(getTasks({ boardId, columnId })).unwrap();
+      } catch {
+        dispatch(
+          openToast({ message: t(fail, { ns: ToastTranslations.ns }), type: RespRes.error })
+        );
+      }
     }
 
     if (index === columns.length - 1) {
@@ -97,7 +106,9 @@ const Column = ({ title, _id: columnId, index }: Props) => {
                             _id={task._id}
                             columnId={columnId}
                             boardId={boardId}
-                            editTask={() => console.log('edit')}
+                            order={task.order}
+                            userId={task.userId}
+                            users={task.users}
                           />
                         );
                       }

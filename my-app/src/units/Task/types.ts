@@ -11,18 +11,6 @@ export interface ITask extends IDeleteTask {
 
 export interface ICurrentTaskProps extends ITask {
   index: number;
-  editTask: (boardId: string, columnId: string, _id: string) => void;
-}
-
-export interface IEditProps extends ITask {
-  editTask: (
-    title: string,
-    description: string,
-    _id: string,
-    columnId: string,
-    boardId: string
-  ) => void;
-  closeModal: () => void;
 }
 
 export interface IFullTask extends ITask {

@@ -12,7 +12,7 @@ import { FormTranslationKeys as FormTK } from './enums';
 import { TranslationKeys as SignTK } from './units/auth/enum';
 import { TranslationKeys as ConfirmationModalTK } from './components/ConfirmationModal/enum';
 import { BoardsListTranslations as BoardsListTK } from './units/pages/Main/Main';
-import { TaskTranslationKeys } from './units/Task/enum';
+import { TranslationKeys as TaskTK } from './units/Task/enum';
 import { WelcomePageTranslations as WelcomePageTK } from './units/pages/Welcome/Welcome';
 import { TranslationKeys as BoardTK } from './units/pages/Board/enums';
 
@@ -25,7 +25,7 @@ const ns = [
   FormTK.ns,
   SignTK.ns,
   ConfirmationModalTK.ns,
-  TaskTranslationKeys.ns,
+  TaskTK.ns,
   BoardsListTK.ns,
   WelcomePageTK.ns,
   BoardTK.ns,

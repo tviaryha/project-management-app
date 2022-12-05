@@ -66,7 +66,7 @@ const Columns = () => {
         )}
       </Droppable>
       <NewTaskModal />
-      {/* <EditTaskModal /> */}
+      <EditTaskModal />
       <DeleteTaskModal />
     </>
   );

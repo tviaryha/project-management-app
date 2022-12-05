@@ -1,11 +1,10 @@
-export enum TaskTranslationKeys {
+export enum TranslationKeys {
   ns = 'task',
-  modalTitle = 'title',
-  buttonDelete = 'buttonDelete',
-  buttonCancel = 'buttonCancel',
-  buttonEdit = 'buttonEdit',
-  buttonClose = 'buttonClose',
-  helperTextTitle = 'helperTextTitle',
-  helperTextDescription = 'helperTextDescription',
-  deleteDescription = 'deleteDescription'
+  deleteDescription = 'deleteDescription',
+  title = 'title',
+  createBtn = 'createBtn',
+  users = 'users',
+  usersHelper = 'usersHelper',
+  description = 'description',
+  editBtn = 'editBtn'
 }
