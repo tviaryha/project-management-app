@@ -6,5 +6,6 @@ export enum TranslationKeys {
   users = 'users',
   usersHelper = 'usersHelper',
   description = 'description',
-  editBtn = 'editBtn'
+  editBtn = 'editBtn',
+  assignedTo = 'assignedTo'
 }

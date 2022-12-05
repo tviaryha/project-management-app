@@ -14,9 +14,8 @@ import DefaultSelect from './DefaultSelect';
 import { TranslationKeys } from './enum';
 
 const Form = () => {
-  const { boardId, columnId, taskId, title, order, description, userId } = useAppSelector(
-    (state) => state.task
-  );
+  const { boardId, columnId, taskId, title, order, description, userId, allUsers, assignedUsers } =
+    useAppSelector((state) => state.task);
   const dispatch = useAppDispatch();
   const {
     register,
@@ -31,8 +30,19 @@ const Form = () => {
     }
   });
 
+  const filteredUsers = allUsers
+    .filter((user) => assignedUsers.includes(user._id))
+    .map((user) => user.login)
+    .join(', ');
+
   const { requiredE } = FormTranslationKeys;
-  const { title: titleTK, users: usersTK, editBtn, description: descriptionTK } = TranslationKeys;
+  const {
+    title: titleTK,
+    users: usersTK,
+    editBtn,
+    description: descriptionTK,
+    assignedTo
+  } = TranslationKeys;
   const { successEditTask, fail } = ToastTranslations;
 
   const { t } = useTranslation([TranslationKeys.ns, FormTranslationKeys.ns, ToastTranslations.ns]);
@@ -104,6 +114,19 @@ const Form = () => {
           })}
         />
         <DefaultSelect {...register(usersTK)} />
+        <Grid
+          item
+          alignSelf="flex-start"
+          sx={{
+            maxHeight: '50px',
+            px: '14px',
+            overflowY: 'auto',
+            fontSize: '16px',
+            color: 'rgba(0, 0, 0, 0.6)',
+            textAlign: 'justify'
+          }}>
+          {`${t(assignedTo)} ${filteredUsers}`}
+        </Grid>
         <Button type="submit" variant="contained" fullWidth sx={{ maxWidth: '25ch' }}>
           {t(editBtn)}
         </Button>

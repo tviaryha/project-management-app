@@ -17,6 +17,7 @@ interface IModalState {
   description: string;
   userId: string;
   allUsers: IUsersResp;
+  assignedUsers: string[];
 }
 
 const initialState: IModalState = {
@@ -30,7 +31,8 @@ const initialState: IModalState = {
   order: 0,
   description: '',
   userId: '',
-  allUsers: []
+  allUsers: [],
+  assignedUsers: []
 };
 
 export const deleteTask = createAsyncThunk<
@@ -97,7 +99,16 @@ export const taskSlice = createSlice({
       state.taskId = initialState.taskId;
     },
     openEditTaskModal: (state, action: { payload: ITaskResp; type: string }) => {
-      const { boardId, columnId, _id: taskId, description, order, title, userId } = action.payload;
+      const {
+        boardId,
+        columnId,
+        _id: taskId,
+        description,
+        order,
+        title,
+        userId,
+        users
+      } = action.payload;
       state.isOpenEditTaskModal = true;
       state.boardId = boardId;
       state.columnId = columnId;
@@ -106,6 +117,7 @@ export const taskSlice = createSlice({
       state.order = order;
       state.title = title;
       state.userId = userId;
+      state.assignedUsers = users;
     },
     closeEditTaskModal: (state) => {
       state.isOpenEditTaskModal = false;
@@ -117,6 +129,7 @@ export const taskSlice = createSlice({
       state.title = initialState.title;
       state.userId = initialState.userId;
       state.allUsers = initialState.allUsers;
+      state.assignedUsers = [];
     },
     toggleIsLoading: (state) => {
       state.isLoading = !state.isLoading;
