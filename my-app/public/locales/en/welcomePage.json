@@ -1,6 +1,7 @@
 {
     "title": "Make project management easier!",
     "appDescription": "TaskTrack is a simple Scrum-style application for managing your project. If you need to visualize tasks, organize work, and identify project bottlenecks, TaskTrack will help you. The intuitive interface allows you to create boards with columns suitable for your workflow, add tasks, move tasks, and track your project progress.",
+    "courseDescription": "This app was created as part of a React course by Rolling Scopes School. Rolling Scopes School is free-of-charge and community-based education program conducted by The Rolling Scopes developer community since 2013.",
     "devDesc1": "TODO",
     "devDesc2": "TODO",
     "devDesc3": "TODO"
