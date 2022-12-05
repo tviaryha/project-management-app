@@ -4,6 +4,7 @@
   "editBtn": "Edit",
   "users": "Users",
   "description": "Description",
-  "usersHelper": "You can assign the task only to users who have access to this board"
+  "usersHelper": "You can assign the task only to users who have access to this board",
+  "assignedTo": "Task to: "
 }
 
