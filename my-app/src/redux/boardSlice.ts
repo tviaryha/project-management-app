@@ -6,10 +6,12 @@ import { ErrorResponse } from '../api/models/ErrorResponse';
 
 interface IBoardState {
   title: string;
+  users: string[];
 }
 
 const initialState: IBoardState = {
-  title: ''
+  title: '',
+  users: []
 };
 
 export const getBoard = createAsyncThunk<
@@ -33,11 +35,13 @@ export const boardSlice = createSlice({
   reducers: {
     clearBoard: (state) => {
       state.title = initialState.title;
+      state.users = initialState.users;
     }
   },
   extraReducers: (builder) => {
     builder.addCase(getBoard.fulfilled, (state, action) => {
       state.title = action.payload.title;
+      state.users = action.payload.users;
     });
   }
 });

@@ -6,7 +6,7 @@ import FooterListItem from './FooterListItem';
 
 const Footer = () => {
   return (
-    <Toolbar component="footer">
+    <Toolbar component="footer" sx={{ bgcolor: 'white' }}>
       <Container>
         <Grid
           container

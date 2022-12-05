@@ -3,40 +3,26 @@ import { AxiosError } from 'axios';
 import { api } from '../api/Api';
 import { IUsersResp } from '../api/models/users';
 import { ErrorResponse } from '../api/models/ErrorResponse';
-import { ICreateTaskReq, ICreateTaskResp } from '../api/models/task';
 import { getUsers } from './newBoardSlice';
 import { IBoardResp } from '../api/models/BoardsInterfaces';
 
 interface INewTaskModalState {
-  isOpen: boolean;
   isLoading: boolean;
+  isOpen: boolean;
+  boardId: string;
+  columnId: string;
   allUsers: IUsersResp;
   boardUsers: string[];
-  columnId: string;
 }
 
 const initialState: INewTaskModalState = {
-  isOpen: false,
   isLoading: false,
+  isOpen: false,
+  boardId: '',
+  columnId: '',
   allUsers: [],
-  boardUsers: [],
-  columnId: ''
+  boardUsers: []
 };
-
-export const createTask = createAsyncThunk<
-  ICreateTaskResp,
-  ICreateTaskReq,
-  {
-    rejectValue: number | undefined;
-  }
->('createTask', async (params, thunkApi) => {
-  try {
-    const resp = await api.createTask(params);
-    return resp;
-  } catch (e) {
-    return thunkApi.rejectWithValue((<AxiosError<ErrorResponse>>e).response?.status);
-  }
-});
 
 export const getBoard = createAsyncThunk<
   IBoardResp,
@@ -57,19 +43,24 @@ export const newTaskSlice = createSlice({
   name: 'newTask',
   initialState,
   reducers: {
-    closeModal: (state) => {
-      state.isOpen = false;
-      state.columnId = '';
-    },
-    openModal: (state, action) => {
-      state.isOpen = true;
-      state.columnId = action.payload;
-    },
     showLoader: (state) => {
       state.isLoading = true;
     },
     hideLoader: (state) => {
       state.isLoading = false;
+    },
+    openModal: (
+      state,
+      action: { payload: { boardId: string; columnId: string }; type: string }
+    ) => {
+      state.isOpen = true;
+      state.boardId = action.payload.boardId;
+      state.columnId = action.payload.columnId;
+    },
+    closeModal: (state) => {
+      state.isOpen = false;
+      state.boardId = initialState.boardId;
+      state.columnId = initialState.columnId;
     }
   },
   extraReducers: (builder) => {
@@ -78,36 +69,21 @@ export const newTaskSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getUsers.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.allUsers = action.payload;
       })
       .addCase(getUsers.rejected, (state) => {
-        state.isOpen = false;
         state.isLoading = false;
-      })
-      .addCase(getBoard.pending, (state) => {
-        state.isLoading = true;
       })
       .addCase(getBoard.fulfilled, (state, action) => {
         state.isLoading = false;
         state.boardUsers = action.payload.users;
       })
       .addCase(getBoard.rejected, (state) => {
-        state.isOpen = false;
-        state.isLoading = false;
-      })
-      .addCase(createTask.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(createTask.fulfilled, (state) => {
-        state.isLoading = false;
-      })
-      .addCase(createTask.rejected, (state) => {
         state.isLoading = false;
       });
   }
 });
 
-export const { closeModal, openModal, showLoader, hideLoader } = newTaskSlice.actions;
+export const { openModal, closeModal, showLoader, hideLoader } = newTaskSlice.actions;
 
 export default newTaskSlice.reducer;

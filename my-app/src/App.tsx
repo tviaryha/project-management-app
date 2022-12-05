@@ -4,7 +4,6 @@ import {
   Route,
   RouterProvider
 } from 'react-router-dom';
-import './App.css';
 import { Paths } from './enums';
 import Layout from './units/layout/Layout';
 import WelcomePage from './units/pages/Welcome/Welcome';

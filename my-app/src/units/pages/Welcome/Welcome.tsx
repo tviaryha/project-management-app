@@ -9,19 +9,22 @@ export enum WelcomePageTranslations {
   ns = 'welcomePage',
   title = 'title',
   appDescription = 'appDescription',
+  courseDescription = 'courseDescription',
   devDesc1 = 'devDesc1',
   devDesc2 = 'devDesc2',
   devDesc3 = 'devDesc3'
 }
 
 const Welcome = () => {
-  const { devDesc1, devDesc2, devDesc3, appDescription, title } = WelcomePageTranslations;
+  const { devDesc1, devDesc2, devDesc3, appDescription, title, courseDescription } =
+    WelcomePageTranslations;
   const { t } = useTranslation([WelcomePageTranslations.ns]);
   return (
     <Box sx={{ textAlign: 'center' }}>
       <Grid container flexDirection="column" justifyContent="center" gap="50px">
         <Section typographyComponent={'h2'} text={t(title)} />
         <Section typographyComponent={'p'} text={t(appDescription)} />
+        <Section typographyComponent={'p'} text={t(courseDescription)} />
 
         <Grid container component="section" justifyContent="space-evenly" gap="20px">
           <DeveloperСard

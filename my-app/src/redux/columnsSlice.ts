@@ -9,20 +9,31 @@ import {
   UpdateColumnsOrderReq
 } from '../api/models/columns';
 import { ErrorResponse } from '../api/models/ErrorResponse';
-import { mapColumnsOrder } from '../utils/utils';
+import { ICreateTaskReq, ICreatedTask } from '../api/models/task';
+import {
+  GetTasksParams,
+  IColumnTasks,
+  TasksResp,
+  UpdateTasksOrderParams
+} from '../api/models/tasks';
+import { mapItemsByOrder } from '../utils/utils';
 
 interface IColumnsState {
   isOpen: boolean;
   isConfirmationModalOpen: boolean;
   isLoading: boolean;
   columns: ColumnsResp;
+  isColumnsLoaded: boolean;
+  tasks: { [columnId: string]: TasksResp };
 }
 
 const initialState: IColumnsState = {
   isOpen: false,
   isConfirmationModalOpen: false,
   isLoading: false,
-  columns: []
+  columns: [],
+  isColumnsLoaded: false,
+  tasks: {}
 };
 
 export const createColumn = createAsyncThunk<
@@ -99,6 +110,53 @@ export const updateSetOfColumns = createAsyncThunk<
   }
 });
 
+export const updateSetOfTasks = createAsyncThunk<
+  IColumnTasks,
+  UpdateTasksOrderParams,
+  {
+    rejectValue: number | undefined;
+  }
+>('updateSetOfTasks', async (params, thunkApi) => {
+  try {
+    const resp = await api.updateSetOfTasks(params.tasks);
+    return { columnId: params.columnId, tasks: resp };
+  } catch (e) {
+    return thunkApi.rejectWithValue((<AxiosError<ErrorResponse>>e).response?.status);
+  }
+});
+
+export const getTasks = createAsyncThunk<
+  IColumnTasks,
+  GetTasksParams,
+  {
+    rejectValue: number | undefined;
+  }
+>('getTasks', async (params, thunkApi) => {
+  try {
+    const resp = await api.getTasks(params);
+    return { columnId: params.columnId, tasks: resp };
+  } catch (e) {
+    return thunkApi.rejectWithValue((<AxiosError<ErrorResponse>>e).response?.status);
+  }
+});
+
+export const createTask = createAsyncThunk<
+  ICreatedTask,
+  ICreateTaskReq,
+  {
+    rejectValue: number | undefined;
+  }
+>('createTask', async (params, thunkApi) => {
+  try {
+    const { columnId, boardId } = params;
+    const resp = await api.createTask(params);
+    const task = { ...resp, columnId, boardId };
+    return { columnId, task };
+  } catch (e) {
+    return thunkApi.rejectWithValue((<AxiosError<ErrorResponse>>e).response?.status);
+  }
+});
+
 export const columnsSlice = createSlice({
   name: 'columns',
   initialState,
@@ -127,8 +185,17 @@ export const columnsSlice = createSlice({
         return column;
       });
     },
+    setIsColumnsLoaded: (state, action: { payload: boolean; type: string }) => {
+      state.isColumnsLoaded = action.payload;
+    },
     clearColumns: (state) => {
-      state.columns = [];
+      state.columns = initialState.columns;
+      state.isColumnsLoaded = initialState.isColumnsLoaded;
+      state.tasks = initialState.tasks;
+    },
+    setTasks: (state, action: { payload: IColumnTasks; type: string }) => {
+      const { columnId, tasks } = action.payload;
+      state.tasks[columnId] = tasks;
     }
   },
   extraReducers: (builder) => {
@@ -136,10 +203,15 @@ export const columnsSlice = createSlice({
       .addCase(getColumns.rejected, (state) => {
         state.isLoading = false;
         state.isOpen = false;
+        state.isColumnsLoaded = true;
+        state.isConfirmationModalOpen = false;
       })
       .addCase(getColumns.fulfilled, (state, action) => {
+        if (!action.payload.length) {
+          state.isColumnsLoaded = true;
+        }
         const sortedColumns = action.payload.sort((a, b) => a.order - b.order);
-        state.columns = mapColumnsOrder(sortedColumns);
+        state.columns = mapItemsByOrder(sortedColumns);
         if (state.isLoading && state.isOpen) {
           state.isLoading = false;
           state.isOpen = false;
@@ -166,6 +238,24 @@ export const columnsSlice = createSlice({
       .addCase(updateSetOfColumns.fulfilled, (state, action) => {
         state.isLoading = false;
         state.columns = action.payload;
+      })
+      .addCase(updateSetOfTasks.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const { columnId, tasks } = action.payload;
+        state.tasks[columnId] = mapItemsByOrder(tasks);
+      })
+      .addCase(getTasks.fulfilled, (state, action) => {
+        const { columnId, tasks } = action.payload;
+        const sortedTasks = tasks.sort((a, b) => a.order - b.order);
+        state.tasks[columnId] = mapItemsByOrder(sortedTasks);
+        state.isLoading = false;
+      })
+      .addCase(getTasks.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(createTask.fulfilled, (state, action) => {
+        const { columnId, task } = action.payload;
+        state.tasks[columnId].push(task);
       });
   }
 });
@@ -177,7 +267,9 @@ export const {
   closeConfirmationModal,
   clearColumns,
   setColumns,
-  updateColumnTitle
+  updateColumnTitle,
+  setIsColumnsLoaded,
+  setTasks
 } = columnsSlice.actions;
 
 export default columnsSlice.reducer;

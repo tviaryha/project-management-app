@@ -1,6 +1,6 @@
 import { IconButton } from '@mui/material';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { lime } from '@mui/material/colors';
+import { blue } from '@mui/material/colors';
 
 type Props = {
   onClick: () => void;
@@ -17,7 +17,7 @@ const CloseRoundedButton = ({ onClick }: Props) => (
       bgcolor: 'white',
       '&:hover': {
         color: 'black',
-        bgcolor: lime[500]
+        bgcolor: blue[500]
       }
     }}>
     <CloseRoundedIcon />

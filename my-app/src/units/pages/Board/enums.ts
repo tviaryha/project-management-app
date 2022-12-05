@@ -10,3 +10,8 @@ export enum TranslationKeys {
 export enum Sizes {
   COLUMN_WIDTH = 250
 }
+
+export enum DndTypes {
+  columns = 'columns',
+  tasks = 'tasks'
+}

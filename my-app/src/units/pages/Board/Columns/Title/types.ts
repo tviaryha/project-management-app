@@ -1,7 +1,10 @@
+import { DraggableProvided } from 'react-beautiful-dnd';
 import { IColumnResp } from '../../../../../api/models/columns';
 
-export type TitleProps = Omit<IColumnResp, 'boardId'>;
-export interface ITitleFormProps extends TitleProps {
+export interface ITitleProps extends Omit<IColumnResp, 'boardId'> {
+  provided: DraggableProvided;
+}
+export interface ITitleFormProps extends Omit<IColumnResp, 'boardId'> {
   toggleShouldShowTitle: () => void;
   setNewTitle: (title: string) => void;
 }

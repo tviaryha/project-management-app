@@ -14,6 +14,13 @@ import {
   UpdateColumnsOrderReq
 } from './models/columns';
 import { ICreateTaskReq, ICreateTaskResp } from './models/task';
+import {
+  DeleteTaskParams,
+  GetTasksParams,
+  IUpdateTask,
+  TasksResp,
+  UpdateTasksOrderReq
+} from './models/tasks';
 
 const BASE_URL = 'https://final-task-backend-production-b324.up.railway.app';
 
@@ -144,6 +151,41 @@ const updateSetOfColumns = async (params: UpdateColumnsOrderReq) => {
   return resp.data;
 };
 
+const getTasks = async ({ boardId, columnId }: GetTasksParams) => {
+  const resp = await apiClient.get<TasksResp>(`/boards/${boardId}/columns/${columnId}/tasks`);
+  return resp.data;
+};
+
+const updateSetOfTasks = async (params: UpdateTasksOrderReq) => {
+  const resp = await apiClient.patch<TasksResp>('/tasksSet', params);
+  return resp.data;
+};
+
+const deleteTask = async ({ boardId, columnId, taskId }: DeleteTaskParams) => {
+  await apiClient.delete(`/boards/${boardId}/columns/${columnId}/tasks/${taskId}`);
+};
+
+const updateTask = async ({
+  boardId,
+  columnId,
+  _id,
+  description,
+  order,
+  title,
+  userId,
+  users,
+  newColumnId
+}: IUpdateTask) => {
+  await apiClient.put(`/boards/${boardId}/columns/${columnId}/tasks/${_id}`, {
+    title,
+    order,
+    description,
+    columnId: newColumnId ? newColumnId : columnId,
+    userId,
+    users
+  });
+};
+
 export const api = {
   signIn,
   signUp,
@@ -161,5 +203,9 @@ export const api = {
   updateColumn,
   deleteColumn,
   updateSetOfColumns,
-  createTask
+  createTask,
+  getTasks,
+  updateSetOfTasks,
+  deleteTask,
+  updateTask
 };

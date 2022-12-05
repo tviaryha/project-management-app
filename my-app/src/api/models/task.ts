@@ -1,3 +1,5 @@
+import { ITaskResp } from './tasks';
+
 export interface ICreateTaskParamResp {
   title: string;
   order: number;
@@ -19,4 +21,9 @@ export interface IGetTasksReq {
 
 export interface ICreateTaskResp extends ICreateTaskParamResp {
   _id: string;
+}
+
+export interface ICreatedTask {
+  columnId: string;
+  task: ITaskResp;
 }

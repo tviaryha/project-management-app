@@ -7,24 +7,22 @@ import { TranslationKeys as ToastTK } from './units/Toast/enum';
 import { TranslationKeys as NewBoardTK } from './units/NewBoard/enum';
 import { TranslationKeys as NewTaskTK } from './units/NewTask/enum';
 import { TranslationKeys as HeaderTK } from './units/layout/Header/enums';
-import { TranslationKeys as ErrorPageTK } from './units/pages/ErrorPage/enum';
 import { FormTranslationKeys as FormTK } from './enums';
 import { TranslationKeys as SignTK } from './units/auth/enum';
 import { TranslationKeys as ConfirmationModalTK } from './components/ConfirmationModal/enum';
-import { TaskTranslationKeys } from './units/Task/types';
-import { WelcomePageTranslations as WelcomePageTK } from './units/pages/Welcome/Welcome';
 import { BoardsListTranslations as BoardsListTK } from './units/pages/Main/Main';
+import { TranslationKeys as TaskTK } from './units/Task/enum';
+import { WelcomePageTranslations as WelcomePageTK } from './units/pages/Welcome/Welcome';
 
 const ns = [
   EditProfileTK.ns,
   ToastTK.ns,
   NewBoardTK.ns,
   HeaderTK.ns,
-  ErrorPageTK.ns,
   FormTK.ns,
   SignTK.ns,
   ConfirmationModalTK.ns,
-  TaskTranslationKeys.ns,
+  TaskTK.ns,
   BoardsListTK.ns,
   WelcomePageTK.ns,
   NewTaskTK.ns

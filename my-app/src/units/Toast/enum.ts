@@ -9,6 +9,8 @@ export enum TranslationKeys {
   successCreateColumn = 'successCreateColumn',
   successChangeTitle = 'successChangeTitle',
   successDeleteColumn = 'successDeleteColumn',
+  successDeleteTask = 'successDeleteTask',
+  successEditTask = 'successEditTask',
   error409 = 'error409',
   failSignIn401 = 'failSignIn401',
   fail = 'fail',

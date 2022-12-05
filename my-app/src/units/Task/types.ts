@@ -10,19 +10,7 @@ export interface ITask extends IDeleteTask {
 }
 
 export interface ICurrentTaskProps extends ITask {
-  editTask: (boardId: string, columnId: string, _id: string) => void;
-  deleteTask: (boardId: string, columnId: string, _id: string) => void;
-}
-
-export interface IEditProps extends ITask {
-  editTask: (
-    title: string,
-    description: string,
-    _id: string,
-    columnId: string,
-    boardId: string
-  ) => void;
-  closeModal: () => void;
+  index: number;
 }
 
 export interface IFullTask extends ITask {
@@ -33,15 +21,4 @@ export interface IFullTask extends ITask {
 
 export interface ITaskProps extends IFullTask {
   showConfirmationModal: (boardId: string, columnId: string, _id: string) => void;
-}
-
-export enum TaskTranslationKeys {
-  ns = 'task',
-  modalTitle = 'title',
-  buttonDelete = 'buttonDelete',
-  buttonCancel = 'buttonCancel',
-  buttonEdit = 'buttonEdit',
-  buttonClose = 'buttonClose',
-  helperTextTitle = 'helperTextTitle',
-  helperTextDescription = 'helperTextDescription'
 }
