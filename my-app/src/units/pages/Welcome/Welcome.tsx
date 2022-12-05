@@ -20,7 +20,7 @@ const Welcome = () => {
     WelcomePageTranslations;
   const { t } = useTranslation([WelcomePageTranslations.ns]);
   return (
-    <Box sx={{ textAlign: 'center' }}>
+    <Box sx={{ textAlign: 'center', my: 2 }}>
       <Grid container flexDirection="column" justifyContent="center" gap="50px">
         <Section typographyComponent={'h2'} text={t(title)} />
         <Section typographyComponent={'p'} text={t(appDescription)} />
